@@ -10,62 +10,63 @@ const TOKEN_TREND_SAMPLE_MS = 100;
 const TOKEN_TREND_RENDER_MS = 100;
 const UI_RENDER_MS = 100;
 
+// Rough throughput ladder: desktop silicon -> datacenter GPU -> rack-scale system -> speculative megasystems.
 const entities = [
   {
     id: "v100",
     name: "Mac Studios",
     description: "A tidy pile of Apple silicon that absolutely counts as infrastructure.",
     baseCost: 15,
-    baseRate: 0.1,
+    baseRate: 0.3,
   },
   {
     id: "a100",
     name: "Ampere A100",
     description: "Datacenter-grade throughput wrapped in a cleaner board.",
     baseCost: 100,
-    baseRate: 1,
+    baseRate: 1.5,
   },
   {
     id: "h100",
     name: "Hopper H100",
     description: "Transformer fever dream, now with much faster burn.",
     baseCost: 1100,
-    baseRate: 8,
+    baseRate: 3.8,
   },
   {
     id: "gh200",
     name: "Grace Hopper GH200",
     description: "CPU and GPU fused into one extremely expensive opinion.",
     baseCost: 12000,
-    baseRate: 47,
+    baseRate: 5.8,
   },
   {
     id: "b200",
     name: "Blackwell B200",
     description: "The new hotness. Also the new invoice.",
     baseCost: 130000,
-    baseRate: 260,
+    baseRate: 11,
   },
   {
     id: "nvl72",
     name: "GB200 NVL72",
     description: "Not one board, but a small society of them acting in concert.",
     baseCost: 1400000,
-    baseRate: 1400,
+    baseRate: 460,
   },
   {
     id: "spiking",
     name: "Neuromorphic Spiking Core",
     description: "The roadmap leaves GPUs and starts imitating biology badly.",
     baseCost: 20000000,
-    baseRate: 7800,
+    baseRate: 2600,
   },
   {
     id: "dyson",
     name: "Dyson Swarm of Blackwells",
     description: "An orbital shell of accelerators dedicated to pure throughput.",
     baseCost: 330000000,
-    baseRate: 44000,
+    baseRate: 20800,
   },
 ];
 
