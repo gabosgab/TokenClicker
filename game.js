@@ -8,6 +8,7 @@ const TOKEN_TREND_WINDOW_MS = 5 * 60 * 1000;
 const TOKEN_TREND_BUCKET_MS = 10 * 1000;
 const TOKEN_TREND_SAMPLE_MS = 100;
 const TOKEN_TREND_RENDER_MS = 100;
+const UI_RENDER_MS = 100;
 
 const entities = [
   {
@@ -378,9 +379,22 @@ const powerupViews = new Map();
 const recentManualPrompts = [];
 const manualPowerupView = { powerupSignature: "__init__" };
 const trendBarFills = [];
+const headerView = {
+  tokens: "",
+  tps: "",
+  manualYield: "",
+  prompts: "",
+  earned: "",
+};
 let hoveredPowerupId = null;
 let hoveredPowerupAnchor = null;
 let lastTrendRenderAt = 0;
+let lastUIRenderAt = 0;
+let renderDirty = true;
+
+function requestUIRender() {
+  renderDirty = true;
+}
 
 function formatNumber(value) {
   if (!Number.isFinite(value)) {
@@ -760,7 +774,10 @@ function renderTokenTrend(force = false) {
   lastTrendRenderAt = now;
   const { buckets, producedNow } = getTrendBuckets(now);
   const maxBucketAmount = Math.max(...buckets.map((bucket) => bucket.amount), 0);
-  elements.trendValue.textContent = formatNumber(producedNow);
+  const trendValueText = formatNumber(producedNow);
+  if (elements.trendValue.textContent !== trendValueText) {
+    elements.trendValue.textContent = trendValueText;
+  }
 
   buckets.forEach((bucket, index) => {
     const view = trendBarFills[index];
@@ -769,12 +786,28 @@ function renderTokenTrend(force = false) {
     }
     const ratio = maxBucketAmount <= 0 ? 0 : bucket.amount / maxBucketAmount;
     const heightPercent = maxBucketAmount <= 0 ? 0 : Math.max(0.08, ratio) * 100;
-    view.fill.style.height = bucket.amount > 0 ? `${heightPercent.toFixed(1)}%` : "2px";
-    view.bar.classList.toggle("is-idle", bucket.amount <= 0);
-    view.bar.classList.toggle("is-current", bucket.isCurrentBucket);
-    view.bar.title = bucket.isCurrentBucket
+    const height = bucket.amount > 0 ? `${heightPercent.toFixed(1)}%` : "2px";
+    const isIdle = bucket.amount <= 0;
+    const title = bucket.isCurrentBucket
       ? `${formatNumber(bucket.amount)} tokens in the current 10s slice`
       : `${formatNumber(bucket.amount)} tokens in this 10s slice`;
+
+    if (view.height !== height) {
+      view.height = height;
+      view.fill.style.height = height;
+    }
+    if (view.isIdle !== isIdle) {
+      view.isIdle = isIdle;
+      view.bar.classList.toggle("is-idle", isIdle);
+    }
+    if (view.isCurrent !== bucket.isCurrentBucket) {
+      view.isCurrent = bucket.isCurrentBucket;
+      view.bar.classList.toggle("is-current", bucket.isCurrentBucket);
+    }
+    if (view.title !== title) {
+      view.title = title;
+      view.bar.title = title;
+    }
   });
 }
 
@@ -854,6 +887,7 @@ function buyEntity(entityId) {
   }
   state.entities[entity.id] += 1;
   elements.saveStatus.textContent = `Purchased ${entity.name}.`;
+  requestUIRender();
 }
 
 function buyPowerup(powerupId) {
@@ -875,6 +909,7 @@ function buyPowerup(powerupId) {
     hidePowerupTooltip();
   }
   elements.saveStatus.textContent = `Powerup purchased: ${powerup.name}.`;
+  requestUIRender();
 }
 
 function hidePowerupTooltip() {
@@ -964,15 +999,39 @@ function runManualPrompt() {
   window.setTimeout(() => {
     elements.promptButton.classList.remove("is-pressed");
   }, 90);
+  requestUIRender();
 }
 
 function renderHeader() {
   const now = Date.now();
-  elements.tokenCount.textContent = formatNumber(state.tokens);
-  elements.tpsCount.textContent = `${formatNumber(getDisplayedTokensPerSecond(now))}/s`;
-  elements.manualYield.textContent = formatNumber(getManualYield());
-  elements.promptCount.textContent = formatNumber(state.manualPrompts);
-  elements.earnedCount.textContent = formatNumber(state.totalEarned);
+  const nextHeader = {
+    tokens: formatNumber(state.tokens),
+    tps: `${formatNumber(getDisplayedTokensPerSecond(now))}/s`,
+    manualYield: formatNumber(getManualYield()),
+    prompts: formatNumber(state.manualPrompts),
+    earned: formatNumber(state.totalEarned),
+  };
+
+  if (headerView.tokens !== nextHeader.tokens) {
+    headerView.tokens = nextHeader.tokens;
+    elements.tokenCount.textContent = nextHeader.tokens;
+  }
+  if (headerView.tps !== nextHeader.tps) {
+    headerView.tps = nextHeader.tps;
+    elements.tpsCount.textContent = nextHeader.tps;
+  }
+  if (headerView.manualYield !== nextHeader.manualYield) {
+    headerView.manualYield = nextHeader.manualYield;
+    elements.manualYield.textContent = nextHeader.manualYield;
+  }
+  if (headerView.prompts !== nextHeader.prompts) {
+    headerView.prompts = nextHeader.prompts;
+    elements.promptCount.textContent = nextHeader.prompts;
+  }
+  if (headerView.earned !== nextHeader.earned) {
+    headerView.earned = nextHeader.earned;
+    elements.earnedCount.textContent = nextHeader.earned;
+  }
 }
 
 function initializeEntities() {
@@ -1006,7 +1065,11 @@ function initializeEntities() {
 
     const meta = document.createElement("div");
     meta.className = "entity-meta";
-    meta.innerHTML = `<span>Owned: ${formatNumber(owned)}</span><span>${formatNumber(rate)}/s</span>`;
+    const ownedLabel = document.createElement("span");
+    ownedLabel.textContent = `Owned: ${formatNumber(owned)}`;
+    const rateLabel = document.createElement("span");
+    rateLabel.textContent = `${formatNumber(rate)}/s`;
+    meta.append(ownedLabel, rateLabel);
 
     const footer = document.createElement("div");
     footer.className = "entity-footer";
@@ -1024,11 +1087,16 @@ function initializeEntities() {
     elements.entityList.append(card);
 
     entityViews.set(entity.id, {
-      meta,
+      ownedLabel,
+      rateLabel,
       costLabel,
       button,
       boosts,
       powerupSignature: "",
+      ownedText: ownedLabel.textContent,
+      rateText: rateLabel.textContent,
+      costText: "",
+      canAfford: null,
     });
   }
 }
@@ -1102,6 +1170,8 @@ function initializePowerups() {
 
     powerupViews.set(powerup.id, {
       button,
+      visible: null,
+      affordable: null,
     });
   }
 }
@@ -1121,7 +1191,14 @@ function initializeTrendBars() {
 
     bar.append(fill);
     elements.trendBars.append(bar);
-    trendBarFills.push({ bar, fill });
+    trendBarFills.push({
+      bar,
+      fill,
+      height: "2px",
+      isIdle: true,
+      isCurrent: false,
+      title: "",
+    });
   }
 }
 
@@ -1136,10 +1213,27 @@ function renderEntities() {
     const owned = state.entities[entity.id];
     const rate = getEntityRate(entity);
     const applicablePowerups = getApplicablePowerupIdsForEntity(entity.id);
+    const ownedText = `Owned: ${formatNumber(owned)}`;
+    const rateText = `${formatNumber(rate)}/s`;
+    const costText = `Cost: ${formatNumber(cost)}`;
+    const canBuy = canAfford(cost);
 
-    view.meta.innerHTML = `<span>Owned: ${formatNumber(owned)}</span><span>${formatNumber(rate)}/s</span>`;
-    view.costLabel.textContent = `Cost: ${formatNumber(cost)}`;
-    view.button.disabled = !canAfford(cost);
+    if (view.ownedText !== ownedText) {
+      view.ownedText = ownedText;
+      view.ownedLabel.textContent = ownedText;
+    }
+    if (view.rateText !== rateText) {
+      view.rateText = rateText;
+      view.rateLabel.textContent = rateText;
+    }
+    if (view.costText !== costText) {
+      view.costText = costText;
+      view.costLabel.textContent = costText;
+    }
+    if (view.canAfford !== canBuy) {
+      view.canAfford = canBuy;
+      view.button.disabled = !canBuy;
+    }
     updateIconRail(view.boosts, applicablePowerups, view, false);
   }
 }
@@ -1193,15 +1287,22 @@ function renderPowerups() {
     }
 
     const visible = !hasPowerup(powerup.id) && powerup.unlocks(state);
-    view.button.hidden = !visible;
+    if (view.visible !== visible) {
+      view.visible = visible;
+      view.button.hidden = !visible;
+    }
     if (!visible) {
       continue;
     }
 
     visibleCount += 1;
-    view.button.classList.toggle("is-affordable", canAfford(powerup.cost));
-    view.button.classList.toggle("is-blocked", !canAfford(powerup.cost));
-    view.button.setAttribute("aria-disabled", canAfford(powerup.cost) ? "false" : "true");
+    const affordable = canAfford(powerup.cost);
+    if (view.affordable !== affordable) {
+      view.affordable = affordable;
+      view.button.classList.toggle("is-affordable", affordable);
+      view.button.classList.toggle("is-blocked", !affordable);
+      view.button.setAttribute("aria-disabled", affordable ? "false" : "true");
+    }
   }
 
   elements.powerupList.hidden = visibleCount === 0;
@@ -1264,6 +1365,7 @@ function loadGame() {
     if (loadMessage) {
       elements.saveStatus.textContent = loadMessage;
     }
+    requestUIRender();
   } catch (error) {
     console.error("Failed to load save", error);
     localStorage.removeItem(STORAGE_KEY);
@@ -1281,11 +1383,14 @@ function resetGame() {
   hoveredPowerupId = null;
   hoveredPowerupAnchor = null;
   lastTrendRenderAt = 0;
+  lastUIRenderAt = 0;
   recordEarnedSample(Date.now(), true);
   hidePowerupTooltip();
   localStorage.removeItem(STORAGE_KEY);
   elements.saveStatus.textContent = "Save wiped. Back to manual prompting.";
   render();
+  lastUIRenderAt = performance.now();
+  renderDirty = false;
 }
 
 function bindEvents() {
@@ -1316,9 +1421,17 @@ function tick(now) {
   if (elapsedSeconds > 0) {
     addTokens(getTokensPerSecond() * elapsedSeconds);
   }
-  recordEarnedSample(Date.now());
+  const wallClockNow = Date.now();
+  const lastSample = state.earnedHistory[state.earnedHistory.length - 1];
+  if (!lastSample || wallClockNow - lastSample.at >= TOKEN_TREND_SAMPLE_MS) {
+    recordEarnedSample(wallClockNow);
+  }
 
-  render();
+  if (renderDirty || now - lastUIRenderAt >= UI_RENDER_MS) {
+    render();
+    lastUIRenderAt = now;
+    renderDirty = false;
+  }
 
   if (now - state.lastSaveAt >= SAVE_INTERVAL_MS) {
     saveGame("Autosaved.");
@@ -1336,6 +1449,8 @@ initializeTrendBars();
 bindEvents();
 renderTokenTrend(true);
 render();
+lastUIRenderAt = performance.now();
+renderDirty = false;
 window.requestAnimationFrame((timestamp) => {
   state.lastTimestamp = timestamp;
   window.requestAnimationFrame(tick);
