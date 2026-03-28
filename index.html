@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Token Clicker</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="masthead">
+        <p class="eyebrow">Simple producer parody</p>
+        <h1>Token Clicker</h1>
+        <p class="lede">
+          Press Enter to run prompts, then spend tokens on increasingly absurd
+          entities that generate even more tokens.
+        </p>
+      </header>
+
+      <main class="layout">
+        <section class="panel main-panel">
+          <div class="hero-stats">
+            <div class="stat-block">
+              <span class="stat-label">Tokens</span>
+              <strong id="tokenCount">0</strong>
+            </div>
+            <div class="stat-block">
+              <span class="stat-label">Per second</span>
+              <strong id="tpsCount">0</strong>
+            </div>
+          </div>
+
+          <button id="promptButton" class="prompt-button" type="button">
+            <span class="button-title">Run Prompt</span>
+            <span class="button-subtitle">Press Enter or click</span>
+          </button>
+
+          <div class="simple-copy">
+            <p>Manual prompt yield: <strong id="manualYield">1</strong></p>
+            <p>Total prompts: <strong id="promptCount">0</strong></p>
+            <p>Total earned: <strong id="earnedCount">0</strong></p>
+          </div>
+
+          <div class="footer-actions">
+            <button id="saveButton" class="small-button" type="button">Save</button>
+            <button id="resetButton" class="small-button danger" type="button">
+              Reset
+            </button>
+          </div>
+          <p id="saveStatus" class="save-status">
+            Local save active. Progress is stored in this browser.
+          </p>
+        </section>
+
+        <aside class="panel shop-panel">
+          <div class="shop-header">
+            <p class="eyebrow">Entity shop</p>
+            <h2>Buy Producers</h2>
+            <p class="shop-copy">
+              Each purchase adds passive token production. Buy the next absurd
+              machine and let it click for you.
+            </p>
+          </div>
+          <div id="entityList" class="entity-list"></div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./game.js"></script>
+  </body>
+</html>
