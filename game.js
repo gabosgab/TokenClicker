@@ -4,6 +4,10 @@ const COST_SCALE = 1.15;
 const MAX_OFFLINE_SECONDS = 60 * 60 * 8;
 const MANUAL_YIELD = 1;
 const MANUAL_RATE_WINDOW_MS = 4000;
+const TOKEN_TREND_WINDOW_MS = 5 * 60 * 1000;
+const TOKEN_TREND_BUCKET_MS = 10 * 1000;
+const TOKEN_TREND_SAMPLE_MS = 100;
+const TOKEN_TREND_RENDER_MS = 100;
 
 const entities = [
   {
@@ -340,6 +344,7 @@ const state = {
   manualPrompts: 0,
   entities: Object.fromEntries(entities.map((entity) => [entity.id, 0])),
   purchasedPowerups: [],
+  earnedHistory: [],
   lastTimestamp: Date.now(),
   lastSaveAt: Date.now(),
 };
@@ -354,6 +359,8 @@ const elements = {
   promptButton: document.querySelector("#promptButton"),
   sceneList: document.querySelector("#sceneList"),
   entityList: document.querySelector("#entityList"),
+  trendValue: document.querySelector("#trendValue"),
+  trendBars: document.querySelector("#trendBars"),
   powerupList: document.querySelector("#powerupList"),
   powerupTooltip: document.querySelector("#powerupTooltip"),
   powerupHoverName: document.querySelector("#powerupHoverName"),
@@ -370,8 +377,10 @@ const sceneViews = new Map();
 const powerupViews = new Map();
 const recentManualPrompts = [];
 const manualPowerupView = { powerupSignature: "__init__" };
+const trendBarFills = [];
 let hoveredPowerupId = null;
 let hoveredPowerupAnchor = null;
+let lastTrendRenderAt = 0;
 
 function formatNumber(value) {
   if (!Number.isFinite(value)) {
@@ -402,6 +411,7 @@ function cloneDefaultState() {
     manualPrompts: 0,
     entities: Object.fromEntries(entities.map((entity) => [entity.id, 0])),
     purchasedPowerups: [],
+    earnedHistory: [],
     lastTimestamp: Date.now(),
     lastSaveAt: Date.now(),
   };
@@ -430,6 +440,32 @@ function normalizeSavedEntities(savedEntities = {}) {
   });
 
   return { entities: normalized, migrated: Object.keys(savedEntities).length > 0 };
+}
+
+function normalizeEarnedHistory(savedHistory = []) {
+  if (!Array.isArray(savedHistory)) {
+    return [];
+  }
+
+  const normalized = savedHistory
+    .map((sample) => ({
+      at: Number(sample?.at),
+      total: Number(sample?.total),
+    }))
+    .filter((sample) => Number.isFinite(sample.at) && Number.isFinite(sample.total))
+    .sort((left, right) => left.at - right.at);
+
+  const deduped = [];
+  for (const sample of normalized) {
+    const last = deduped[deduped.length - 1];
+    if (last && last.at === sample.at) {
+      last.total = sample.total;
+      continue;
+    }
+    deduped.push(sample);
+  }
+
+  return deduped;
 }
 
 function getEntityById(id) {
@@ -546,6 +582,200 @@ function getDisplayedTokensPerSecond(now = Date.now()) {
 function addTokens(amount) {
   state.tokens += amount;
   state.totalEarned += amount;
+}
+
+function pruneEarnedHistory(now = Date.now()) {
+  const cutoff = now - TOKEN_TREND_WINDOW_MS;
+  if (!state.earnedHistory.length) {
+    return;
+  }
+
+  let keepFrom = 0;
+  while (
+    keepFrom < state.earnedHistory.length - 1 &&
+    state.earnedHistory[keepFrom + 1].at < cutoff
+  ) {
+    keepFrom += 1;
+  }
+
+  if (state.earnedHistory[keepFrom].at < cutoff) {
+    state.earnedHistory = state.earnedHistory.slice(keepFrom);
+    return;
+  }
+
+  state.earnedHistory = state.earnedHistory.filter((sample) => sample.at >= cutoff);
+}
+
+function ensureEarnedHistoryCoverage(now = Date.now()) {
+  pruneEarnedHistory(now);
+  const cutoff = now - TOKEN_TREND_WINDOW_MS;
+  const first = state.earnedHistory[0];
+
+  if (!first) {
+    state.earnedHistory.push({ at: cutoff, total: state.totalEarned });
+    return;
+  }
+
+  if (first.at > cutoff) {
+    state.earnedHistory.unshift({ at: cutoff, total: first.total });
+  }
+}
+
+function recordEarnedSample(now = Date.now(), force = false) {
+  ensureEarnedHistoryCoverage(now);
+  const last = state.earnedHistory[state.earnedHistory.length - 1];
+  const sample = { at: now, total: state.totalEarned };
+
+  if (!last) {
+    state.earnedHistory.push(sample);
+    return;
+  }
+
+  if (force) {
+    if (now - last.at < TOKEN_TREND_SAMPLE_MS) {
+      last.at = now;
+      last.total = state.totalEarned;
+    } else {
+      state.earnedHistory.push(sample);
+    }
+    pruneEarnedHistory(now);
+    return;
+  }
+
+  if (now - last.at >= TOKEN_TREND_SAMPLE_MS) {
+    state.earnedHistory.push(sample);
+    pruneEarnedHistory(now);
+  }
+}
+
+function getTrendSeries(now = Date.now()) {
+  const cutoff = now - TOKEN_TREND_WINDOW_MS;
+  const history = [...state.earnedHistory];
+  const lastSaved = history[history.length - 1];
+  if (!lastSaved || lastSaved.at !== now) {
+    history.push({ at: now, total: state.totalEarned });
+  }
+
+  let beforeCutoff = null;
+  let afterCutoff = null;
+  for (const sample of history) {
+    if (sample.at <= cutoff) {
+      beforeCutoff = sample;
+    }
+    if (!afterCutoff && sample.at >= cutoff) {
+      afterCutoff = sample;
+    }
+  }
+
+  let startTotal = state.totalEarned;
+  if (beforeCutoff && afterCutoff && afterCutoff.at > beforeCutoff.at && beforeCutoff.at < cutoff) {
+    const progress = (cutoff - beforeCutoff.at) / (afterCutoff.at - beforeCutoff.at);
+    startTotal = beforeCutoff.total + (afterCutoff.total - beforeCutoff.total) * progress;
+  } else if (beforeCutoff) {
+    startTotal = beforeCutoff.total;
+  } else if (afterCutoff) {
+    startTotal = afterCutoff.total;
+  }
+
+  const series = [{ at: cutoff, total: startTotal }];
+  for (const sample of history) {
+    if (sample.at > cutoff && sample.at < now) {
+      series.push(sample);
+    }
+  }
+
+  const currentPoint = { at: now, total: state.totalEarned };
+  const lastSeriesPoint = series[series.length - 1];
+  if (lastSeriesPoint && lastSeriesPoint.at === currentPoint.at) {
+    lastSeriesPoint.total = currentPoint.total;
+  } else {
+    series.push(currentPoint);
+  }
+
+  return series.map((sample) => ({
+    at: sample.at,
+    total: sample.total,
+    produced: Math.max(0, sample.total - startTotal),
+  }));
+}
+
+function getTotalAtTime(series, targetAt) {
+  if (!series.length) {
+    return state.totalEarned;
+  }
+  if (targetAt <= series[0].at) {
+    return series[0].total;
+  }
+
+  for (let index = 1; index < series.length; index += 1) {
+    const previous = series[index - 1];
+    const current = series[index];
+    if (targetAt > current.at) {
+      continue;
+    }
+    if (current.at === previous.at) {
+      return current.total;
+    }
+    const progress = (targetAt - previous.at) / (current.at - previous.at);
+    return previous.total + (current.total - previous.total) * progress;
+  }
+
+  return series[series.length - 1].total;
+}
+
+function getTrendBuckets(now = Date.now()) {
+  const series = getTrendSeries(now);
+  const bucketCount = TOKEN_TREND_WINDOW_MS / TOKEN_TREND_BUCKET_MS;
+  const currentBucketStart = Math.floor(now / TOKEN_TREND_BUCKET_MS) * TOKEN_TREND_BUCKET_MS;
+  const firstBucketStart = currentBucketStart - (bucketCount - 1) * TOKEN_TREND_BUCKET_MS;
+  const buckets = [];
+
+  for (let index = 0; index < bucketCount; index += 1) {
+    const startAt = firstBucketStart + index * TOKEN_TREND_BUCKET_MS;
+    const isCurrentBucket = startAt === currentBucketStart;
+    const endAt = isCurrentBucket ? now : startAt + TOKEN_TREND_BUCKET_MS;
+    const startTotal = getTotalAtTime(series, startAt);
+    const endTotal = getTotalAtTime(series, endAt);
+    buckets.push({
+      amount: Math.max(0, endTotal - startTotal),
+      isCurrentBucket,
+    });
+  }
+
+  return {
+    buckets,
+    producedNow: series[series.length - 1]?.produced || 0,
+  };
+}
+
+function renderTokenTrend(force = false) {
+  const now = Date.now();
+  if (
+    !force &&
+    now - lastTrendRenderAt < TOKEN_TREND_RENDER_MS &&
+    trendBarFills.length
+  ) {
+    return;
+  }
+  lastTrendRenderAt = now;
+  const { buckets, producedNow } = getTrendBuckets(now);
+  const maxBucketAmount = Math.max(...buckets.map((bucket) => bucket.amount), 0);
+  elements.trendValue.textContent = formatNumber(producedNow);
+
+  buckets.forEach((bucket, index) => {
+    const view = trendBarFills[index];
+    if (!view) {
+      return;
+    }
+    const ratio = maxBucketAmount <= 0 ? 0 : bucket.amount / maxBucketAmount;
+    const heightPercent = maxBucketAmount <= 0 ? 0 : Math.max(0.08, ratio) * 100;
+    view.fill.style.height = bucket.amount > 0 ? `${heightPercent.toFixed(1)}%` : "2px";
+    view.bar.classList.toggle("is-idle", bucket.amount <= 0);
+    view.bar.classList.toggle("is-current", bucket.isCurrentBucket);
+    view.bar.title = bucket.isCurrentBucket
+      ? `${formatNumber(bucket.amount)} tokens in the current 10s slice`
+      : `${formatNumber(bucket.amount)} tokens in this 10s slice`;
+  });
 }
 
 function canAfford(amount) {
@@ -876,6 +1106,25 @@ function initializePowerups() {
   }
 }
 
+function initializeTrendBars() {
+  elements.trendBars.replaceChildren();
+  trendBarFills.length = 0;
+
+  const bucketCount = TOKEN_TREND_WINDOW_MS / TOKEN_TREND_BUCKET_MS;
+  for (let index = 0; index < bucketCount; index += 1) {
+    const bar = document.createElement("div");
+    bar.className = "trend-bar is-idle";
+
+    const fill = document.createElement("div");
+    fill.className = "trend-bar-fill";
+    fill.style.height = "2px";
+
+    bar.append(fill);
+    elements.trendBars.append(bar);
+    trendBarFills.push({ bar, fill });
+  }
+}
+
 function renderEntities() {
   for (const entity of entities) {
     const view = entityViews.get(entity.id);
@@ -961,6 +1210,7 @@ function renderPowerups() {
 
 function render() {
   renderHeader();
+  renderTokenTrend();
   renderManualPowerups();
   renderEntities();
   renderScenes();
@@ -993,6 +1243,7 @@ function loadGame() {
     state.purchasedPowerups = Array.isArray(parsed.purchasedPowerups)
       ? [...new Set(parsed.purchasedPowerups.filter((id) => !!getPowerupById(id)))]
       : [];
+    state.earnedHistory = normalizeEarnedHistory(parsed.earnedHistory);
 
     let loadMessage = normalized.migrated ? "Migrated your save to the new producer lineup." : "";
     const now = Date.now();
@@ -1007,6 +1258,8 @@ function loadGame() {
         loadMessage = `Recovered ${formatNumber(offlineGain)} tokens while you were away.`;
       }
     }
+
+    recordEarnedSample(now, true);
 
     if (loadMessage) {
       elements.saveStatus.textContent = loadMessage;
@@ -1027,6 +1280,8 @@ function resetGame() {
   manualPowerupView.powerupSignature = "__init__";
   hoveredPowerupId = null;
   hoveredPowerupAnchor = null;
+  lastTrendRenderAt = 0;
+  recordEarnedSample(Date.now(), true);
   hidePowerupTooltip();
   localStorage.removeItem(STORAGE_KEY);
   elements.saveStatus.textContent = "Save wiped. Back to manual prompting.";
@@ -1061,6 +1316,7 @@ function tick(now) {
   if (elapsedSeconds > 0) {
     addTokens(getTokensPerSecond() * elapsedSeconds);
   }
+  recordEarnedSample(Date.now());
 
   render();
 
@@ -1072,10 +1328,13 @@ function tick(now) {
 }
 
 loadGame();
+recordEarnedSample(Date.now(), true);
 initializeEntities();
 initializeScenes();
 initializePowerups();
+initializeTrendBars();
 bindEvents();
+renderTokenTrend(true);
 render();
 window.requestAnimationFrame((timestamp) => {
   state.lastTimestamp = timestamp;
