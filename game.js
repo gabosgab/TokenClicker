@@ -7,55 +7,141 @@ const MANUAL_RATE_WINDOW_MS = 4000;
 
 const entities = [
   {
-    id: "templates",
-    name: "Prompt Template",
-    description: "Reusable prompt boilerplate that keeps the token meter moving.",
+    id: "v100",
+    name: "Mac Studios",
+    description: "A tidy pile of Apple silicon that absolutely counts as infrastructure.",
     baseCost: 15,
     baseRate: 0.1,
   },
   {
-    id: "agents",
-    name: "AutoGPT Agent",
-    description: "An unsupervised agent that keeps generating more work and more tokens.",
+    id: "a100",
+    name: "Ampere A100",
+    description: "Datacenter-grade throughput wrapped in a cleaner board.",
     baseCost: 100,
     baseRate: 1,
   },
   {
-    id: "racks",
-    name: "GPU Rack",
-    description: "A warm metal rectangle that turns money into throughput.",
+    id: "h100",
+    name: "Hopper H100",
+    description: "Transformer fever dream, now with much faster burn.",
     baseCost: 1100,
     baseRate: 8,
   },
   {
-    id: "labs",
-    name: "AGI Lab",
-    description: "An expensive room full of benchmarks, snacks, and certainty.",
+    id: "gh200",
+    name: "Grace Hopper GH200",
+    description: "CPU and GPU fused into one extremely expensive opinion.",
     baseCost: 12000,
     baseRate: 47,
   },
   {
-    id: "councils",
-    name: "Super AGI Council",
-    description: "A strategic body that mostly optimizes token production.",
+    id: "b200",
+    name: "Blackwell B200",
+    description: "The new hotness. Also the new invoice.",
     baseCost: 130000,
     baseRate: 260,
   },
   {
-    id: "cores",
-    name: "Singularity Core",
-    description: "A dense object dedicated to collapsing the local economy into output.",
+    id: "nvl72",
+    name: "GB200 NVL72",
+    description: "Not one board, but a small society of them acting in concert.",
     baseCost: 1400000,
     baseRate: 1400,
   },
   {
-    id: "seeders",
-    name: "Reality Seeder",
-    description: "Deploys new universes with token generation pre-installed.",
+    id: "spiking",
+    name: "Neuromorphic Spiking Core",
+    description: "The roadmap leaves GPUs and starts imitating biology badly.",
     baseCost: 20000000,
     baseRate: 7800,
   },
+  {
+    id: "dyson",
+    name: "Dyson Swarm of Blackwells",
+    description: "An orbital shell of accelerators dedicated to pure throughput.",
+    baseCost: 330000000,
+    baseRate: 44000,
+  },
 ];
+
+const LEGACY_ENTITY_IDS = ["templates", "agents", "racks", "labs", "councils", "cores", "seeders"];
+
+const ENTITY_ART = {
+  v100: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="7" y="7" width="18" height="6.5" rx="2.5" fill="#d7dde3" stroke="#5d6670" stroke-width="1.8"/>
+      <rect x="7" y="13.5" width="18" height="6.5" rx="2.5" fill="#c7ced6" stroke="#515b65" stroke-width="1.8"/>
+      <rect x="7" y="20" width="18" height="4.8" rx="2.2" fill="#b3bcc5" stroke="#48525c" stroke-width="1.8"/>
+      <circle cx="22.5" cy="10.2" r="0.9" fill="#9aa3ad"/>
+      <circle cx="22.5" cy="16.7" r="0.9" fill="#8f98a2"/>
+      <rect x="11" y="25.2" width="10" height="1.8" rx="0.9" fill="#d4ae67"/>
+    </svg>
+  `,
+  a100: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="5" y="7" width="22" height="16" rx="3" fill="#20252b" stroke="#0b1014" stroke-width="2"/>
+      <rect x="8" y="10" width="11" height="10" rx="2" fill="#60d0d0"/>
+      <rect x="20" y="10" width="4" height="4" rx="1" fill="#baf6ff"/>
+      <rect x="20" y="16" width="4" height="4" rx="1" fill="#8fe5f0"/>
+      <rect x="9" y="24" width="12" height="2.5" rx="1" fill="#d4ae67"/>
+    </svg>
+  `,
+  h100: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M6 10h20v12H6z" fill="#3d231d" stroke="#180d0a" stroke-width="2"/>
+      <path d="M9 12h9v8H9z" fill="#ff8f5b"/>
+      <path d="M20 12h3v3h-3zM20 16h3v3h-3z" fill="#ffd2a4"/>
+      <path d="M7 24h12v2.5H7z" fill="#d4ae67"/>
+      <path d="M22 8l3 3-3 3" stroke="#ffb98c" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `,
+  gh200: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="4" y="9" width="24" height="14" rx="3" fill="#203d48" stroke="#0f1d23" stroke-width="2"/>
+      <rect x="7" y="12" width="7" height="8" rx="1.5" fill="#89efe2"/>
+      <rect x="18" y="12" width="7" height="8" rx="1.5" fill="#5fd6f0"/>
+      <rect x="14.5" y="14" width="3" height="4" rx="1" fill="#ffd56e"/>
+      <rect x="8" y="24" width="15" height="2.5" rx="1" fill="#d4ae67"/>
+    </svg>
+  `,
+  b200: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="4" y="8" width="24" height="15" rx="3" fill="#232118" stroke="#0f0d08" stroke-width="2"/>
+      <rect x="8" y="11" width="10" height="9" rx="2" fill="#f0cf61"/>
+      <rect x="20" y="11" width="4" height="9" rx="1.5" fill="#88754c"/>
+      <rect x="7" y="24" width="15" height="2.5" rx="1" fill="#d4ae67"/>
+      <circle cx="24" cy="15" r="1.2" fill="#fff3cb"/>
+    </svg>
+  `,
+  nvl72: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="5" y="6" width="22" height="20" rx="3" fill="#1e213f" stroke="#0c0d18" stroke-width="2"/>
+      <rect x="8" y="9" width="5" height="4" rx="1" fill="#b9c7ff"/>
+      <rect x="14" y="9" width="5" height="4" rx="1" fill="#9eb0ff"/>
+      <rect x="20" y="9" width="4" height="4" rx="1" fill="#dfe5ff"/>
+      <rect x="8" y="15" width="16" height="7" rx="1.5" fill="#4a5db3"/>
+      <rect x="8" y="24" width="16" height="1.8" rx="0.9" fill="#d4ae67"/>
+    </svg>
+  `,
+  spiking: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="16" cy="16" r="8" fill="#ff91f0" stroke="#3b1248" stroke-width="2"/>
+      <circle cx="12" cy="14" r="2" fill="#fff1fd"/>
+      <circle cx="19" cy="18" r="2.4" fill="#d177ff"/>
+      <path d="M16 8v-4M24 12l4-2M8 19l-4 2M22 23l3 4M11 10l-3-4" stroke="#ffd3fb" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  `,
+  dyson: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="16" cy="16" r="5" fill="#ffd56e" stroke="#7a4d1b" stroke-width="2"/>
+      <ellipse cx="16" cy="16" rx="11" ry="6.5" fill="none" stroke="#9fd8ff" stroke-width="2"/>
+      <rect x="7" y="12" width="3" height="3" rx="1" fill="#b8c5ff"/>
+      <rect x="22" y="10" width="3" height="3" rx="1" fill="#b8c5ff"/>
+      <rect x="21" y="19" width="3" height="3" rx="1" fill="#b8c5ff"/>
+      <rect x="9" y="19" width="3" height="3" rx="1" fill="#b8c5ff"/>
+    </svg>
+  `,
+};
 
 const state = {
   tokens: 0,
@@ -73,6 +159,7 @@ const elements = {
   promptCount: document.querySelector("#promptCount"),
   earnedCount: document.querySelector("#earnedCount"),
   promptButton: document.querySelector("#promptButton"),
+  sceneList: document.querySelector("#sceneList"),
   entityList: document.querySelector("#entityList"),
   saveButton: document.querySelector("#saveButton"),
   resetButton: document.querySelector("#resetButton"),
@@ -80,6 +167,7 @@ const elements = {
 };
 
 const entityViews = new Map();
+const sceneViews = new Map();
 const recentManualPrompts = [];
 
 function formatNumber(value) {
@@ -113,6 +201,31 @@ function cloneDefaultState() {
     lastTimestamp: Date.now(),
     lastSaveAt: Date.now(),
   };
+}
+
+function normalizeSavedEntities(savedEntities = {}) {
+  const normalized = Object.fromEntries(entities.map((entity) => [entity.id, 0]));
+  const currentIds = entities.map((entity) => entity.id);
+  const hasCurrentIds = currentIds.some((id) =>
+    Object.prototype.hasOwnProperty.call(savedEntities, id),
+  );
+
+  if (hasCurrentIds) {
+    for (const id of currentIds) {
+      normalized[id] = Number(savedEntities[id]) || 0;
+    }
+    return { entities: normalized, migrated: false };
+  }
+
+  LEGACY_ENTITY_IDS.forEach((legacyId, index) => {
+    const currentId = currentIds[index];
+    if (!currentId) {
+      return;
+    }
+    normalized[currentId] = Number(savedEntities[legacyId]) || 0;
+  });
+
+  return { entities: normalized, migrated: Object.keys(savedEntities).length > 0 };
 }
 
 function getEntityById(id) {
@@ -158,6 +271,13 @@ function getEntityCost(entity) {
 
 function getEntityRate(entity) {
   return entity.baseRate * state.entities[entity.id];
+}
+
+function createArtSprite(entityId, className) {
+  const sprite = document.createElement("div");
+  sprite.className = `entity-sprite ${className}`;
+  sprite.innerHTML = ENTITY_ART[entityId] || "";
+  return sprite;
 }
 
 function buyEntity(entityId) {
@@ -206,8 +326,12 @@ function initializeEntities() {
     const card = document.createElement("article");
     card.className = "entity-card";
 
+    const heading = document.createElement("div");
+    heading.className = "entity-heading";
+
     const title = document.createElement("h3");
     title.textContent = entity.name;
+    heading.append(createArtSprite(entity.id, "card-sprite"), title);
 
     const description = document.createElement("p");
     description.textContent = entity.description;
@@ -228,13 +352,52 @@ function initializeEntities() {
     button.addEventListener("click", () => buyEntity(entity.id));
 
     footer.append(costLabel, button);
-    card.append(title, description, meta, footer);
+    card.append(heading, description, meta, footer);
     elements.entityList.append(card);
 
     entityViews.set(entity.id, {
       meta,
       costLabel,
       button,
+    });
+  }
+}
+
+function initializeScenes() {
+  elements.sceneList.replaceChildren();
+  sceneViews.clear();
+
+  for (const entity of entities) {
+    const row = document.createElement("article");
+    row.className = "scene-row";
+
+    const header = document.createElement("div");
+    header.className = "scene-row-header";
+
+    const title = document.createElement("div");
+    title.className = "scene-row-title";
+    const label = document.createElement("span");
+    label.textContent = entity.name;
+    title.append(createArtSprite(entity.id, "row-sprite"), label);
+
+    const count = document.createElement("div");
+    count.className = "scene-row-count";
+
+    const stage = document.createElement("div");
+    stage.className = `scene-stage scene-stage-${entity.id}`;
+
+    const lane = document.createElement("div");
+    lane.className = "scene-lane";
+
+    stage.append(lane);
+    header.append(title, count);
+    row.append(header, stage);
+    elements.sceneList.append(row);
+
+    sceneViews.set(entity.id, {
+      count,
+      lane,
+      renderedOwned: -1,
     });
   }
 }
@@ -256,9 +419,42 @@ function renderEntities() {
   }
 }
 
+function renderScenes() {
+  for (const entity of entities) {
+    const view = sceneViews.get(entity.id);
+    if (!view) {
+      continue;
+    }
+
+    const owned = state.entities[entity.id];
+    if (view.renderedOwned === owned) {
+      continue;
+    }
+
+    view.renderedOwned = owned;
+    view.count.textContent = `${formatNumber(owned)} owned`;
+    view.lane.replaceChildren();
+
+    if (!owned) {
+      const empty = document.createElement("div");
+      empty.className = "scene-empty";
+      empty.textContent = "none";
+      view.lane.append(empty);
+      continue;
+    }
+
+    const fragment = document.createDocumentFragment();
+    for (let index = 0; index < owned; index += 1) {
+      fragment.append(createArtSprite(entity.id, "scene-sprite"));
+    }
+    view.lane.append(fragment);
+  }
+}
+
 function render() {
   renderHeader();
   renderEntities();
+  renderScenes();
 }
 
 function saveGame(message = "Progress saved.") {
@@ -282,10 +478,10 @@ function loadGame() {
     const parsed = JSON.parse(raw);
     const defaults = cloneDefaultState();
     Object.assign(state, defaults, parsed);
-    state.entities = {
-      ...defaults.entities,
-      ...(parsed.entities || {}),
-    };
+    const normalized = normalizeSavedEntities(parsed.entities || {});
+    state.entities = normalized.entities;
+
+    let loadMessage = normalized.migrated ? "Migrated your save to the new producer lineup." : "";
     const now = Date.now();
     const elapsedSeconds = Math.min(
       MAX_OFFLINE_SECONDS,
@@ -295,10 +491,12 @@ function loadGame() {
       const offlineGain = getTokensPerSecond() * elapsedSeconds;
       if (offlineGain > 0) {
         addTokens(offlineGain);
-        elements.saveStatus.textContent = `Recovered ${formatNumber(
-          offlineGain,
-        )} tokens while you were away.`;
+        loadMessage = `Recovered ${formatNumber(offlineGain)} tokens while you were away.`;
       }
+    }
+
+    if (loadMessage) {
+      elements.saveStatus.textContent = loadMessage;
     }
   } catch (error) {
     console.error("Failed to load save", error);
@@ -356,6 +554,7 @@ function tick(now) {
 
 loadGame();
 initializeEntities();
+initializeScenes();
 bindEvents();
 render();
 window.requestAnimationFrame((timestamp) => {
