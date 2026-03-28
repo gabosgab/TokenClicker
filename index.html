@@ -39,6 +39,10 @@
             <p>Manual prompt yield: <strong id="manualYield">1</strong></p>
             <p>Total prompts: <strong id="promptCount">0</strong></p>
             <p>Total earned: <strong id="earnedCount">0</strong></p>
+            <div class="manual-boosts">
+              <span class="manual-boost-label">Prompt boosts</span>
+              <div id="manualPowerupIcons" class="effect-icons"></div>
+            </div>
           </div>
 
           <div class="footer-actions">
@@ -65,6 +69,14 @@
         </section>
 
         <aside class="panel shop-panel">
+          <section class="powerup-dock">
+            <div class="powerup-dock-header">
+              <p class="eyebrow">One-time boosts</p>
+              <span class="powerup-dock-note">Hover for details</span>
+            </div>
+            <div id="powerupList" class="powerup-list"></div>
+          </section>
+
           <div class="shop-header">
             <p class="eyebrow">Entity shop</p>
             <h2>Buy Producers</h2>
@@ -76,6 +88,13 @@
           <div id="entityList" class="entity-list"></div>
         </aside>
       </main>
+    </div>
+
+    <div id="powerupTooltip" class="powerup-tooltip" hidden>
+      <p id="powerupHoverName" class="powerup-hover-name"></p>
+      <p id="powerupHoverEffect" class="powerup-hover-effect"></p>
+      <p id="powerupHoverDescription" class="powerup-hover-description"></p>
+      <p id="powerupHoverCost" class="powerup-hover-cost"></p>
     </div>
 
     <script src="./game.js"></script>
