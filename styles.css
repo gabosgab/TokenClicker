@@ -498,51 +498,58 @@ body {
 
 .scene-stage-v100 {
   background:
-    linear-gradient(180deg, #6d757d 0 58%, #30363c 58% 100%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 8px, transparent 8px 16px);
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.16), transparent 52%),
+    linear-gradient(180deg, #98a2ac 0%, #7d8793 26%, #55606b 62%, #30363c 100%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.09) 0 8px, transparent 8px 16px);
 }
 
 .scene-stage-a100 {
   background:
-    linear-gradient(180deg, #27353d 0 58%, #172028 58% 100%),
-    repeating-linear-gradient(90deg, rgba(122, 196, 214, 0.12) 0 10px, transparent 10px 18px);
+    radial-gradient(circle at 50% 0%, rgba(160, 231, 244, 0.14), transparent 52%),
+    linear-gradient(180deg, #456272 0%, #344a57 28%, #233543 62%, #172028 100%),
+    repeating-linear-gradient(90deg, rgba(122, 196, 214, 0.1) 0 10px, transparent 10px 18px);
 }
 
 .scene-stage-h100 {
   background:
-    linear-gradient(180deg, #513023 0 58%, #2a1714 58% 100%),
-    repeating-linear-gradient(90deg, rgba(255, 184, 126, 0.12) 0 9px, transparent 9px 17px);
+    radial-gradient(circle at 50% 0%, rgba(255, 191, 145, 0.16), transparent 52%),
+    linear-gradient(180deg, #82513a 0%, #6a402e 28%, #472822 62%, #2a1714 100%),
+    repeating-linear-gradient(90deg, rgba(255, 184, 126, 0.1) 0 9px, transparent 9px 17px);
 }
 
 .scene-stage-gh200 {
   background:
-    linear-gradient(180deg, #274c58 0 58%, #18313a 58% 100%),
-    repeating-linear-gradient(90deg, rgba(144, 243, 226, 0.12) 0 10px, transparent 10px 18px);
+    radial-gradient(circle at 50% 0%, rgba(153, 244, 230, 0.16), transparent 52%),
+    linear-gradient(180deg, #3f7486 0%, #315c6b 28%, #214451 62%, #18313a 100%),
+    repeating-linear-gradient(90deg, rgba(144, 243, 226, 0.1) 0 10px, transparent 10px 18px);
 }
 
 .scene-stage-b200 {
   background:
-    linear-gradient(180deg, #3a3525 0 58%, #231d13 58% 100%),
-    repeating-linear-gradient(90deg, rgba(255, 214, 110, 0.14) 0 10px, transparent 10px 18px);
+    radial-gradient(circle at 50% 0%, rgba(255, 222, 135, 0.16), transparent 52%),
+    linear-gradient(180deg, #60583d 0%, #4d4632 28%, #342d20 62%, #231d13 100%),
+    repeating-linear-gradient(90deg, rgba(255, 214, 110, 0.12) 0 10px, transparent 10px 18px);
 }
 
 .scene-stage-nvl72 {
   background:
-    linear-gradient(180deg, #2d2e46 0 58%, #1a1b2c 58% 100%),
-    repeating-linear-gradient(90deg, rgba(183, 193, 255, 0.14) 0 10px, transparent 10px 18px);
+    radial-gradient(circle at 50% 0%, rgba(199, 206, 255, 0.16), transparent 52%),
+    linear-gradient(180deg, #45486d 0%, #353856 28%, #252843 62%, #1a1b2c 100%),
+    repeating-linear-gradient(90deg, rgba(183, 193, 255, 0.12) 0 10px, transparent 10px 18px);
 }
 
 .scene-stage-spiking {
   background:
-    linear-gradient(180deg, #472857 0 58%, #23162d 58% 100%),
-    repeating-linear-gradient(90deg, rgba(255, 157, 247, 0.12) 0 10px, transparent 10px 18px);
+    radial-gradient(circle at 50% 0%, rgba(255, 183, 249, 0.16), transparent 52%),
+    linear-gradient(180deg, #6a3b80 0%, #56306a 28%, #371f45 62%, #23162d 100%),
+    repeating-linear-gradient(90deg, rgba(255, 157, 247, 0.1) 0 10px, transparent 10px 18px);
 }
 
 .scene-stage-dyson {
   background:
-    linear-gradient(180deg, #20334f 0 58%, #121d32 58% 100%),
-    radial-gradient(circle at 20% 20%, rgba(255, 214, 110, 0.22), transparent 18%),
-    radial-gradient(circle at 78% 26%, rgba(124, 194, 255, 0.18), transparent 20%);
+    radial-gradient(circle at 24% 18%, rgba(255, 214, 110, 0.18), transparent 18%),
+    radial-gradient(circle at 78% 24%, rgba(124, 194, 255, 0.14), transparent 20%),
+    linear-gradient(180deg, #335073 0%, #28435f 28%, #1a2b43 62%, #121d32 100%);
 }
 
 .powerup-list {
