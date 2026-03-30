@@ -9,6 +9,12 @@ const TOKEN_TREND_BUCKET_MS = 10 * 1000;
 const TOKEN_TREND_SAMPLE_MS = 100;
 const TOKEN_TREND_RENDER_MS = 100;
 const UI_RENDER_MS = 100;
+const PROMPT_FIELD_RENDER_MS = 33;
+const PROMPT_FIELD_MAX_SHAPES = 96;
+const PROMPT_FIELD_BASE_SPAWN_PER_SECOND = 1.2;
+const PROMPT_FIELD_MAX_SPAWN_PER_SECOND = 18;
+const PROMPT_FIELD_COLORS = ["#77f8ff", "#87a8ff", "#ffd56e", "#ff8fd8", "#8fffbe"];
+const PROMPT_FIELD_SHAPES = ["triangle", "square", "diamond", "circle", "hex"];
 
 // Rough throughput ladder: desktop silicon -> datacenter GPU -> rack-scale system -> speculative megasystems.
 const entities = [
@@ -426,6 +432,7 @@ const elements = {
   promptCount: document.querySelector("#promptCount"),
   earnedCount: document.querySelector("#earnedCount"),
   ownedPowerupIcons: document.querySelector("#ownedPowerupIcons"),
+  promptBackdrop: document.querySelector("#promptBackdrop"),
   promptButton: document.querySelector("#promptButton"),
   sceneList: document.querySelector("#sceneList"),
   entityList: document.querySelector("#entityList"),
@@ -464,6 +471,18 @@ const headerView = {
   prompts: "",
   earned: "",
 };
+const promptField = {
+  ctx: null,
+  width: 0,
+  height: 0,
+  dpr: 1,
+  shapes: [],
+  sprites: new Map(),
+  spawnCarry: 0,
+  lastTimestamp: null,
+  lastRenderAt: null,
+  ambientPhase: 0,
+};
 let hoveredPowerupId = null;
 let hoveredPowerupAnchor = null;
 let hoveredEntityId = null;
@@ -496,6 +515,10 @@ function formatNumber(value) {
   const sign = value < 0 ? "-" : "";
   const digits = scaled >= 100 ? 0 : scaled >= 10 ? 1 : 2;
   return `${sign}${scaled.toFixed(digits).replace(/\.0+$/, "")}${units[unitIndex]}`;
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
 }
 
 function cloneDefaultState() {
@@ -684,6 +707,12 @@ function getDisplayedTokensPerSecond(now = Date.now()) {
   return getTokensPerSecond() + getManualTokensPerSecond(now);
 }
 
+function getPromptFieldSpawnRate() {
+  const liveTps = getDisplayedTokensPerSecond(Date.now());
+  const scaled = PROMPT_FIELD_BASE_SPAWN_PER_SECOND + Math.log10(liveTps + 1) * 5.2;
+  return clamp(scaled, PROMPT_FIELD_BASE_SPAWN_PER_SECOND, PROMPT_FIELD_MAX_SPAWN_PER_SECOND);
+}
+
 function addTokens(amount) {
   state.tokens += amount;
   state.totalEarned += amount;
@@ -709,6 +738,232 @@ function addPassiveTokens(elapsedSeconds) {
   }
 
   return totalGenerated;
+}
+
+function spawnPromptFieldShape() {
+  if (!promptField.width || !promptField.height) {
+    return;
+  }
+
+  const size = 8 + Math.random() * 18;
+  const drift = (Math.random() - 0.5) * 16;
+  const lateralWave = 0.3 + Math.random() * 0.9;
+  const speed = 28 + Math.random() * 70;
+  const rotationSpeed = (Math.random() - 0.5) * 1.2;
+
+  const color = PROMPT_FIELD_COLORS[Math.floor(Math.random() * PROMPT_FIELD_COLORS.length)];
+  const shapeType = PROMPT_FIELD_SHAPES[Math.floor(Math.random() * PROMPT_FIELD_SHAPES.length)];
+
+  promptField.shapes.push({
+    x: Math.random() * promptField.width,
+    y: -20 - Math.random() * 80,
+    size,
+    speed,
+    drift,
+    waveAmplitude: 4 + Math.random() * 20,
+    waveFrequency: lateralWave,
+    rotation: Math.random() * Math.PI * 2,
+    rotationSpeed,
+    alpha: 0.32 + Math.random() * 0.55,
+    color,
+    shape: shapeType,
+    spriteKey: `${shapeType}:${color}`,
+  });
+
+  if (promptField.shapes.length > PROMPT_FIELD_MAX_SHAPES) {
+    promptField.shapes.splice(0, promptField.shapes.length - PROMPT_FIELD_MAX_SHAPES);
+  }
+}
+
+function getPromptFieldSprite(spriteKey) {
+  const cached = promptField.sprites.get(spriteKey);
+  if (cached) {
+    return cached;
+  }
+
+  const [shapeType, color] = spriteKey.split(":");
+  const size = 56;
+  const center = size / 2;
+  const radius = 12;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    return null;
+  }
+
+  ctx.translate(center, center);
+  ctx.strokeStyle = color;
+  ctx.fillStyle = `${color}18`;
+  ctx.lineWidth = 2.1;
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+  if (shapeType === "triangle") {
+    ctx.moveTo(0, -radius);
+    ctx.lineTo(radius * 0.88, radius * 0.76);
+    ctx.lineTo(-radius * 0.88, radius * 0.76);
+    ctx.closePath();
+  } else if (shapeType === "square") {
+    ctx.rect(-radius * 0.72, -radius * 0.72, radius * 1.44, radius * 1.44);
+  } else if (shapeType === "diamond") {
+    ctx.moveTo(0, -radius);
+    ctx.lineTo(radius * 0.9, 0);
+    ctx.lineTo(0, radius);
+    ctx.lineTo(-radius * 0.9, 0);
+    ctx.closePath();
+  } else if (shapeType === "circle") {
+    ctx.arc(0, 0, radius * 0.8, 0, Math.PI * 2);
+  } else {
+    for (let index = 0; index < 6; index += 1) {
+      const angle = (Math.PI / 3) * index - Math.PI / 6;
+      const px = Math.cos(angle) * radius * 0.82;
+      const py = Math.sin(angle) * radius * 0.82;
+      if (index === 0) {
+        ctx.moveTo(px, py);
+      } else {
+        ctx.lineTo(px, py);
+      }
+    }
+    ctx.closePath();
+  }
+  ctx.stroke();
+  ctx.fill();
+
+  promptField.sprites.set(spriteKey, canvas);
+  return canvas;
+}
+
+function drawPromptShape(ctx, shape, nowSeconds) {
+  const sway = Math.sin(nowSeconds * shape.waveFrequency + shape.y * 0.02) * shape.waveAmplitude;
+  const sprite = getPromptFieldSprite(shape.spriteKey);
+  if (!sprite) {
+    return;
+  }
+
+  const drawSize = shape.size * 2.2;
+  ctx.save();
+  ctx.translate(shape.x + sway, shape.y);
+  ctx.rotate(shape.rotation);
+  ctx.globalAlpha = shape.alpha;
+  ctx.drawImage(sprite, -drawSize / 2, -drawSize / 2, drawSize, drawSize);
+  ctx.restore();
+}
+
+function resizePromptField() {
+  const canvas = elements.promptBackdrop;
+  if (!(canvas instanceof HTMLCanvasElement)) {
+    return;
+  }
+
+  const bounds = canvas.getBoundingClientRect();
+  const width = Math.max(1, Math.floor(bounds.width));
+  const height = Math.max(1, Math.floor(bounds.height));
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+
+  if (promptField.width === width && promptField.height === height && promptField.dpr === dpr) {
+    return;
+  }
+
+  promptField.width = width;
+  promptField.height = height;
+  promptField.dpr = dpr;
+  promptField.lastRenderAt = null;
+  canvas.width = Math.floor(width * dpr);
+  canvas.height = Math.floor(height * dpr);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    promptField.ctx = null;
+    return;
+  }
+  promptField.ctx = ctx;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function renderPromptField(now) {
+  const ctx = promptField.ctx;
+  if (!ctx || !promptField.width || !promptField.height) {
+    return;
+  }
+
+  if (promptField.lastRenderAt !== null && now - promptField.lastRenderAt < PROMPT_FIELD_RENDER_MS) {
+    return;
+  }
+  promptField.lastRenderAt = now;
+
+  const nowSeconds = now / 1000;
+  const elapsedSeconds = promptField.lastTimestamp === null
+    ? 1 / 60
+    : Math.min(0.1, Math.max(0.001, (now - promptField.lastTimestamp) / 1000));
+  promptField.lastTimestamp = now;
+  promptField.ambientPhase += elapsedSeconds * 0.25;
+
+  const spawnRate = getPromptFieldSpawnRate();
+  promptField.spawnCarry += spawnRate * elapsedSeconds;
+  while (promptField.spawnCarry >= 1) {
+    promptField.spawnCarry -= 1;
+    spawnPromptFieldShape();
+  }
+
+  ctx.clearRect(0, 0, promptField.width, promptField.height);
+
+  const ambientGlow = ctx.createRadialGradient(
+    promptField.width * 0.5,
+    promptField.height * 0.48,
+    promptField.width * 0.08,
+    promptField.width * 0.5,
+    promptField.height * 0.48,
+    promptField.width * 0.5,
+  );
+  ambientGlow.addColorStop(0, "rgba(132, 215, 255, 0.12)");
+  ambientGlow.addColorStop(0.4, "rgba(103, 125, 255, 0.08)");
+  ambientGlow.addColorStop(1, "rgba(6, 10, 24, 0)");
+  ctx.fillStyle = ambientGlow;
+  ctx.fillRect(0, 0, promptField.width, promptField.height);
+
+  ctx.strokeStyle = "rgba(128, 206, 255, 0.08)";
+  ctx.lineWidth = 1;
+  for (let index = 0; index < 3; index += 1) {
+    const yBase = promptField.height * (0.2 + index * 0.16);
+    ctx.beginPath();
+    for (let x = -20; x <= promptField.width + 20; x += 24) {
+      const y = yBase + Math.sin(x * 0.012 + nowSeconds * (0.6 + index * 0.08)) * (8 + index * 2.5);
+      if (x === -20) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    }
+    ctx.stroke();
+  }
+
+  promptField.shapes = promptField.shapes.filter((shape) => shape.y < promptField.height + 36);
+  for (const shape of promptField.shapes) {
+    shape.y += shape.speed * elapsedSeconds;
+    shape.x += shape.drift * elapsedSeconds;
+    shape.rotation += shape.rotationSpeed * elapsedSeconds;
+    shape.alpha = clamp(shape.alpha - elapsedSeconds * 0.012, 0.18, 1);
+    drawPromptShape(ctx, shape, nowSeconds);
+  }
+}
+
+function initializePromptField() {
+  resizePromptField();
+  promptField.shapes.length = 0;
+  promptField.sprites.clear();
+  promptField.spawnCarry = 0;
+  promptField.lastTimestamp = null;
+  promptField.lastRenderAt = null;
+  for (let index = 0; index < 22; index += 1) {
+    spawnPromptFieldShape();
+    const shape = promptField.shapes[promptField.shapes.length - 1];
+    if (!shape) {
+      continue;
+    }
+    shape.y = Math.random() * promptField.height;
+    shape.alpha = 0.22 + Math.random() * 0.4;
+  }
 }
 
 function pruneEarnedHistory(now = Date.now()) {
@@ -1575,9 +1830,13 @@ function resetGame() {
   hoveredEntityAnchor = null;
   lastTrendRenderAt = 0;
   lastUIRenderAt = 0;
+  promptField.shapes.length = 0;
+  promptField.spawnCarry = 0;
+  promptField.lastTimestamp = null;
   recordEarnedSample(Date.now(), true);
   hidePowerupTooltip();
   hideEntityTooltip();
+  initializePromptField();
   localStorage.removeItem(STORAGE_KEY);
   elements.saveStatus.textContent = "Save wiped. Back to manual prompting.";
   render();
@@ -1603,6 +1862,7 @@ function bindEvents() {
   window.addEventListener("beforeunload", () => {
     saveGame("Progress saved.");
   });
+  window.addEventListener("resize", resizePromptField);
   window.addEventListener("resize", syncPowerupTooltip);
   window.addEventListener("resize", syncEntityTooltip);
   window.addEventListener("scroll", syncPowerupTooltip, { passive: true });
@@ -1610,6 +1870,7 @@ function bindEvents() {
 }
 
 function tick(now) {
+  renderPromptField(now);
   const elapsedSeconds = Math.min(1, Math.max(0, (now - state.lastTimestamp) / 1000));
   state.lastTimestamp = now;
   addPassiveTokens(elapsedSeconds);
@@ -1638,6 +1899,7 @@ initializeEntities();
 initializeScenes();
 initializePowerups();
 initializeTrendBars();
+initializePromptField();
 bindEvents();
 renderTokenTrend(true);
 render();

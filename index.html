@@ -49,10 +49,14 @@
             </div>
           </div>
 
-          <button id="promptButton" class="prompt-button" type="button">
-            <span class="button-title">Run Prompt</span>
-            <span class="button-subtitle">Press Enter or click</span>
-          </button>
+          <div class="prompt-stage">
+            <canvas id="promptBackdrop" class="prompt-backdrop" aria-hidden="true"></canvas>
+            <div class="prompt-stage-glow" aria-hidden="true"></div>
+            <button id="promptButton" class="prompt-button" type="button">
+              <span class="button-title">Run Prompt</span>
+              <span class="button-subtitle">Press Enter or click</span>
+            </button>
+          </div>
 
           <div class="simple-copy">
             <p>Manual prompt yield: <strong id="manualYield">1</strong></p>
