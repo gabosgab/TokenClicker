@@ -1541,7 +1541,7 @@ function renderHeader() {
   const now = Date.now();
   const nextHeader = {
     tokens: formatFullNumber(state.tokens),
-    tps: `${formatNumber(Math.floor(getDisplayedTokensPerSecond(now)))}/s`,
+    tps: `${formatNumber(getDisplayedTokensPerSecond(now)).replace(/\.\d+/, "")}/s`,
     manualYield: formatNumber(getManualYield()),
     prompts: formatNumber(state.manualPrompts),
     earned: formatNumber(state.totalEarned),
@@ -1735,7 +1735,7 @@ function renderEntities() {
     const cost = getEntityCost(entity);
     const owned = state.entities[entity.id];
     const ownedText = formatNumber(owned);
-    const costText = `Next ${formatNumber(cost)}`;
+    const costText = formatNumber(cost);
     const canBuy = canAfford(cost);
 
     if (view.ownedText !== ownedText) {
@@ -1744,7 +1744,7 @@ function renderEntities() {
     }
     if (view.costText !== costText) {
       view.costText = costText;
-      view.costLabel.textContent = costText;
+      view.costLabel.innerHTML = `<span class="token-icon"></span>${costText}`;
     }
     if (view.canAfford !== canBuy) {
       view.canAfford = canBuy;

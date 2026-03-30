@@ -707,10 +707,25 @@ body {
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .entity-cost {
   color: rgba(249, 238, 214, 0.76);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.token-icon {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  background: #4ade80;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  flex-shrink: 0;
 }
 
 .scene-list {
