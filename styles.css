@@ -302,22 +302,37 @@ body {
   margin-top: 6px;
 }
 
-.manual-boosts {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 217, 173, 0.12);
-}
-
 .manual-boost-label {
   color: var(--muted);
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1.4;
+}
+
+.owned-powerups {
+  display: grid;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 217, 173, 0.14);
+  background:
+    linear-gradient(180deg, rgba(38, 28, 24, 0.96), rgba(21, 16, 14, 0.96)),
+    radial-gradient(circle at top right, rgba(255, 214, 110, 0.06), transparent 40%);
+}
+
+.owned-powerups-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.owned-powerups-note {
+  color: var(--muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .effect-icons {
@@ -331,6 +346,11 @@ body {
 
 .effect-icons[hidden] {
   display: none;
+}
+
+.owned-powerup-icons {
+  justify-content: flex-start;
+  min-height: 34px;
 }
 
 .effect-icon {
@@ -351,6 +371,18 @@ body {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.effect-icon-button {
+  appearance: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.effect-icon-button:focus-visible {
+  outline: 1px solid rgba(255, 213, 110, 0.65);
+  outline-offset: 2px;
 }
 
 .effect-icon-small {
@@ -429,26 +461,44 @@ body {
 
 .entity-list {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 
 .entity-card {
   display: grid;
-  gap: 6px;
-  padding: 11px 13px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.entity-heading {
-  display: flex;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
+  min-height: 72px;
+  padding: 8px 10px;
+  border-radius: 0;
+  border: 1px solid rgba(255, 239, 210, 0.08);
+  background:
+    linear-gradient(180deg, rgba(210, 206, 196, 0.2), rgba(118, 109, 98, 0.16)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent 28%, rgba(0, 0, 0, 0.08));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.entity-heading-main,
+.entity-card:first-child {
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+
+.entity-card:last-child {
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+.entity-card.is-affordable {
+  background:
+    linear-gradient(180deg, rgba(255, 234, 190, 0.26), rgba(160, 140, 118, 0.18)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06), transparent 30%, rgba(0, 0, 0, 0.06));
+}
+
+.entity-card.is-blocked {
+  opacity: 0.84;
+}
+
 .scene-row-title-main,
 .powerup-heading-main {
   display: flex;
@@ -457,24 +507,63 @@ body {
   min-width: 0;
 }
 
+.entity-thumb {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(48, 35, 29, 0.58), rgba(23, 18, 16, 0.52));
+}
+
+.entity-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.entity-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .entity-card h3 {
   margin: 0;
-  font-size: 0.96rem;
+  font-size: 1.05rem;
+  line-height: 1.05;
+}
+
+.entity-description {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.25;
+  color: rgba(249, 238, 214, 0.68);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entity-owned {
+  flex: 0 0 auto;
+  color: rgba(249, 238, 214, 0.42);
+  font-size: 1.55rem;
+  line-height: 1;
+  font-weight: 700;
 }
 
 .entity-meta {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  color: var(--muted);
-  font-size: 0.84rem;
-}
-
-.entity-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 10px 12px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .scene-list {
@@ -583,12 +672,9 @@ body {
 }
 
 .card-sprite {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   padding: 2px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 217, 173, 0.14);
-  background: rgba(255, 255, 255, 0.04);
 }
 
 .row-sprite {
@@ -803,6 +889,13 @@ body {
   padding: 9px 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
+}
+
+.entity-buy {
+  min-width: 64px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  align-self: center;
 }
 
 .buy-button:not(:disabled) {

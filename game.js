@@ -180,6 +180,41 @@ const POWERUP_ART = {
       <circle cx="17.5" cy="8.5" r="2" fill="#ffd56e"/>
     </svg>
   `,
+  "macro-array": `
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="4" y="4" width="16" height="16" rx="3" fill="#2a2532" stroke="#110d16" stroke-width="1.5"/>
+      <rect x="7" y="7" width="3" height="3" rx="0.8" fill="#ffd56e"/>
+      <rect x="11" y="7" width="3" height="3" rx="0.8" fill="#ffb96f"/>
+      <rect x="7" y="11" width="3" height="3" rx="0.8" fill="#9be8ff"/>
+      <rect x="11" y="11" width="3" height="3" rx="0.8" fill="#79c9ff"/>
+      <path d="M16 8l2 2-2 2" stroke="#ff8f5b" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M16 15h3" stroke="#ff8f5b" stroke-width="1.7" stroke-linecap="round"/>
+    </svg>
+  `,
+  "prompt-cache": `
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="5" y="6" width="11" height="8" rx="1.8" fill="#2d3146" stroke="#111626" stroke-width="1.4"/>
+      <rect x="8" y="10" width="11" height="8" rx="1.8" fill="#48506f" stroke="#111626" stroke-width="1.4"/>
+      <path d="M16 4l-2 5h2l-1 4 4-6h-2l1-3z" fill="#ffd56e"/>
+    </svg>
+  `,
+  "enter-furnace": `
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="4" y="5" width="16" height="14" rx="2.5" fill="#3b2119" stroke="#180c09" stroke-width="1.5"/>
+      <rect x="7" y="9" width="6" height="5" rx="1.2" fill="#ffd8a1"/>
+      <path d="M14 9h3l-2.5 2.5L17 14h-3" stroke="#ff9658" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M7 17h10" stroke="#ffd56e" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  `,
+  "manual-singularity": `
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="12" cy="12" r="3.8" fill="#0f1118" stroke="#6c79ff" stroke-width="1.5"/>
+      <ellipse cx="12" cy="12" rx="8.2" ry="4.8" fill="none" stroke="#8fd8ff" stroke-width="1.6"/>
+      <rect x="16.3" y="8.8" width="3" height="2.2" rx="0.7" fill="#ffd56e"/>
+      <rect x="17.8" y="9.4" width="1.2" height="1" rx="0.4" fill="#2f2a20"/>
+      <path d="M17 12.7l2 0" stroke="#ffd56e" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>
+  `,
   "m4-bin": `
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <rect x="6" y="6" width="12" height="12" rx="2" fill="#d7dde3" stroke="#505965" stroke-width="1.5"/>
@@ -267,11 +302,51 @@ const powerups = [
     unlocks: (state) => state.manualPrompts >= 10,
   },
   {
+    id: "recursive-cli",
+    name: "Recursive CLI",
+    description: "The shell starts helping with the shelling. Manual prompting spirals upward.",
+    cost: 1250,
+    effect: { type: "click", multiplier: 4 },
+    unlocks: (state) => state.purchasedPowerups.includes("hotkey") && state.totalEarned >= 500,
+  },
+  {
+    id: "macro-array",
+    name: "Macro Array",
+    description: "One enter key becomes many, then many becomes a workflow problem.",
+    cost: 6250,
+    effect: { type: "click", multiplier: 8 },
+    unlocks: (state) => state.purchasedPowerups.includes("recursive-cli") && state.totalEarned >= 5000,
+  },
+  {
+    id: "prompt-cache",
+    name: "Prompt Cache",
+    description: "Frequently used prompts are now preheated and dangerously easy to fire.",
+    cost: 31250,
+    effect: { type: "click", multiplier: 16 },
+    unlocks: (state) => state.purchasedPowerups.includes("macro-array") && state.totalEarned >= 50000,
+  },
+  {
+    id: "enter-furnace",
+    name: "Enter Key Furnace",
+    description: "Every manual prompt gets fed through a glowing industrial shortcut.",
+    cost: 156250,
+    effect: { type: "click", multiplier: 32 },
+    unlocks: (state) => state.purchasedPowerups.includes("prompt-cache") && state.totalEarned >= 500000,
+  },
+  {
+    id: "manual-singularity",
+    name: "Manual Singularity",
+    description: "Your fingertip now bends space, time, and prompt yield around itself.",
+    cost: 781250,
+    effect: { type: "click", multiplier: 64 },
+    unlocks: (state) => state.purchasedPowerups.includes("enter-furnace") && state.totalEarned >= 5000000,
+  },
+  {
     id: "m4-bin",
     name: "M4 Max Bin Lottery",
     description: "Your Mac Studios mysteriously all turn out to be better bins.",
     cost: 150,
-    effect: { type: "entity", target: "v100", multiplier: 1.25 },
+    effect: { type: "entity", target: "v100", multiplier: 2 },
     unlocks: (state) => state.entities.v100 >= 5,
   },
   {
@@ -279,7 +354,7 @@ const powerups = [
     name: "Tensor Tuning",
     description: "Ampere boards find a cleaner path through the matrix.",
     cost: 1400,
-    effect: { type: "entity", target: "a100", multiplier: 1.25 },
+    effect: { type: "entity", target: "a100", multiplier: 2 },
     unlocks: (state) => state.entities.a100 >= 5,
   },
   {
@@ -287,23 +362,15 @@ const powerups = [
     name: "Hopper Compiler Spell",
     description: "The H100 compiler stops fighting you and starts summoning throughput.",
     cost: 13000,
-    effect: { type: "entity", target: "h100", multiplier: 1.25 },
+    effect: { type: "entity", target: "h100", multiplier: 2 },
     unlocks: (state) => state.entities.h100 >= 5,
-  },
-  {
-    id: "recursive-cli",
-    name: "Recursive CLI",
-    description: "Clicks recurse into more clicks. Surely this ends well.",
-    cost: 50000,
-    effect: { type: "click", multiplier: 3 },
-    unlocks: (state) => state.totalEarned >= 10000,
   },
   {
     id: "graceful-memory",
     name: "Graceful Memory Pooling",
     description: "Grace Hopper stops tripping over itself and gets a cleaner memory path.",
     cost: 130000,
-    effect: { type: "entity", target: "gh200", multiplier: 1.25 },
+    effect: { type: "entity", target: "gh200", multiplier: 2 },
     unlocks: (state) => state.entities.gh200 >= 3,
   },
   {
@@ -311,7 +378,7 @@ const powerups = [
     name: "Blackwell Thermal Covenant",
     description: "A sacred agreement between heat, fans, and sustained clocks.",
     cost: 1600000,
-    effect: { type: "entity", target: "b200", multiplier: 1.25 },
+    effect: { type: "entity", target: "b200", multiplier: 2 },
     unlocks: (state) => state.entities.b200 >= 3,
   },
   {
@@ -319,7 +386,7 @@ const powerups = [
     name: "NVLink Ballroom",
     description: "Your NVL72 nodes finally learn to dance together.",
     cost: 25000000,
-    effect: { type: "entity", target: "nvl72", multiplier: 1.25 },
+    effect: { type: "entity", target: "nvl72", multiplier: 2 },
     unlocks: (state) => state.entities.nvl72 >= 2,
   },
   {
@@ -327,7 +394,7 @@ const powerups = [
     name: "Spike Timing Diagram",
     description: "Neuromorphic timing stops being abstract art and becomes throughput.",
     cost: 300000000,
-    effect: { type: "entity", target: "spiking", multiplier: 1.25 },
+    effect: { type: "entity", target: "spiking", multiplier: 2 },
     unlocks: (state) => state.entities.spiking >= 2,
   },
   {
@@ -335,7 +402,7 @@ const powerups = [
     name: "Orbital Procurement",
     description: "The Dyson swarm gets a real supply chain instead of vibes.",
     cost: 5000000000,
-    effect: { type: "entity", target: "dyson", multiplier: 1.25 },
+    effect: { type: "entity", target: "dyson", multiplier: 2 },
     unlocks: (state) => state.entities.dyson >= 1,
   },
 ];
@@ -345,6 +412,7 @@ const state = {
   totalEarned: 0,
   manualPrompts: 0,
   entities: Object.fromEntries(entities.map((entity) => [entity.id, 0])),
+  entityProductionTotals: Object.fromEntries(entities.map((entity) => [entity.id, 0])),
   purchasedPowerups: [],
   earnedHistory: [],
   lastTimestamp: Date.now(),
@@ -357,12 +425,21 @@ const elements = {
   manualYield: document.querySelector("#manualYield"),
   promptCount: document.querySelector("#promptCount"),
   earnedCount: document.querySelector("#earnedCount"),
-  manualPowerupIcons: document.querySelector("#manualPowerupIcons"),
+  ownedPowerupIcons: document.querySelector("#ownedPowerupIcons"),
   promptButton: document.querySelector("#promptButton"),
   sceneList: document.querySelector("#sceneList"),
   entityList: document.querySelector("#entityList"),
   trendValue: document.querySelector("#trendValue"),
   trendBars: document.querySelector("#trendBars"),
+  entityTooltip: document.querySelector("#entityTooltip"),
+  entityHoverIcon: document.querySelector("#entityHoverIcon"),
+  entityHoverName: document.querySelector("#entityHoverName"),
+  entityHoverOwned: document.querySelector("#entityHoverOwned"),
+  entityHoverCost: document.querySelector("#entityHoverCost"),
+  entityHoverDescription: document.querySelector("#entityHoverDescription"),
+  entityHoverUnitRate: document.querySelector("#entityHoverUnitRate"),
+  entityHoverTotalRate: document.querySelector("#entityHoverTotalRate"),
+  entityHoverLifetime: document.querySelector("#entityHoverLifetime"),
   powerupList: document.querySelector("#powerupList"),
   powerupTooltip: document.querySelector("#powerupTooltip"),
   powerupHoverName: document.querySelector("#powerupHoverName"),
@@ -378,7 +455,7 @@ const entityViews = new Map();
 const sceneViews = new Map();
 const powerupViews = new Map();
 const recentManualPrompts = [];
-const manualPowerupView = { powerupSignature: "__init__" };
+const ownedPowerupView = { powerupSignature: "__init__" };
 const trendBarFills = [];
 const headerView = {
   tokens: "",
@@ -389,6 +466,8 @@ const headerView = {
 };
 let hoveredPowerupId = null;
 let hoveredPowerupAnchor = null;
+let hoveredEntityId = null;
+let hoveredEntityAnchor = null;
 let lastTrendRenderAt = 0;
 let lastUIRenderAt = 0;
 let renderDirty = true;
@@ -425,6 +504,7 @@ function cloneDefaultState() {
     totalEarned: 0,
     manualPrompts: 0,
     entities: Object.fromEntries(entities.map((entity) => [entity.id, 0])),
+    entityProductionTotals: Object.fromEntries(entities.map((entity) => [entity.id, 0])),
     purchasedPowerups: [],
     earnedHistory: [],
     lastTimestamp: Date.now(),
@@ -455,6 +535,12 @@ function normalizeSavedEntities(savedEntities = {}) {
   });
 
   return { entities: normalized, migrated: Object.keys(savedEntities).length > 0 };
+}
+
+function normalizeEntityProductionTotals(savedTotals = {}) {
+  return Object.fromEntries(
+    entities.map((entity) => [entity.id, Math.max(0, Number(savedTotals?.[entity.id]) || 0)]),
+  );
 }
 
 function normalizeEarnedHistory(savedHistory = []) {
@@ -577,6 +663,10 @@ function getTokensPerSecond() {
   return entities.reduce((total, entity) => total + getEntityRate(entity), 0);
 }
 
+function getEntityUnitRate(entity) {
+  return entity.baseRate * getGlobalMultiplier() * getPowerupMultiplier("entity", entity.id);
+}
+
 function pruneRecentManualPrompts(now = Date.now()) {
   const cutoff = now - MANUAL_RATE_WINDOW_MS;
   while (recentManualPrompts.length && recentManualPrompts[0].at < cutoff) {
@@ -597,6 +687,28 @@ function getDisplayedTokensPerSecond(now = Date.now()) {
 function addTokens(amount) {
   state.tokens += amount;
   state.totalEarned += amount;
+}
+
+function addPassiveTokens(elapsedSeconds) {
+  if (elapsedSeconds <= 0) {
+    return 0;
+  }
+
+  let totalGenerated = 0;
+  for (const entity of entities) {
+    const amount = getEntityRate(entity) * elapsedSeconds;
+    if (amount <= 0) {
+      continue;
+    }
+    state.entityProductionTotals[entity.id] += amount;
+    totalGenerated += amount;
+  }
+
+  if (totalGenerated > 0) {
+    addTokens(totalGenerated);
+  }
+
+  return totalGenerated;
 }
 
 function pruneEarnedHistory(now = Date.now()) {
@@ -839,9 +951,18 @@ function createArtSprite(entityId, className) {
   return sprite;
 }
 
-function createPowerupIcon(powerupId, className) {
-  const icon = document.createElement("div");
+function createPowerupIcon(powerupId, className, interactive = false) {
+  const icon = document.createElement(interactive ? "button" : "div");
   icon.className = `effect-icon ${className}`;
+  if (interactive) {
+    icon.type = "button";
+    icon.classList.add("effect-icon-button");
+    icon.setAttribute("aria-label", getPowerupTooltipText(getPowerupById(powerupId)).replace(/\n/g, ". "));
+    icon.addEventListener("mouseenter", () => setHoveredPowerup(powerupId, icon));
+    icon.addEventListener("focus", () => setHoveredPowerup(powerupId, icon));
+    icon.addEventListener("mouseleave", () => clearHoveredPowerup(powerupId));
+    icon.addEventListener("blur", () => clearHoveredPowerup(powerupId));
+  }
   icon.innerHTML = POWERUP_ART[powerupId] || "";
   const powerup = getPowerupById(powerupId);
   if (powerup) {
@@ -872,7 +993,7 @@ function updateIconRail(container, powerupIds, signatureHolder, showEmpty = fals
   container.hidden = false;
   const fragment = document.createDocumentFragment();
   for (const powerupId of powerupIds) {
-    fragment.append(createPowerupIcon(powerupId, "effect-icon-small"));
+    fragment.append(createPowerupIcon(powerupId, "effect-icon-small", true));
   }
   container.append(fragment);
 }
@@ -918,6 +1039,10 @@ function hidePowerupTooltip() {
   elements.powerupHoverCost.classList.remove("is-affordable");
 }
 
+function hideEntityTooltip() {
+  elements.entityTooltip.hidden = true;
+}
+
 function positionPowerupTooltip() {
   if (elements.powerupTooltip.hidden || !hoveredPowerupAnchor) {
     return;
@@ -949,12 +1074,41 @@ function positionPowerupTooltip() {
   tooltip.style.top = `${Math.round(top)}px`;
 }
 
+function positionEntityTooltip() {
+  if (elements.entityTooltip.hidden || !hoveredEntityAnchor) {
+    return;
+  }
+
+  const margin = 10;
+  const tooltip = elements.entityTooltip;
+  const anchorRect = hoveredEntityAnchor.getBoundingClientRect();
+  const tooltipWidth = tooltip.offsetWidth;
+  const tooltipHeight = tooltip.offsetHeight;
+
+  let left = anchorRect.left - tooltipWidth - 16;
+  if (left < margin) {
+    left = anchorRect.right + 16;
+  }
+  if (left + tooltipWidth > window.innerWidth - margin) {
+    left = Math.max(margin, window.innerWidth - tooltipWidth - margin);
+  }
+
+  let top = anchorRect.top + (anchorRect.height - tooltipHeight) / 2;
+  if (top < margin) {
+    top = margin;
+  }
+  if (top + tooltipHeight > window.innerHeight - margin) {
+    top = Math.max(margin, window.innerHeight - tooltipHeight - margin);
+  }
+
+  tooltip.style.left = `${Math.round(left)}px`;
+  tooltip.style.top = `${Math.round(top)}px`;
+}
+
 function syncPowerupTooltip() {
   const hoveredPowerup = hoveredPowerupId ? getPowerupById(hoveredPowerupId) : null;
   const powerup =
     hoveredPowerup &&
-    !hasPowerup(hoveredPowerup.id) &&
-    hoveredPowerup.unlocks(state) &&
     hoveredPowerupAnchor &&
     !hoveredPowerupAnchor.hidden
       ? hoveredPowerup
@@ -968,10 +1122,45 @@ function syncPowerupTooltip() {
   elements.powerupHoverName.textContent = powerup.name;
   elements.powerupHoverEffect.textContent = getPowerupProductionText(powerup);
   elements.powerupHoverDescription.textContent = powerup.description;
-  elements.powerupHoverCost.textContent = `Cost: ${formatNumber(powerup.cost)} tokens${canAfford(powerup.cost) ? " · ready to buy" : ""}`;
-  elements.powerupHoverCost.classList.toggle("is-affordable", canAfford(powerup.cost));
+  if (hasPowerup(powerup.id)) {
+    elements.powerupHoverCost.textContent = "Purchased · one-time boost active";
+    elements.powerupHoverCost.classList.add("is-affordable");
+  } else {
+    elements.powerupHoverCost.textContent = `Cost: ${formatNumber(powerup.cost)} tokens${canAfford(powerup.cost) ? " · ready to buy" : ""}`;
+    elements.powerupHoverCost.classList.toggle("is-affordable", canAfford(powerup.cost));
+  }
   elements.powerupTooltip.hidden = false;
   positionPowerupTooltip();
+}
+
+function syncEntityTooltip() {
+  const entity = hoveredEntityId ? getEntityById(hoveredEntityId) : null;
+  const anchor = hoveredEntityAnchor;
+  if (!entity || !anchor || anchor.hidden) {
+    hideEntityTooltip();
+    return;
+  }
+
+  const owned = state.entities[entity.id];
+  const cost = getEntityCost(entity);
+  const unitRate = getEntityUnitRate(entity);
+  const totalRate = getEntityRate(entity);
+  const passiveTotal = getTokensPerSecond();
+  const share = passiveTotal > 0 ? (totalRate / passiveTotal) * 100 : 0;
+  const lifetime = state.entityProductionTotals[entity.id] || 0;
+
+  elements.entityHoverIcon.innerHTML = ENTITY_ART[entity.id] || "";
+  elements.entityHoverName.textContent = entity.name;
+  elements.entityHoverOwned.textContent = `owned: ${formatNumber(owned)}`;
+  elements.entityHoverCost.textContent = formatNumber(cost);
+  elements.entityHoverDescription.textContent = entity.description;
+  elements.entityHoverUnitRate.textContent = `Each ${entity.name} produces ${formatNumber(unitRate)}/s`;
+  elements.entityHoverTotalRate.textContent = owned
+    ? `${formatNumber(owned)} producing ${formatNumber(totalRate)}/s (${share.toFixed(0)}% of passive TPS)`
+    : `No ${entity.name} online yet`;
+  elements.entityHoverLifetime.textContent = `${formatNumber(lifetime)} tokens produced so far`;
+  elements.entityTooltip.hidden = false;
+  positionEntityTooltip();
 }
 
 function setHoveredPowerup(powerupId, anchor) {
@@ -987,6 +1176,21 @@ function clearHoveredPowerup(powerupId) {
   hoveredPowerupId = null;
   hoveredPowerupAnchor = null;
   hidePowerupTooltip();
+}
+
+function setHoveredEntity(entityId, anchor) {
+  hoveredEntityId = entityId;
+  hoveredEntityAnchor = anchor;
+  syncEntityTooltip();
+}
+
+function clearHoveredEntity(entityId) {
+  if (hoveredEntityId !== entityId) {
+    return;
+  }
+  hoveredEntityId = null;
+  hoveredEntityAnchor = null;
+  hideEntityTooltip();
 }
 
 function runManualPrompt() {
@@ -1046,54 +1250,51 @@ function initializeEntities() {
     const card = document.createElement("article");
     card.className = "entity-card";
 
-    const heading = document.createElement("div");
-    heading.className = "entity-heading";
+    const thumb = document.createElement("div");
+    thumb.className = "entity-thumb";
+    thumb.append(createArtSprite(entity.id, "card-sprite"));
 
-    const headingMain = document.createElement("div");
-    headingMain.className = "entity-heading-main";
+    const copy = document.createElement("div");
+    copy.className = "entity-copy";
+
+    const titleRow = document.createElement("div");
+    titleRow.className = "entity-title-row";
 
     const title = document.createElement("h3");
     title.textContent = entity.name;
-    headingMain.append(createArtSprite(entity.id, "card-sprite"), title);
 
-    const boosts = document.createElement("div");
-    boosts.className = "effect-icons";
-    boosts.hidden = true;
-    heading.append(headingMain, boosts);
+    const ownedLabel = document.createElement("span");
+    ownedLabel.className = "entity-owned";
+    ownedLabel.textContent = formatNumber(owned);
+    titleRow.append(title, ownedLabel);
 
     const description = document.createElement("p");
+    description.className = "entity-description";
     description.textContent = entity.description;
 
     const meta = document.createElement("div");
     meta.className = "entity-meta";
-    const ownedLabel = document.createElement("span");
-    ownedLabel.textContent = `Owned: ${formatNumber(owned)}`;
     const rateLabel = document.createElement("span");
     rateLabel.textContent = `${formatNumber(rate)}/s`;
-    meta.append(ownedLabel, rateLabel);
-
-    const footer = document.createElement("div");
-    footer.className = "entity-footer";
-
     const costLabel = document.createElement("span");
+    meta.append(rateLabel, costLabel);
 
     const button = document.createElement("button");
-    button.className = "buy-button";
+    button.className = "buy-button entity-buy";
     button.type = "button";
     button.textContent = "Buy";
     button.addEventListener("click", () => buyEntity(entity.id));
 
-    footer.append(costLabel, button);
-    card.append(heading, description, meta, footer);
+    copy.append(titleRow, description, meta);
+    card.append(thumb, copy, button);
     elements.entityList.append(card);
 
     entityViews.set(entity.id, {
+      card,
       ownedLabel,
       rateLabel,
       costLabel,
       button,
-      boosts,
-      powerupSignature: "",
       ownedText: ownedLabel.textContent,
       rateText: rateLabel.textContent,
       costText: "",
@@ -1120,11 +1321,7 @@ function initializeScenes() {
     const label = document.createElement("span");
     label.textContent = entity.name;
     titleMain.append(createArtSprite(entity.id, "row-sprite"), label);
-
-    const boosts = document.createElement("div");
-    boosts.className = "effect-icons";
-    boosts.hidden = true;
-    title.append(titleMain, boosts);
+    title.append(titleMain);
 
     const count = document.createElement("div");
     count.className = "scene-row-count";
@@ -1143,9 +1340,7 @@ function initializeScenes() {
     sceneViews.set(entity.id, {
       count,
       lane,
-      boosts,
       renderedOwned: -1,
-      powerupSignature: "",
     });
   }
 }
@@ -1213,10 +1408,9 @@ function renderEntities() {
     const cost = getEntityCost(entity);
     const owned = state.entities[entity.id];
     const rate = getEntityRate(entity);
-    const applicablePowerups = getApplicablePowerupIdsForEntity(entity.id);
-    const ownedText = `Owned: ${formatNumber(owned)}`;
+    const ownedText = formatNumber(owned);
     const rateText = `${formatNumber(rate)}/s`;
-    const costText = `Cost: ${formatNumber(cost)}`;
+    const costText = `Next ${formatNumber(cost)}`;
     const canBuy = canAfford(cost);
 
     if (view.ownedText !== ownedText) {
@@ -1233,9 +1427,10 @@ function renderEntities() {
     }
     if (view.canAfford !== canBuy) {
       view.canAfford = canBuy;
+      view.card.classList.toggle("is-affordable", canBuy);
+      view.card.classList.toggle("is-blocked", !canBuy);
       view.button.disabled = !canBuy;
     }
-    updateIconRail(view.boosts, applicablePowerups, view, false);
   }
 }
 
@@ -1247,8 +1442,6 @@ function renderScenes() {
     }
 
     const owned = state.entities[entity.id];
-    const applicablePowerups = getApplicablePowerupIdsForEntity(entity.id);
-    updateIconRail(view.boosts, applicablePowerups, view, false);
 
     if (view.renderedOwned === owned) {
       continue;
@@ -1274,9 +1467,9 @@ function renderScenes() {
   }
 }
 
-function renderManualPowerups() {
-  const applicablePowerups = getApplicablePowerupIdsForManual();
-  updateIconRail(elements.manualPowerupIcons, applicablePowerups, manualPowerupView, true);
+function renderOwnedPowerups() {
+  const purchasedPowerupIds = getPurchasedPowerups().map((powerup) => powerup.id);
+  updateIconRail(elements.ownedPowerupIcons, purchasedPowerupIds, ownedPowerupView, true);
 }
 
 function renderPowerups() {
@@ -1291,6 +1484,9 @@ function renderPowerups() {
     if (view.visible !== visible) {
       view.visible = visible;
       view.button.hidden = !visible;
+      if (!visible) {
+        view.affordable = null;
+      }
     }
     if (!visible) {
       continue;
@@ -1313,7 +1509,7 @@ function renderPowerups() {
 function render() {
   renderHeader();
   renderTokenTrend();
-  renderManualPowerups();
+  renderOwnedPowerups();
   renderEntities();
   renderScenes();
   renderPowerups();
@@ -1342,6 +1538,7 @@ function loadGame() {
     Object.assign(state, defaults, parsed);
     const normalized = normalizeSavedEntities(parsed.entities || {});
     state.entities = normalized.entities;
+    state.entityProductionTotals = normalizeEntityProductionTotals(parsed.entityProductionTotals || {});
     state.purchasedPowerups = Array.isArray(parsed.purchasedPowerups)
       ? [...new Set(parsed.purchasedPowerups.filter((id) => !!getPowerupById(id)))]
       : [];
@@ -1354,9 +1551,8 @@ function loadGame() {
       Math.max(0, (now - (Number(parsed.lastTimestamp) || now)) / 1000),
     );
     if (elapsedSeconds > 1) {
-      const offlineGain = getTokensPerSecond() * elapsedSeconds;
+      const offlineGain = addPassiveTokens(elapsedSeconds);
       if (offlineGain > 0) {
-        addTokens(offlineGain);
         loadMessage = `Recovered ${formatNumber(offlineGain)} tokens while you were away.`;
       }
     }
@@ -1380,13 +1576,16 @@ function resetGame() {
   const fresh = cloneDefaultState();
   Object.assign(state, fresh);
   recentManualPrompts.length = 0;
-  manualPowerupView.powerupSignature = "__init__";
+  ownedPowerupView.powerupSignature = "__init__";
   hoveredPowerupId = null;
   hoveredPowerupAnchor = null;
+  hoveredEntityId = null;
+  hoveredEntityAnchor = null;
   lastTrendRenderAt = 0;
   lastUIRenderAt = 0;
   recordEarnedSample(Date.now(), true);
   hidePowerupTooltip();
+  hideEntityTooltip();
   localStorage.removeItem(STORAGE_KEY);
   elements.saveStatus.textContent = "Save wiped. Back to manual prompting.";
   render();

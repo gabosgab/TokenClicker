@@ -58,10 +58,6 @@
             <p>Manual prompt yield: <strong id="manualYield">1</strong></p>
             <p>Total prompts: <strong id="promptCount">0</strong></p>
             <p>Total earned: <strong id="earnedCount">0</strong></p>
-            <div class="manual-boosts">
-              <span class="manual-boost-label">Prompt boosts</span>
-              <div id="manualPowerupIcons" class="effect-icons"></div>
-            </div>
           </div>
 
           <div class="footer-actions">
@@ -73,6 +69,14 @@
           <p id="saveStatus" class="save-status">
             Local save active. Progress is stored in this browser.
           </p>
+
+          <section class="owned-powerups">
+            <div class="owned-powerups-header">
+              <span class="manual-boost-label">Owned boosts</span>
+              <span class="owned-powerups-note">Purchased one-time powerups</span>
+            </div>
+            <div id="ownedPowerupIcons" class="effect-icons owned-powerup-icons"></div>
+          </section>
         </section>
 
         <section class="panel scene-panel">
@@ -90,18 +94,18 @@
         <aside class="panel shop-panel">
           <section class="powerup-dock">
             <div class="powerup-dock-header">
-              <p class="eyebrow">One-time boosts</p>
+              <p class="eyebrow">Upgrades for sale</p>
               <span class="powerup-dock-note">Hover for details</span>
             </div>
             <div id="powerupList" class="powerup-list"></div>
           </section>
 
           <div class="shop-header">
-            <p class="eyebrow">Entity shop</p>
-            <h2>Buy Producers</h2>
+            <p class="eyebrow">Store</p>
+            <h2>Producers</h2>
             <p class="shop-copy">
-              Climb the compute ladder from Mac Studios through GB200 NVL72,
-              then leave the roadmap behind entirely.
+              Compact store rows, with the next producer cost and current
+              output always visible.
             </p>
           </div>
           <div id="entityList" class="entity-list"></div>
@@ -114,6 +118,25 @@
       <p id="powerupHoverEffect" class="powerup-hover-effect"></p>
       <p id="powerupHoverDescription" class="powerup-hover-description"></p>
       <p id="powerupHoverCost" class="powerup-hover-cost"></p>
+    </div>
+
+    <div id="entityTooltip" class="entity-tooltip" hidden>
+      <div class="entity-tooltip-head">
+        <div class="entity-tooltip-title-wrap">
+          <div id="entityHoverIcon" class="entity-tooltip-icon"></div>
+          <div>
+            <p id="entityHoverName" class="entity-tooltip-name"></p>
+            <p id="entityHoverOwned" class="entity-tooltip-owned"></p>
+          </div>
+        </div>
+        <p id="entityHoverCost" class="entity-tooltip-cost"></p>
+      </div>
+      <p id="entityHoverDescription" class="entity-tooltip-description"></p>
+      <div class="entity-tooltip-stats">
+        <p id="entityHoverUnitRate" class="entity-tooltip-stat"></p>
+        <p id="entityHoverTotalRate" class="entity-tooltip-stat"></p>
+        <p id="entityHoverLifetime" class="entity-tooltip-stat"></p>
+      </div>
     </div>
 
     <script src="./game.js"></script>
