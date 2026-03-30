@@ -622,7 +622,7 @@ body {
 
 .entity-card {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr) auto;
+  grid-template-columns: 56px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 10px;
   min-height: 72px;
@@ -683,7 +683,6 @@ body {
 .entity-title-row {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
   gap: 10px;
 }
 

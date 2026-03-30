@@ -1600,7 +1600,7 @@ function initializeEntities() {
     const ownedLabel = document.createElement("span");
     ownedLabel.className = "entity-owned";
     ownedLabel.textContent = formatNumber(owned);
-    titleRow.append(title, ownedLabel);
+    titleRow.append(title);
 
     const subline = document.createElement("p");
     subline.className = "entity-subline";
@@ -1615,7 +1615,7 @@ function initializeEntities() {
     button.addEventListener("click", () => buyEntity(entity.id));
 
     copy.append(titleRow, subline);
-    card.append(thumb, copy, button);
+    card.append(thumb, copy, ownedLabel, button);
     elements.entityList.append(card);
 
     entityViews.set(entity.id, {
