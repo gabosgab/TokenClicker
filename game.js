@@ -244,6 +244,16 @@ const POWERUP_ART = {
       <circle cx="18.5" cy="5.5" r="2" fill="#ffd56e"/>
     </svg>
   `,
+  "jensens-jacket": `
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M5 9l2-4h2l1 3h4l1-3h2l2 4v11H5z" fill="#1a1a1a" stroke="#3a3a3a" stroke-width="1.2"/>
+      <path d="M9 5l-1 3 2 2 2-2-1-3" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="1"/>
+      <path d="M5 9l3 3M19 9l-3 3" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M10 10l2 2 2-2" stroke="#ffd56e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="7" cy="14" r="0.8" fill="#ffd56e"/>
+      <circle cx="7" cy="17" r="0.8" fill="#ffd56e"/>
+    </svg>
+  `,
   "graceful-memory": `
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="8" cy="12" r="4" fill="#8bf0df" stroke="#16323a" stroke-width="1.5"/>
@@ -370,6 +380,14 @@ const powerups = [
     cost: 13000,
     effect: { type: "entity", target: "h100", multiplier: 2 },
     unlocks: (state) => state.entities.h100 >= 5,
+  },
+  {
+    id: "jensens-jacket",
+    name: "Jensen's New Jacket",
+    description: "It looks so good that the H100s simply run faster out of respect.",
+    cost: 65000,
+    effect: { type: "entity", target: "h100", multiplier: 2 },
+    unlocks: (state) => state.purchasedPowerups.includes("hopper-compiler") && state.entities.h100 >= 10,
   },
   {
     id: "graceful-memory",
@@ -1232,9 +1250,11 @@ function createPowerupIcon(powerupId, className, interactive = false) {
     icon.addEventListener("blur", () => clearHoveredPowerup(powerupId));
   }
   icon.innerHTML = POWERUP_ART[powerupId] || "";
-  const powerup = getPowerupById(powerupId);
-  if (powerup) {
-    icon.title = `${powerup.name}: ${getPowerupEffectLabel(powerup)}`;
+  if (!interactive) {
+    const powerup = getPowerupById(powerupId);
+    if (powerup) {
+      icon.title = `${powerup.name}: ${getPowerupEffectLabel(powerup)}`;
+    }
   }
   return icon;
 }
@@ -1461,6 +1481,26 @@ function clearHoveredEntity(entityId) {
   hideEntityTooltip();
 }
 
+function spawnPromptFloatLabel(gain) {
+  const stage = elements.promptButton.closest(".prompt-stage");
+  if (!stage) return;
+  const stageRect = stage.getBoundingClientRect();
+  const btnRect = elements.promptButton.getBoundingClientRect();
+
+  const label = document.createElement("span");
+  label.className = "prompt-float-label";
+  label.textContent = `+${formatNumber(gain)}`;
+
+  const x = btnRect.left - stageRect.left + btnRect.width / 2;
+  const y = btnRect.top - stageRect.top;
+  label.style.left = `${x}px`;
+  label.style.top = `${y}px`;
+  label.style.transform = "translateX(-50%)";
+
+  stage.append(label);
+  label.addEventListener("animationend", () => label.remove(), { once: true });
+}
+
 function runManualPrompt() {
   const now = Date.now();
   const gain = getManualYield();
@@ -1468,6 +1508,7 @@ function runManualPrompt() {
   addTokens(gain);
   recentManualPrompts.push({ at: now, amount: gain });
   pruneRecentManualPrompts(now);
+  spawnPromptFloatLabel(gain);
   elements.promptButton.classList.add("is-pressed");
   window.setTimeout(() => {
     elements.promptButton.classList.remove("is-pressed");

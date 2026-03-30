@@ -405,6 +405,25 @@ body {
     0 14px 24px rgba(255, 120, 70, 0.18);
 }
 
+@keyframes prompt-float {
+  0%   { opacity: 1;   transform: translateY(0)      scale(1);    }
+  20%  { opacity: 1;   transform: translateY(-10px)  scale(1.08); }
+  100% { opacity: 0;   transform: translateY(-52px)  scale(0.9);  }
+}
+
+.prompt-float-label {
+  position: absolute;
+  pointer-events: none;
+  font-family: Georgia, "Palatino Linotype", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 12px rgba(255, 213, 110, 0.7);
+  white-space: nowrap;
+  z-index: 10;
+  animation: prompt-float 0.9s ease-out forwards;
+}
+
 .button-title {
   font-family: Georgia, "Palatino Linotype", serif;
   font-size: 2.15rem;
