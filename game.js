@@ -481,6 +481,24 @@ const sceneViews = new Map();
 const powerupViews = new Map();
 const recentManualPrompts = [];
 const ownedPowerupView = { powerupSignature: "__init__" };
+
+const sounds = {
+  tick: new Audio("snd/tick.mp3"),
+  upgrade: new Audio("snd/upgrade.mp3"),
+  buy: [
+    new Audio("snd/buy1.mp3"),
+    new Audio("snd/buy2.mp3"),
+    new Audio("snd/buy3.mp3"),
+  ],
+};
+
+function playSound(sound) {
+  const audio = Array.isArray(sound)
+    ? sound[Math.floor(Math.random() * sound.length)]
+    : sound;
+  audio.currentTime = 0;
+  audio.play().catch(() => {});
+}
 const trendBarFills = [];
 const headerView = {
   tokens: "",
@@ -1296,6 +1314,7 @@ function buyEntity(entityId) {
     return;
   }
   state.entities[entity.id] += 1;
+  playSound(sounds.buy);
   elements.saveStatus.textContent = `Purchased ${entity.name}.`;
   requestUIRender();
 }
@@ -1313,6 +1332,7 @@ function buyPowerup(powerupId) {
     return;
   }
   state.purchasedPowerups.push(powerup.id);
+  playSound(sounds.upgrade);
   if (hoveredPowerupId === powerup.id) {
     hoveredPowerupId = null;
     hoveredPowerupAnchor = null;
@@ -1509,6 +1529,7 @@ function runManualPrompt() {
   recentManualPrompts.push({ at: now, amount: gain });
   pruneRecentManualPrompts(now);
   spawnPromptFloatLabel(gain);
+  playSound(sounds.tick);
   elements.promptButton.classList.add("is-pressed");
   window.setTimeout(() => {
     elements.promptButton.classList.remove("is-pressed");
