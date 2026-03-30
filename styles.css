@@ -280,6 +280,15 @@ body {
   text-shadow:
     0 2px 0 rgba(0, 0, 0, 0.38),
     0 6px 14px rgba(0, 0, 0, 0.32);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.token-unit {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  opacity: 0.88;
 }
 
 .main-panel-rate {

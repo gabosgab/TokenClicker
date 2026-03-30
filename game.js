@@ -566,6 +566,23 @@ function formatFullNumber(value) {
   });
 }
 
+const LONG_UNIT_NAMES = ["million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion"];
+
+function formatTokenDisplay(value) {
+  const abs = Math.abs(value);
+  if (abs < 1_000_000) {
+    return { main: formatFullNumber(value), unit: null };
+  }
+  let unitIndex = 0;
+  let scaled = abs / 1_000_000;
+  while (scaled >= 1000 && unitIndex < LONG_UNIT_NAMES.length - 1) {
+    scaled /= 1000;
+    unitIndex++;
+  }
+  const sign = value < 0 ? "-" : "";
+  return { main: `${sign}${scaled.toFixed(3)}`, unit: `${LONG_UNIT_NAMES[unitIndex]} tokens` };
+}
+
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
@@ -1956,10 +1973,15 @@ function tick(now) {
     recordEarnedSample(wallClockNow);
   }
 
-  const tokenText = formatFullNumber(state.tokens);
+  const { main: tokenMain, unit: tokenUnit } = formatTokenDisplay(state.tokens);
+  const tokenText = tokenUnit ? `${tokenMain}|${tokenUnit}` : tokenMain;
   if (headerView.tokens !== tokenText) {
     headerView.tokens = tokenText;
-    elements.tokenCount.textContent = tokenText;
+    if (tokenUnit) {
+      elements.tokenCount.innerHTML = `<span class="token-main">${tokenMain}</span><span class="token-unit">${tokenUnit}</span>`;
+    } else {
+      elements.tokenCount.textContent = tokenMain;
+    }
   }
 
   if (renderDirty || now - lastUIRenderAt >= UI_RENDER_MS) {
