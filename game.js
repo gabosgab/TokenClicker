@@ -1529,10 +1529,10 @@ function spawnPromptFloatLabel(gain) {
   label.textContent = `+${formatNumber(gain)}`;
 
   const x = btnRect.left - stageRect.left + btnRect.width / 2;
-  const y = btnRect.top - stageRect.top;
+  const y = btnRect.top - stageRect.top + btnRect.height / 2;
   label.style.left = `${x}px`;
   label.style.top = `${y}px`;
-  label.style.transform = "translateX(-50%)";
+  label.style.transform = "translate(-50%, -50%)";
 
   stage.append(label);
   label.addEventListener("animationend", () => label.remove(), { once: true });
