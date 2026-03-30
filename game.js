@@ -1245,10 +1245,14 @@ function initializeEntities() {
 
   for (const entity of entities) {
     const owned = state.entities[entity.id];
-    const rate = getEntityRate(entity);
 
     const card = document.createElement("article");
     card.className = "entity-card";
+    card.tabIndex = 0;
+    card.addEventListener("mouseenter", () => setHoveredEntity(entity.id, card));
+    card.addEventListener("focus", () => setHoveredEntity(entity.id, card));
+    card.addEventListener("mouseleave", () => clearHoveredEntity(entity.id));
+    card.addEventListener("blur", () => clearHoveredEntity(entity.id));
 
     const thumb = document.createElement("div");
     thumb.className = "entity-thumb";
@@ -1268,16 +1272,11 @@ function initializeEntities() {
     ownedLabel.textContent = formatNumber(owned);
     titleRow.append(title, ownedLabel);
 
-    const description = document.createElement("p");
-    description.className = "entity-description";
-    description.textContent = entity.description;
-
-    const meta = document.createElement("div");
-    meta.className = "entity-meta";
-    const rateLabel = document.createElement("span");
-    rateLabel.textContent = `${formatNumber(rate)}/s`;
+    const subline = document.createElement("p");
+    subline.className = "entity-subline";
     const costLabel = document.createElement("span");
-    meta.append(rateLabel, costLabel);
+    costLabel.className = "entity-cost";
+    subline.append(costLabel);
 
     const button = document.createElement("button");
     button.className = "buy-button entity-buy";
@@ -1285,18 +1284,16 @@ function initializeEntities() {
     button.textContent = "Buy";
     button.addEventListener("click", () => buyEntity(entity.id));
 
-    copy.append(titleRow, description, meta);
+    copy.append(titleRow, subline);
     card.append(thumb, copy, button);
     elements.entityList.append(card);
 
     entityViews.set(entity.id, {
       card,
       ownedLabel,
-      rateLabel,
       costLabel,
       button,
       ownedText: ownedLabel.textContent,
-      rateText: rateLabel.textContent,
       costText: "",
       canAfford: null,
     });
@@ -1407,19 +1404,13 @@ function renderEntities() {
 
     const cost = getEntityCost(entity);
     const owned = state.entities[entity.id];
-    const rate = getEntityRate(entity);
     const ownedText = formatNumber(owned);
-    const rateText = `${formatNumber(rate)}/s`;
     const costText = `Next ${formatNumber(cost)}`;
     const canBuy = canAfford(cost);
 
     if (view.ownedText !== ownedText) {
       view.ownedText = ownedText;
       view.ownedLabel.textContent = ownedText;
-    }
-    if (view.rateText !== rateText) {
-      view.rateText = rateText;
-      view.rateLabel.textContent = rateText;
     }
     if (view.costText !== costText) {
       view.costText = costText;
@@ -1432,6 +1423,7 @@ function renderEntities() {
       view.button.disabled = !canBuy;
     }
   }
+  syncEntityTooltip();
 }
 
 function renderScenes() {
@@ -1612,15 +1604,15 @@ function bindEvents() {
     saveGame("Progress saved.");
   });
   window.addEventListener("resize", syncPowerupTooltip);
+  window.addEventListener("resize", syncEntityTooltip);
   window.addEventListener("scroll", syncPowerupTooltip, { passive: true });
+  window.addEventListener("scroll", syncEntityTooltip, { passive: true });
 }
 
 function tick(now) {
   const elapsedSeconds = Math.min(1, Math.max(0, (now - state.lastTimestamp) / 1000));
   state.lastTimestamp = now;
-  if (elapsedSeconds > 0) {
-    addTokens(getTokensPerSecond() * elapsedSeconds);
-  }
+  addPassiveTokens(elapsedSeconds);
   const wallClockNow = Date.now();
   const lastSample = state.earnedHistory[state.earnedHistory.length - 1];
   if (!lastSample || wallClockNow - lastSample.at >= TOKEN_TREND_SAMPLE_MS) {
