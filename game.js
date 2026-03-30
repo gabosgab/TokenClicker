@@ -1540,17 +1540,12 @@ function runManualPrompt() {
 function renderHeader() {
   const now = Date.now();
   const nextHeader = {
-    tokens: formatFullNumber(state.tokens),
     tps: `${formatNumber(getDisplayedTokensPerSecond(now)).replace(/\.\d+/, "")}/s`,
     manualYield: formatNumber(getManualYield()),
     prompts: formatNumber(state.manualPrompts),
     earned: formatNumber(state.totalEarned),
   };
 
-  if (headerView.tokens !== nextHeader.tokens) {
-    headerView.tokens = nextHeader.tokens;
-    elements.tokenCount.textContent = nextHeader.tokens;
-  }
   if (headerView.tps !== nextHeader.tps) {
     headerView.tps = nextHeader.tps;
     elements.tpsCount.textContent = nextHeader.tps;
@@ -1959,6 +1954,12 @@ function tick(now) {
   const lastSample = state.earnedHistory[state.earnedHistory.length - 1];
   if (!lastSample || wallClockNow - lastSample.at >= TOKEN_TREND_SAMPLE_MS) {
     recordEarnedSample(wallClockNow);
+  }
+
+  const tokenText = formatFullNumber(state.tokens);
+  if (headerView.tokens !== tokenText) {
+    headerView.tokens = tokenText;
+    elements.tokenCount.textContent = tokenText;
   }
 
   if (renderDirty || now - lastUIRenderAt >= UI_RENDER_MS) {
