@@ -1923,6 +1923,12 @@ function bindEvents() {
   elements.promptButton.addEventListener("click", runManualPrompt);
   elements.saveButton.addEventListener("click", () => saveGame());
   elements.resetButton.addEventListener("click", resetGame);
+
+  if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:") {
+    document.querySelector("#debugActions").hidden = false;
+    document.querySelector("#debug1M").addEventListener("click", () => { addTokens(1_000_000); requestUIRender(); });
+    document.querySelector("#debug100M").addEventListener("click", () => { addTokens(100_000_000); requestUIRender(); });
+  }
   window.addEventListener("keydown", (event) => {
     if (event.key !== "Enter" || event.repeat) {
       return;
