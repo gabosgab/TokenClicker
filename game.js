@@ -1538,6 +1538,45 @@ function spawnPromptFloatLabel(gain) {
   label.addEventListener("animationend", () => label.remove(), { once: true });
 }
 
+const BURST_SYMBOLS = ["▲", "◆", "○", "◻", "#", "{}", "<>", "01", "∑", "λ", "⬡", "✦", "⊕", "//", "AI"];
+const BURST_COLORS = ["#60d0ff", "#a080ff", "#ff80d0", "#80ffcc", "#ffd060", "#ff6080", "#80c0ff", "#c0ff80"];
+
+function spawnClickBurst() {
+  const stage = elements.promptButton.closest(".prompt-stage");
+  if (!stage) return;
+  const stageRect = stage.getBoundingClientRect();
+  const btnRect = elements.promptButton.getBoundingClientRect();
+  const cx = btnRect.left - stageRect.left + btnRect.width / 2;
+  const cy = btnRect.top - stageRect.top + btnRect.height / 2;
+
+  const count = 10 + Math.floor(Math.random() * 6);
+  for (let i = 0; i < count; i++) {
+    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+    const dist = 55 + Math.random() * 45;
+    const bx = Math.cos(angle) * dist;
+    const by = Math.sin(angle) * dist;
+    const symbol = BURST_SYMBOLS[Math.floor(Math.random() * BURST_SYMBOLS.length)];
+    const color = BURST_COLORS[Math.floor(Math.random() * BURST_COLORS.length)];
+    const delay = Math.random() * 80;
+    const size = 0.8 + Math.random() * 0.7;
+
+    const el = document.createElement("span");
+    el.className = "chip-burst";
+    el.textContent = symbol;
+    el.style.left = `${cx}px`;
+    el.style.top = `${cy}px`;
+    el.style.color = color;
+    el.style.fontSize = `${size}rem`;
+    el.style.textShadow = `0 0 8px ${color}`;
+    el.style.setProperty("--bx", `${bx}px`);
+    el.style.setProperty("--by", `${by}px`);
+    el.style.animationDelay = `${delay}ms`;
+    el.style.animationDuration = `${0.6 + Math.random() * 0.3}s`;
+    stage.append(el);
+    el.addEventListener("animationend", () => el.remove(), { once: true });
+  }
+}
+
 function runManualPrompt() {
   const now = Date.now();
   const gain = getManualYield();
@@ -1546,6 +1585,7 @@ function runManualPrompt() {
   recentManualPrompts.push({ at: now, amount: gain });
   pruneRecentManualPrompts(now);
   spawnPromptFloatLabel(gain);
+  spawnClickBurst();
   playSound(sounds.tick);
   elements.promptButton.classList.add("is-pressed");
   window.setTimeout(() => {
