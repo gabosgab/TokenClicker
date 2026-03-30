@@ -1541,7 +1541,7 @@ function renderHeader() {
   const now = Date.now();
   const nextHeader = {
     tokens: formatFullNumber(state.tokens),
-    tps: `${formatNumber(getDisplayedTokensPerSecond(now))}/s`,
+    tps: `${formatNumber(Math.floor(getDisplayedTokensPerSecond(now)))}/s`,
     manualYield: formatNumber(getManualYield()),
     prompts: formatNumber(state.manualPrompts),
     earned: formatNumber(state.totalEarned),
