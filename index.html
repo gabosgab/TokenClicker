@@ -8,34 +8,6 @@
   </head>
   <body>
     <div class="shell">
-      <header class="masthead">
-        <div class="masthead-copy">
-          <p class="eyebrow">Simple producer parody</p>
-          <h1>Token Clicker</h1>
-          <p class="lede">
-            Press Enter to burn tokens by hand, then scale from a desk full of
-            Mac Studios to a Dyson swarm made out of Blackwells.
-          </p>
-        </div>
-
-        <section class="trend-card" aria-label="Token production over the last 5 minutes">
-          <div class="trend-card-header">
-            <div>
-              <p class="eyebrow">5-minute production</p>
-              <strong id="trendValue" class="trend-value">0</strong>
-            </div>
-            <span class="trend-caption">Tokens produced</span>
-          </div>
-
-          <div id="trendBars" class="trend-bars" aria-hidden="true"></div>
-
-          <div class="trend-scale">
-            <span>5m ago</span>
-            <span>now</span>
-          </div>
-        </section>
-      </header>
-
       <main class="layout">
         <section class="panel main-panel">
           <div class="main-panel-header">
@@ -56,6 +28,23 @@
               <span class="button-subtitle">Press Enter or click</span>
             </button>
           </div>
+
+          <section class="trend-card" aria-label="Token production over the last 5 minutes">
+            <div class="trend-card-header">
+              <div>
+                <p class="eyebrow">5-minute production</p>
+                <strong id="trendValue" class="trend-value">0</strong>
+              </div>
+              <span class="trend-caption">Tokens produced</span>
+            </div>
+
+            <div id="trendBars" class="trend-bars" aria-hidden="true"></div>
+
+            <div class="trend-scale">
+              <span>5m ago</span>
+              <span>now</span>
+            </div>
+          </section>
 
           <div class="main-panel-footer">
             <div class="simple-copy">
