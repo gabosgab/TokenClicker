@@ -311,9 +311,9 @@ body {
   display: grid;
   justify-items: center;
   align-items: start;
-  min-height: 560px;
+  min-height: 0;
   margin: -8px -6px 0;
-  padding: 26px 0 24px;
+  padding: 26px 0 16px;
   border-radius: 0;
   overflow: hidden;
   background:
@@ -378,20 +378,6 @@ body {
   transition: transform 110ms ease, box-shadow 110ms ease;
 }
 
-.prompt-button::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -56px;
-  transform: translateX(-50%);
-  width: 118%;
-  height: 92px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 36%, rgba(255, 249, 230, 0.96), rgba(255, 223, 155, 0.84) 44%, rgba(196, 140, 73, 0.16) 70%, transparent 74%);
-  z-index: -1;
-  opacity: 0.96;
-}
 
 .prompt-button:active,
 .prompt-button.is-pressed {
