@@ -208,33 +208,95 @@ body {
 .main-panel {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  position: relative;
+  min-height: 1120px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18px 18px, rgba(68, 39, 16, 0.8) 0 22px, transparent 23px) 0 0 / 84px 84px,
+    radial-gradient(circle at 56px 58px, rgba(97, 62, 35, 0.82) 0 26px, transparent 27px) 0 0 / 116px 116px,
+    radial-gradient(circle at 38px 86px, rgba(255, 210, 144, 0.22) 0 6px, transparent 7px) 0 0 / 116px 116px,
+    radial-gradient(circle at 76% 28%, rgba(255, 255, 255, 0.15), transparent 8%),
+    radial-gradient(circle at 22% 42%, rgba(255, 255, 255, 0.13), transparent 11%),
+    linear-gradient(180deg, rgba(25, 15, 11, 0.95), rgba(14, 9, 8, 0.96));
+  border: 1px solid rgba(255, 230, 194, 0.1);
 }
 
-.hero-stats {
+.main-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(165, 219, 255, 0.18), transparent 16%),
+    radial-gradient(circle at 50% 52%, rgba(255, 255, 255, 0.14), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 18%, transparent 84%, rgba(0, 0, 0, 0.14));
+  mix-blend-mode: screen;
+  opacity: 0.84;
+}
+
+.main-panel-header,
+.prompt-stage,
+.main-panel-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.main-panel-header {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  justify-items: center;
+  gap: 12px;
+  padding-top: 18px;
 }
 
-.stat-block {
-  padding: 11px 14px;
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
+.main-panel-title-chip {
+  padding: 8px 26px 9px;
+  border-radius: 18px;
+  background: rgba(20, 25, 37, 0.44);
+  color: #f7ead3;
+  font-family: Georgia, "Palatino Linotype", serif;
+  font-size: 1.16rem;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.42);
 }
 
-.stat-label {
-  display: block;
-  color: var(--muted);
-  font-size: 0.74rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 5px;
+.main-panel-counts {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  width: calc(100% + 36px);
+  margin-left: -18px;
+  margin-right: -18px;
+  padding: 18px 20px 14px;
+  background: linear-gradient(180deg, rgba(31, 27, 29, 0.42), rgba(17, 14, 15, 0.36));
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  text-align: center;
 }
 
-.stat-block strong {
-  font-size: clamp(1.25rem, 3vw, 1.9rem);
+.main-panel-counts > strong {
+  color: #fff7eb;
+  font-family: Georgia, "Palatino Linotype", serif;
+  font-size: clamp(2.55rem, 5vw, 3.8rem);
+  line-height: 0.92;
+  text-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.38),
+    0 6px 14px rgba(0, 0, 0, 0.32);
+}
+
+.main-panel-rate {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: #fff0d6;
+  font-family: Georgia, "Palatino Linotype", serif;
+  font-size: 0.95rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.main-panel-rate strong {
+  font-size: 1.38rem;
 }
 
 .prompt-button,
@@ -250,17 +312,17 @@ body {
 .prompt-stage {
   position: relative;
   display: grid;
-  place-items: center;
-  min-height: 430px;
-  padding: 14px 0;
-  border-radius: 28px;
+  justify-items: center;
+  align-items: start;
+  min-height: 560px;
+  margin: -8px -6px 0;
+  padding: 26px 0 24px;
+  border-radius: 0;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 50%, rgba(72, 132, 255, 0.08), transparent 38%),
-    radial-gradient(circle at 18% 20%, rgba(91, 233, 255, 0.12), transparent 26%),
-    radial-gradient(circle at 78% 16%, rgba(255, 149, 230, 0.12), transparent 24%),
-    linear-gradient(180deg, rgba(15, 18, 33, 0.98), rgba(12, 15, 24, 0.96));
-  border: 1px solid rgba(255, 217, 173, 0.12);
+    radial-gradient(circle at 50% 42%, rgba(153, 218, 255, 0.28), transparent 16%),
+    radial-gradient(circle at 50% 56%, rgba(255, 255, 255, 0.16), transparent 24%),
+    transparent;
 }
 
 .prompt-backdrop,
@@ -279,12 +341,12 @@ body {
 .prompt-stage-glow {
   z-index: 1;
   background:
-    radial-gradient(circle at 50% 50%, rgba(255, 210, 121, 0.16), transparent 26%),
-    radial-gradient(circle at 50% 50%, rgba(120, 202, 255, 0.16), transparent 48%),
+    radial-gradient(circle at 50% 44%, rgba(255, 224, 152, 0.2), transparent 20%),
+    radial-gradient(circle at 50% 48%, rgba(120, 202, 255, 0.18), transparent 48%),
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.12), transparent 62%);
   mix-blend-mode: screen;
-  filter: blur(18px);
-  opacity: 0.78;
+  filter: blur(16px);
+  opacity: 0.84;
 }
 
 .prompt-stage::before {
@@ -294,13 +356,8 @@ body {
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 24%, transparent 78%, rgba(0, 0, 0, 0.18)),
-    repeating-linear-gradient(
-      90deg,
-      rgba(106, 161, 255, 0.05) 0 2px,
-      transparent 2px 54px
-    );
-  opacity: 0.68;
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 24%, transparent 78%, rgba(0, 0, 0, 0.14));
+  opacity: 0.62;
 }
 
 .prompt-button {
@@ -322,6 +379,21 @@ body {
     inset 0 -16px 26px rgba(0, 0, 0, 0.18),
     0 24px 46px rgba(255, 120, 70, 0.24);
   transition: transform 110ms ease, box-shadow 110ms ease;
+}
+
+.prompt-button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -56px;
+  transform: translateX(-50%);
+  width: 118%;
+  height: 92px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 36%, rgba(255, 249, 230, 0.96), rgba(255, 223, 155, 0.84) 44%, rgba(196, 140, 73, 0.16) 70%, transparent 74%);
+  z-index: -1;
+  opacity: 0.96;
 }
 
 .prompt-button:active,
@@ -348,8 +420,8 @@ body {
 .simple-copy {
   padding: 12px 14px;
   border-radius: 16px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 233, 204, 0.14);
+  background: rgba(22, 17, 15, 0.46);
 }
 
 .simple-copy p {
@@ -373,9 +445,9 @@ body {
   gap: 10px;
   padding: 12px 14px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 217, 173, 0.14);
+  border: 1px solid rgba(255, 233, 204, 0.14);
   background:
-    linear-gradient(180deg, rgba(38, 28, 24, 0.96), rgba(21, 16, 14, 0.96)),
+    linear-gradient(180deg, rgba(36, 27, 23, 0.82), rgba(18, 14, 12, 0.82)),
     radial-gradient(circle at top right, rgba(255, 214, 110, 0.06), transparent 40%);
 }
 
@@ -481,6 +553,13 @@ body {
 .footer-actions {
   display: flex;
   gap: 12px;
+  justify-content: center;
+}
+
+.main-panel-footer {
+  display: grid;
+  gap: 12px;
+  padding: 14px 0 4px;
 }
 
 .small-button,
@@ -876,6 +955,10 @@ body {
   opacity: 0.72;
 }
 
+.powerup-button[hidden] {
+  display: none;
+}
+
 .powerup-tooltip {
   position: fixed;
   display: grid;
@@ -1083,6 +1166,8 @@ body {
 
 .save-status {
   margin: 0;
+  text-align: center;
+  color: rgba(249, 238, 214, 0.74);
 }
 
 @media (max-width: 1180px) {
@@ -1098,11 +1183,19 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .hero-stats {
-    grid-template-columns: 1fr;
+  .main-panel {
+    min-height: 0;
   }
 
   .prompt-button {
     width: min(100%, 280px);
+  }
+
+  .main-panel-counts {
+    width: calc(100% + 36px);
+  }
+
+  .prompt-stage {
+    min-height: 420px;
   }
 }

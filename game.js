@@ -517,6 +517,19 @@ function formatNumber(value) {
   return `${sign}${scaled.toFixed(digits).replace(/\.0+$/, "")}${units[unitIndex]}`;
 }
 
+function formatFullNumber(value) {
+  if (!Number.isFinite(value)) {
+    return "infinite";
+  }
+
+  const abs = Math.abs(value);
+  const digits = abs >= 100 ? 0 : abs >= 10 ? 1 : 2;
+  return value.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: digits,
+  });
+}
+
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
@@ -1465,7 +1478,7 @@ function runManualPrompt() {
 function renderHeader() {
   const now = Date.now();
   const nextHeader = {
-    tokens: formatNumber(state.tokens),
+    tokens: formatFullNumber(state.tokens),
     tps: `${formatNumber(getDisplayedTokensPerSecond(now))}/s`,
     manualYield: formatNumber(getManualYield()),
     prompts: formatNumber(state.manualPrompts),

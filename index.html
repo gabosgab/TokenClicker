@@ -38,14 +38,13 @@
 
       <main class="layout">
         <section class="panel main-panel">
-          <div class="hero-stats">
-            <div class="stat-block">
-              <span class="stat-label">Tokens</span>
+          <div class="main-panel-header">
+<div class="main-panel-counts">
               <strong id="tokenCount">0</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Per second</span>
-              <strong id="tpsCount">0</strong>
+              <div class="main-panel-rate">
+                <span>per second:</span>
+                <strong id="tpsCount">0</strong>
+              </div>
             </div>
           </div>
 
@@ -58,29 +57,31 @@
             </button>
           </div>
 
-          <div class="simple-copy">
-            <p>Manual prompt yield: <strong id="manualYield">1</strong></p>
-            <p>Total prompts: <strong id="promptCount">0</strong></p>
-            <p>Total earned: <strong id="earnedCount">0</strong></p>
-          </div>
-
-          <div class="footer-actions">
-            <button id="saveButton" class="small-button" type="button">Save</button>
-            <button id="resetButton" class="small-button danger" type="button">
-              Reset
-            </button>
-          </div>
-          <p id="saveStatus" class="save-status">
-            Local save active. Progress is stored in this browser.
-          </p>
-
-          <section class="owned-powerups">
-            <div class="owned-powerups-header">
-              <span class="manual-boost-label">Owned boosts</span>
-              <span class="owned-powerups-note">Purchased one-time powerups</span>
+          <div class="main-panel-footer">
+            <div class="simple-copy">
+              <p>Manual prompt yield: <strong id="manualYield">1</strong></p>
+              <p>Total prompts: <strong id="promptCount">0</strong></p>
+              <p>Total earned: <strong id="earnedCount">0</strong></p>
             </div>
-            <div id="ownedPowerupIcons" class="effect-icons owned-powerup-icons"></div>
-          </section>
+
+            <section class="owned-powerups">
+              <div class="owned-powerups-header">
+                <span class="manual-boost-label">Active boosts</span>
+                <span class="owned-powerups-note">Purchased one-time powerups</span>
+              </div>
+              <div id="ownedPowerupIcons" class="effect-icons owned-powerup-icons"></div>
+            </section>
+
+            <div class="footer-actions">
+              <button id="saveButton" class="small-button" type="button">Save</button>
+              <button id="resetButton" class="small-button danger" type="button">
+                Reset
+              </button>
+            </div>
+            <p id="saveStatus" class="save-status">
+              Local save active. Progress is stored in this browser.
+            </p>
+          </div>
         </section>
 
         <section class="panel scene-panel">
