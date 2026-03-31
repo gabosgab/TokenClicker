@@ -1063,6 +1063,65 @@ body {
     linear-gradient(180deg, #335073 0%, #28435f 28%, #1a2b43 62%, #121d32 100%);
 }
 
+/* News card */
+.news-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  transition: opacity 0.4s;
+}
+
+.news-card.is-fading {
+  opacity: 0;
+}
+
+.news-card[hidden] {
+  display: none;
+}
+
+.news-avatar {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #6366f1;
+}
+
+.news-avatar[data-account="inferencewatch"] { background: #6366f1; }
+.news-avatar[data-account="aibro"]          { background: #f59e0b; }
+.news-avatar[data-account="normalperson_"]  { background: #6b7280; }
+.news-avatar[data-account="guberment"]      { background: #dc2626; }
+.news-avatar[data-account="dailynews"]      { background: #0ea5e9; }
+.news-avatar[data-account="fuxnews"]        { background: #b45309; }
+.news-avatar[data-account="fakellon"]       { background: #1d4ed8; }
+.news-avatar[data-account="vcman"]          { background: #7c3aed; }
+.news-avatar[data-account="nveedia"]        { background: #15803d; }
+
+.news-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.news-handle {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted, rgba(255,255,255,0.45));
+  letter-spacing: 0.02em;
+}
+
+.news-text {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--text, rgba(255,255,255,0.85));
+  margin: 0;
+}
+
 .powerup-list {
   display: flex;
   flex-wrap: wrap;
