@@ -1111,14 +1111,14 @@ body {
 .news-handle {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--text-muted, rgba(255,255,255,0.45));
+  color: var(--muted);
   letter-spacing: 0.02em;
 }
 
 .news-text {
   font-size: 0.85rem;
   line-height: 1.4;
-  color: var(--text, rgba(255,255,255,0.85));
+  color: var(--text);
   margin: 0;
 }
 
