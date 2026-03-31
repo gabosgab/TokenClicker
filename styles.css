@@ -882,6 +882,10 @@ body {
   gap: 8px;
 }
 
+.scene-row[hidden] {
+  display: none;
+}
+
 .scene-row {
   display: grid;
   gap: 6px;

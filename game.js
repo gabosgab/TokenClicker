@@ -1716,6 +1716,7 @@ function initializeScenes() {
   for (const entity of entities) {
     const row = document.createElement("article");
     row.className = "scene-row";
+    row.hidden = true;
 
     const header = document.createElement("div");
     header.className = "scene-row-header";
@@ -1744,6 +1745,7 @@ function initializeScenes() {
     elements.sceneList.append(row);
 
     sceneViews.set(entity.id, {
+      row,
       count,
       lane,
       renderedOwned: -1,
@@ -1861,16 +1863,15 @@ function renderScenes() {
     }
 
     view.renderedOwned = owned;
-    view.count.textContent = `${formatNumber(owned)} owned`;
-    view.lane.replaceChildren();
+    view.row.hidden = !owned;
 
     if (!owned) {
-      const empty = document.createElement("div");
-      empty.className = "scene-empty";
-      empty.textContent = "none";
-      view.lane.append(empty);
+      view.lane.replaceChildren();
       continue;
     }
+
+    view.count.textContent = `${formatNumber(owned)} owned`;
+    view.lane.replaceChildren();
 
     const fragment = document.createDocumentFragment();
     for (let index = 0; index < owned; index += 1) {
