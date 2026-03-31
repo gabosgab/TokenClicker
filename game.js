@@ -2041,16 +2041,29 @@ function bindEvents() {
   window.addEventListener("scroll", syncEntityTooltip, { passive: true });
 }
 
-function tick(now) {
-  renderPromptField(now);
-  const elapsedSeconds = Math.min(1, Math.max(0, (now - state.lastTimestamp) / 1000));
-  state.lastTimestamp = now;
+// Game logic tick — runs via setInterval so it continues in background tabs.
+let lastLogicAt = performance.now();
+function logicTick() {
+  const now = performance.now();
+  const elapsedSeconds = Math.min(5, Math.max(0, (now - lastLogicAt) / 1000));
+  lastLogicAt = now;
   addPassiveTokens(elapsedSeconds);
   const wallClockNow = Date.now();
   const lastSample = state.earnedHistory[state.earnedHistory.length - 1];
   if (!lastSample || wallClockNow - lastSample.at >= TOKEN_TREND_SAMPLE_MS) {
     recordEarnedSample(wallClockNow);
   }
+  if (wallClockNow - state.lastSaveAt >= SAVE_INTERVAL_MS) {
+    saveGame("Autosaved.");
+  }
+  const { main: tokenMain, unit: tokenUnit } = formatTokenDisplay(state.tokens);
+  document.title = tokenUnit ? `${tokenMain} ${tokenUnit} tokens — Token Clicker` : `${tokenMain} tokens — Token Clicker`;
+  requestUIRender();
+}
+
+// Render tick — runs via rAF for smooth visuals when the tab is active.
+function tick(now) {
+  renderPromptField(now);
 
   const { main: tokenMain, unit: tokenUnit } = formatTokenDisplay(state.tokens);
   const tokenText = tokenUnit ? `${tokenMain}|${tokenUnit}` : tokenMain;
@@ -2070,10 +2083,6 @@ function tick(now) {
     renderDirty = false;
   }
 
-  if (now - state.lastSaveAt >= SAVE_INTERVAL_MS) {
-    saveGame("Autosaved.");
-  }
-
   window.requestAnimationFrame(tick);
 }
 
@@ -2089,7 +2098,6 @@ renderTokenTrend(true);
 render();
 lastUIRenderAt = performance.now();
 renderDirty = false;
-window.requestAnimationFrame((timestamp) => {
-  state.lastTimestamp = timestamp;
-  window.requestAnimationFrame(tick);
-});
+lastLogicAt = performance.now();
+setInterval(logicTick, 1000);
+window.requestAnimationFrame(tick);
