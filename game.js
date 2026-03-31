@@ -556,20 +556,13 @@ function scheduleNewsTicker() {
 }
 
 function initNewsTicker() {
-  fetch("news.json")
-    .then((r) => r.json())
-    .then((data) => {
-      newsBuckets = data;
-      const tweet = pickNewsTweet();
-      if (tweet) {
-        applyNewsTweet(tweet);
-        elements.newsCard.hidden = false;
-        scheduleNewsTicker();
-      }
-    })
-    .catch(() => {
-      // news.json unavailable (e.g. opened via file://) — card stays hidden
-    });
+  newsBuckets = NEWS_DATA;
+  const tweet = pickNewsTweet();
+  if (tweet) {
+    applyNewsTweet(tweet);
+    elements.newsCard.hidden = false;
+    scheduleNewsTicker();
+  }
 }
 
 const sounds = {
