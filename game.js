@@ -1534,6 +1534,8 @@ function spawnPromptFloatLabel(gain) {
 
   const x = btnRect.left - stageRect.left + btnRect.width / 2;
   const y = btnRect.top - stageRect.top + btnRect.height / 2;
+  const x = btnRect.left - stageRect.left + btnRect.width * 0.3;
+  const y = btnRect.top - stageRect.top + btnRect.height * 0.15;
   label.style.left = `${x}px`;
   label.style.top = `${y}px`;
   label.style.transform = "translate(-50%, -50%)";
@@ -2061,6 +2063,7 @@ function tick(now) {
     } else {
       elements.tokenCount.textContent = tokenMain;
     }
+    document.title = tokenUnit ? `${tokenMain} ${tokenUnit} tokens — Token Clicker` : `${tokenMain} tokens — Token Clicker`;
   }
 
   if (renderDirty || now - lastUIRenderAt >= UI_RENDER_MS) {
