@@ -532,6 +532,7 @@ function applyNewsTweet(tweet) {
   elements.newsHandle.textContent = `@${tweet.account}`;
   elements.newsText.textContent = tweet.text;
   elements.newsAvatar.dataset.account = tweet.account;
+  elements.newsAvatar.innerHTML = NEWS_ACCOUNT_ART[tweet.account] || "";
 }
 
 function scheduleNewsTicker() {

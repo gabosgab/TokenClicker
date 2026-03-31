@@ -1091,8 +1091,11 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  overflow: hidden;
   background: #6366f1;
 }
+
+.news-avatar svg { width: 32px; height: 32px; display: block; }
 
 .news-avatar[data-account="inferencewatch"] { background: #6366f1; }
 .news-avatar[data-account="aibro"]          { background: #f59e0b; }
