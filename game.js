@@ -1504,6 +1504,10 @@ function clearHoveredPowerup(powerupId) {
 }
 
 function setHoveredEntity(entityId, anchor) {
+  const entityIndex = entities.findIndex((e) => e.id === entityId);
+  if (entityIndex !== -1 && getEntityVisibility(entityIndex) !== "visible") {
+    return;
+  }
   hoveredEntityId = entityId;
   hoveredEntityAnchor = anchor;
   syncEntityTooltip();
@@ -1621,6 +1625,19 @@ function renderHeader() {
   }
 }
 
+function getEntityVisibility(entityIndex) {
+  let firstUnowned = entities.length;
+  for (let i = 0; i < entities.length; i++) {
+    if (!state.entities[entities[i].id]) {
+      firstUnowned = i;
+      break;
+    }
+  }
+  if (entityIndex <= firstUnowned) return "visible";
+  if (entityIndex <= firstUnowned + 2) return "mystery";
+  return "hidden";
+}
+
 function initializeEntities() {
   elements.entityList.replaceChildren();
   entityViews.clear();
@@ -1640,6 +1657,11 @@ function initializeEntities() {
     thumb.className = "entity-thumb";
     thumb.append(createArtSprite(entity.id, "card-sprite"));
 
+    const mysteryThumb = document.createElement("div");
+    mysteryThumb.className = "mystery-thumb";
+    mysteryThumb.textContent = "?";
+    thumb.append(mysteryThumb);
+
     const copy = document.createElement("div");
     copy.className = "entity-copy";
 
@@ -1649,10 +1671,14 @@ function initializeEntities() {
     const title = document.createElement("h3");
     title.textContent = entity.name;
 
+    const mysteryTitle = document.createElement("h3");
+    mysteryTitle.className = "mystery-name";
+    mysteryTitle.textContent = "???";
+
     const ownedLabel = document.createElement("span");
     ownedLabel.className = "entity-owned";
     ownedLabel.textContent = formatNumber(owned);
-    titleRow.append(title);
+    titleRow.append(title, mysteryTitle);
 
     const subline = document.createElement("p");
     subline.className = "entity-subline";
@@ -1678,6 +1704,7 @@ function initializeEntities() {
       ownedText: ownedLabel.textContent,
       costText: "",
       canAfford: null,
+      visibility: null,
     });
   }
 }
@@ -1778,9 +1805,21 @@ function initializeTrendBars() {
 }
 
 function renderEntities() {
-  for (const entity of entities) {
+  for (let i = 0; i < entities.length; i++) {
+    const entity = entities[i];
     const view = entityViews.get(entity.id);
     if (!view) {
+      continue;
+    }
+
+    const visibility = getEntityVisibility(i);
+    if (view.visibility !== visibility) {
+      view.visibility = visibility;
+      view.card.classList.toggle("is-hidden", visibility === "hidden");
+      view.card.classList.toggle("is-mystery", visibility === "mystery");
+    }
+
+    if (visibility === "hidden") {
       continue;
     }
 
@@ -1788,7 +1827,7 @@ function renderEntities() {
     const owned = state.entities[entity.id];
     const ownedText = formatNumber(owned);
     const costText = formatNumber(cost);
-    const canBuy = canAfford(cost);
+    const canBuy = visibility === "visible" && canAfford(cost);
 
     if (view.ownedText !== ownedText) {
       view.ownedText = ownedText;

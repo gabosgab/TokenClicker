@@ -727,12 +727,13 @@ body {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.entity-card:first-child {
+.entity-card:not(.is-hidden):first-child,
+.entity-card.is-hidden + .entity-card:not(.is-hidden) {
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
 }
 
-.entity-card:last-child {
+.entity-card:not(.is-hidden):not(:has(~ .entity-card:not(.is-hidden))) {
   border-bottom-left-radius: 14px;
   border-bottom-right-radius: 14px;
 }
@@ -745,6 +746,63 @@ body {
 
 .entity-card.is-blocked {
   opacity: 0.84;
+}
+
+.entity-card.is-hidden {
+  display: none;
+}
+
+/* Mystery entity: hide real content, show ??? */
+.entity-card.is-mystery {
+  opacity: 0.72;
+  cursor: default;
+}
+
+.entity-card.is-mystery h3:not(.mystery-name) {
+  display: none;
+}
+
+.mystery-name {
+  display: none;
+}
+
+.entity-card.is-mystery .mystery-name {
+  display: block;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.entity-card.is-mystery .entity-subline {
+  visibility: hidden;
+}
+
+.entity-card.is-mystery .entity-owned {
+  visibility: hidden;
+}
+
+.entity-card.is-mystery .card-sprite {
+  display: none;
+}
+
+.mystery-thumb {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 12px var(--accent-glow);
+}
+
+.entity-card.is-mystery .mystery-thumb {
+  display: flex;
+}
+
+.entity-card.is-mystery .buy-button {
+  visibility: hidden;
 }
 
 .scene-row-title-main,
