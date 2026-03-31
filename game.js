@@ -1532,8 +1532,6 @@ function spawnPromptFloatLabel(gain) {
   label.className = "prompt-float-label";
   label.textContent = `+${formatNumber(gain)}`;
 
-  const x = btnRect.left - stageRect.left + btnRect.width / 2;
-  const y = btnRect.top - stageRect.top + btnRect.height / 2;
   const x = btnRect.left - stageRect.left + btnRect.width * 0.3;
   const y = btnRect.top - stageRect.top + btnRect.height * 0.15;
   label.style.left = `${x}px`;
