@@ -474,6 +474,10 @@ const elements = {
   saveButton: document.querySelector("#saveButton"),
   resetButton: document.querySelector("#resetButton"),
   saveStatus: document.querySelector("#saveStatus"),
+  newsCard: document.querySelector("#newsCard"),
+  newsAvatar: document.querySelector("#newsAvatar"),
+  newsHandle: document.querySelector("#newsHandle"),
+  newsText: document.querySelector("#newsText"),
 };
 
 const entityViews = new Map();
@@ -481,6 +485,82 @@ const sceneViews = new Map();
 const powerupViews = new Map();
 const recentManualPrompts = [];
 const ownedPowerupView = { powerupSignature: "__init__" };
+
+let newsBuckets = [];
+let lastTweetText = null;
+
+function evaluateNewsBucket(bucket) {
+  const tps = getTokensPerSecond();
+  if (bucket.condition === "tps") {
+    if (bucket.min !== undefined && tps < bucket.min) return false;
+    if (bucket.max !== undefined && tps > bucket.max) return false;
+    return true;
+  }
+  if (bucket.condition === "totalOver") {
+    return state.totalEarned >= bucket.threshold;
+  }
+  if (bucket.condition === "entityOwned") {
+    const owned = state.entities[bucket.entity] ?? 0;
+    const min = bucket.min ?? 1;
+    return owned >= min;
+  }
+  if (bucket.condition === "powerupOwned") {
+    return state.purchasedPowerups.includes(bucket.powerup);
+  }
+  if (bucket.condition === "always") {
+    return true;
+  }
+  return false;
+}
+
+function pickNewsTweet() {
+  const eligible = [];
+  for (const bucket of newsBuckets) {
+    if (!evaluateNewsBucket(bucket)) continue;
+    for (const tweet of bucket.tweets) {
+      if (tweet.text !== lastTweetText) eligible.push(tweet);
+    }
+  }
+  if (!eligible.length) return null;
+  const tweet = eligible[Math.floor(Math.random() * eligible.length)];
+  lastTweetText = tweet.text;
+  return tweet;
+}
+
+function applyNewsTweet(tweet) {
+  elements.newsHandle.textContent = `@${tweet.account}`;
+  elements.newsText.textContent = tweet.text;
+  elements.newsAvatar.dataset.account = tweet.account;
+}
+
+function scheduleNewsTicker() {
+  setTimeout(() => {
+    elements.newsCard.classList.add("is-fading");
+    setTimeout(() => {
+      const tweet = pickNewsTweet();
+      if (tweet) applyNewsTweet(tweet);
+      elements.newsCard.classList.remove("is-fading");
+      scheduleNewsTicker();
+    }, 400);
+  }, 7000);
+}
+
+function initNewsTicker() {
+  fetch("news.json")
+    .then((r) => r.json())
+    .then((data) => {
+      newsBuckets = data;
+      const tweet = pickNewsTweet();
+      if (tweet) {
+        applyNewsTweet(tweet);
+        elements.newsCard.hidden = false;
+        scheduleNewsTicker();
+      }
+    })
+    .catch(() => {
+      // news.json unavailable (e.g. opened via file://) — card stays hidden
+    });
+}
 
 const sounds = {
   tick: new Audio("snd/tick.mp3"),
@@ -2095,6 +2175,7 @@ initializePowerups();
 initializeTrendBars();
 initializePromptField();
 bindEvents();
+initNewsTicker();
 renderTokenTrend(true);
 render();
 lastUIRenderAt = performance.now();
