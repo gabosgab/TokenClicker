@@ -488,6 +488,7 @@ const ownedPowerupView = { powerupSignature: "__init__" };
 
 let newsBuckets = [];
 let lastTweetText = null;
+let newsTickerRunning = false;
 
 function evaluateNewsBucket(bucket) {
   const tps = getTokensPerSecond();
@@ -534,15 +535,24 @@ function applyNewsTweet(tweet) {
 }
 
 function scheduleNewsTicker() {
-  setTimeout(() => {
-    elements.newsCard.classList.add("is-fading");
+  if (newsTickerRunning) return;
+  newsTickerRunning = true;
+  const loop = () => {
     setTimeout(() => {
-      const tweet = pickNewsTweet();
-      if (tweet) applyNewsTweet(tweet);
-      elements.newsCard.classList.remove("is-fading");
-      scheduleNewsTicker();
-    }, 400);
-  }, 7000);
+      elements.newsCard.classList.add("is-fading");
+      setTimeout(() => {
+        const tweet = pickNewsTweet();
+        if (tweet) {
+          applyNewsTweet(tweet);
+          elements.newsCard.classList.remove("is-fading");
+        } else {
+          elements.newsCard.hidden = true;
+        }
+        loop();
+      }, 400);
+    }, 7000);
+  };
+  loop();
 }
 
 function initNewsTicker() {
