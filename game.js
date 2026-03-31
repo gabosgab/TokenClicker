@@ -544,10 +544,10 @@ function scheduleNewsTicker() {
         const tweet = pickNewsTweet();
         if (tweet) {
           applyNewsTweet(tweet);
-          elements.newsCard.classList.remove("is-fading");
         } else {
-          elements.newsCard.hidden = true;
+          lastTweetText = null; // reset so next cycle can pick something
         }
+        elements.newsCard.classList.remove("is-fading");
         loop();
       }, 400);
     }, 7000);
