@@ -322,7 +322,7 @@ const powerups = [
     name: "Recursive CLI",
     description: "The shell starts helping with the shelling. Manual prompting spirals upward.",
     cost: 1250,
-    effect: { type: "click", multiplier: 4 },
+    effect: { type: "click", multiplier: 2 },
     unlocks: (state) => state.purchasedPowerups.includes("hotkey") && state.totalEarned >= 500,
   },
   {
@@ -330,7 +330,7 @@ const powerups = [
     name: "Macro Array",
     description: "One enter key becomes many, then many becomes a workflow problem.",
     cost: 6250,
-    effect: { type: "click", multiplier: 8 },
+    effect: { type: "click", multiplier: 2 },
     unlocks: (state) => state.purchasedPowerups.includes("recursive-cli") && state.totalEarned >= 5000,
   },
   {
@@ -338,7 +338,7 @@ const powerups = [
     name: "Prompt Cache",
     description: "Frequently used prompts are now preheated and dangerously easy to fire.",
     cost: 31250,
-    effect: { type: "click", multiplier: 16 },
+    effect: { type: "click", multiplier: 2 },
     unlocks: (state) => state.purchasedPowerups.includes("macro-array") && state.totalEarned >= 50000,
   },
   {
@@ -346,7 +346,7 @@ const powerups = [
     name: "Enter Key Furnace",
     description: "Every manual prompt gets fed through a glowing industrial shortcut.",
     cost: 156250,
-    effect: { type: "click", multiplier: 32 },
+    effect: { type: "click", multiplier: 2 },
     unlocks: (state) => state.purchasedPowerups.includes("prompt-cache") && state.totalEarned >= 500000,
   },
   {
@@ -354,7 +354,7 @@ const powerups = [
     name: "Manual Singularity",
     description: "Your fingertip now bends space, time, and prompt yield around itself.",
     cost: 781250,
-    effect: { type: "click", multiplier: 64 },
+    effect: { type: "click", multiplier: 2 },
     unlocks: (state) => state.purchasedPowerups.includes("enter-furnace") && state.totalEarned >= 5000000,
   },
   {
