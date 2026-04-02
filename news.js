@@ -15,6 +15,7 @@ const NEWS_DATA = [
       { account: "normalperson_", text: "what is even happening" },
       { account: "fuxnews", text: "My grandson showed me this. I don't see the point." },
       { account: "guberment", text: "I've asked my staff to look into these 'tokens.' We'll circle back." },
+      { account: "inferencewatch", text: "Intro to the game: become the biggest data center provider in the world. Most do not succeed." },
     ],
   },
   {
@@ -37,6 +38,7 @@ const NEWS_DATA = [
       { account: "vcman", text: "Early days. We're watching." },
       { account: "guberment", text: "I've been told this uses electricity. We're looking into it." },
       { account: "dailynews", text: "Local operation achieves double-digit token throughput. What does it mean for Main Street?" },
+      { account: "fuxnews", text: "Apple releases new AI Siri, still somehow misheard you. We asked four seniors. Three were confused." },
     ],
   },
   {
@@ -59,6 +61,7 @@ const NEWS_DATA = [
       { account: "nveedia", text: "We see strong demand in the token clicking vertical." },
       { account: "fakellon", text: "This is basically what xAI does but with better branding" },
       { account: "inferencewatch", text: "Four-figure throughput achieved. Maintaining 'grudging respect' outlook." },
+      { account: "normalperson_", text: "data center heats manhattan for free. rent still too damn high" },
     ],
   },
   {
@@ -71,6 +74,7 @@ const NEWS_DATA = [
       { account: "guberment", text: "This is either great or terrible for America. Possibly both. We'll schedule a hearing." },
       { account: "fakellon", text: "I could acquire this for $44 billion but I'm busy" },
       { account: "aibro", text: "five figures. this is what we trained for 💪" },
+      { account: "normalperson_", text: "small lakes are boiling due to data center usage. this is fine." },
     ],
   },
   {
@@ -82,6 +86,7 @@ const NEWS_DATA = [
       { account: "aibro", text: "we are no longer operating at human scale 🤖" },
       { account: "normalperson_", text: "a hundred thousand tokens a second. for what. FOR WHAT." },
       { account: "vcman", text: "At this scale we're not talking Series A. We're talking infrastructure play." },
+      { account: "normalperson_", text: "streetlights no longer needed. power lines just glow now. due to ai usage. ok." },
     ],
   },
   {
@@ -102,6 +107,7 @@ const NEWS_DATA = [
       { account: "dailynews", text: "Local operator pivots to neuromorphic computing. Experts divided on whether that's good." },
       { account: "fuxnews", text: "Neuromorphic? In my day we just called it a brain." },
       { account: "guberment", text: "We don't know what neuromorphic means but we're prepared to regulate it." },
+      { account: "dailynews", text: "New neuro chip promises brain-like efficiency. What could go wrong? We asked. No one answered." },
     ],
   },
   {
@@ -130,6 +136,7 @@ const NEWS_DATA = [
       { account: "inferencewatch", text: "Seven-figure cumulative output. The ledger is becoming meaningful." },
       { account: "vcman", text: "Million token milestone. Series A conversation?" },
       { account: "normalperson_", text: "a million of them. a million." },
+      { account: "inferencewatch", text: "Ray released a new book. Singularity in the rearview mirror. Recommend reading with sunglasses." },
     ],
   },
   {
@@ -153,6 +160,9 @@ const NEWS_DATA = [
       { account: "fuxnews", text: "Token: not the kind we had in our day." },
       { account: "fakellon", text: "The simulation is producing tokens. As expected." },
       { account: "inferencewatch", text: "Token output continues to scale. The underlying asset remains vibes." },
+      { account: "inferencewatch", text: "AI loves its users. TPU performance has swelled 40% since engineers added 'love weights.' No one is questioning this." },
+      { account: "dailynews", text: "New Ireland data center now runs on Guinness. GPUs reportedly stagger faster. Latency is 'a bit wobbly.'" },
+      { account: "normalperson_", text: "toaster is now sentient. complements my toast. gave it 5 stars." },
     ],
   },
 ];

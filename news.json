@@ -1,0 +1,147 @@
+[
+  {
+    "condition": "tps",
+    "max": 0,
+    "tweets": [
+      { "account": "normalperson_", "text": "what is even happening" },
+      { "account": "fuxnews", "text": "My grandson showed me this. I don't see the point." },
+      { "account": "guberment", "text": "I've asked my staff to look into these 'tokens.' We'll circle back." }
+    ]
+  },
+  {
+    "condition": "tps",
+    "min": 1,
+    "max": 9,
+    "tweets": [
+      { "account": "inferencewatch", "text": "Running inference on desktop silicon. Bold strategy." },
+      { "account": "normalperson_", "text": "he bought a computer to make fake numbers go up" },
+      { "account": "nveedia", "text": "We appreciate your business. Mac Studios were not one of our products." },
+      { "account": "aibro", "text": "single digit tps. humble beginnings. respect the grind 🙏" }
+    ]
+  },
+  {
+    "condition": "tps",
+    "min": 10,
+    "max": 99,
+    "tweets": [
+      { "account": "aibro", "text": "small cluster energy but the dream is there 🙏" },
+      { "account": "vcman", "text": "Early days. We're watching." },
+      { "account": "guberment", "text": "I've been told this uses electricity. We're looking into it." },
+      { "account": "dailynews", "text": "Local operation achieves double-digit token throughput. What does it mean for Main Street?" }
+    ]
+  },
+  {
+    "condition": "tps",
+    "min": 100,
+    "max": 999,
+    "tweets": [
+      { "account": "inferencewatch", "text": "Three-digit throughput. The institutional phase begins." },
+      { "account": "aibro", "text": "triple digits LETS GO 📈" },
+      { "account": "dailynews", "text": "Token velocity hits triple digits. Experts are 'cautiously optimistic' and 'extremely worried.'" },
+      { "account": "fuxnews", "text": "Hundreds of tokens per second. Is this what they mean by 'the cloud'?" }
+    ]
+  },
+  {
+    "condition": "tps",
+    "min": 1000,
+    "max": 9999,
+    "tweets": [
+      { "account": "aibro", "text": "four digits per second. we are SO back 🔥" },
+      { "account": "nveedia", "text": "We see strong demand in the token clicking vertical." },
+      { "account": "fakellon", "text": "This is basically what xAI does but with better branding" },
+      { "account": "inferencewatch", "text": "Four-figure throughput achieved. Maintaining 'grudging respect' outlook." }
+    ]
+  },
+  {
+    "condition": "tps",
+    "min": 10000,
+    "max": 99999,
+    "tweets": [
+      { "account": "inferencewatch", "text": "Five-figure throughput. We've updated our models. They're still confused." },
+      { "account": "vcman", "text": "Incredible unit economics. What's the exit?" },
+      { "account": "guberment", "text": "This is either great or terrible for America. Possibly both. We'll schedule a hearing." },
+      { "account": "fakellon", "text": "I could acquire this for $44 billion but I'm busy" }
+    ]
+  },
+  {
+    "condition": "tps",
+    "min": 100000,
+    "tweets": [
+      { "account": "fakellon", "text": "I would have built this for $4" },
+      { "account": "nveedia", "text": "GPU sales up. We take no position on what they're being used for." },
+      { "account": "aibro", "text": "we are no longer operating at human scale 🤖" },
+      { "account": "normalperson_", "text": "a hundred thousand tokens a second. for what. FOR WHAT." },
+      { "account": "vcman", "text": "At this scale we're not talking Series A. We're talking infrastructure play." }
+    ]
+  },
+  {
+    "condition": "entityOwned",
+    "entity": "nvl72",
+    "min": 1,
+    "tweets": [
+      { "account": "inferencewatch", "text": "NVL72 acquisition confirmed. Rack-scale throughput now in play." },
+      { "account": "vcman", "text": "NVL72 in the stack. We'd like to get you in a room." },
+      { "account": "nveedia", "text": "GB200 NVL72: exactly what we imagined. Not like this, but we'll take it." }
+    ]
+  },
+  {
+    "condition": "entityOwned",
+    "entity": "spiking",
+    "min": 1,
+    "tweets": [
+      { "account": "dailynews", "text": "Local operator pivots to neuromorphic computing. Experts divided on whether that's good." },
+      { "account": "fuxnews", "text": "Neuromorphic? In my day we just called it a brain." },
+      { "account": "guberment", "text": "We don't know what neuromorphic means but we're prepared to regulate it." }
+    ]
+  },
+  {
+    "condition": "entityOwned",
+    "entity": "dyson",
+    "min": 1,
+    "tweets": [
+      { "account": "aibro", "text": "DYSON SWARM. WE ARE IN SPACE. 🛸🔥" },
+      { "account": "fakellon", "text": "Orbital compute infrastructure. I tried to buy this but the auction was closed." },
+      { "account": "inferencewatch", "text": "Client has achieved post-planetary scale. We have no framework for this." },
+      { "account": "guberment", "text": "I have been informed they are doing AI in space now. I've called a press conference." }
+    ]
+  },
+  {
+    "condition": "totalOver",
+    "threshold": 1000,
+    "tweets": [
+      { "account": "guberment", "text": "A thousand tokens. That's... something. We think." }
+    ]
+  },
+  {
+    "condition": "totalOver",
+    "threshold": 1000000,
+    "tweets": [
+      { "account": "inferencewatch", "text": "Seven-figure cumulative output. The ledger is becoming meaningful." },
+      { "account": "vcman", "text": "Million token milestone. Series A conversation?" },
+      { "account": "normalperson_", "text": "a million of them. a million." }
+    ]
+  },
+  {
+    "condition": "totalOver",
+    "threshold": 1000000000,
+    "tweets": [
+      { "account": "fakellon", "text": "A billion tokens. This is what I imagined when I bought Twitter." },
+      { "account": "nveedia", "text": "Billion-token throughput is exactly what our roadmap was designed for." },
+      { "account": "aibro", "text": "BILLION. WE ARE BUILT DIFFERENT. 🐉" }
+    ]
+  },
+  {
+    "condition": "always",
+    "tweets": [
+      { "account": "normalperson_", "text": "I don't know what any of this means" },
+      { "account": "dailynews", "text": "AI: friend or foe? We take no position at this time." },
+      { "account": "fuxnews", "text": "Token Clicker: Is it safe? Our panel of four 70-year-olds weighs in." },
+      { "account": "vcman", "text": "Scaling laws + tokens + vibes = thesis" },
+      { "account": "guberment", "text": "We support innovation. We also support accountability. We'll get back to you on which applies here." },
+      { "account": "dailynews", "text": "The technology that will save us. The technology that will destroy us. Developing." },
+      { "account": "fuxnews", "text": "Token: not the kind we had in our day." },
+      { "account": "fakellon", "text": "The simulation is producing tokens. As expected." },
+      { "account": "inferencewatch", "text": "Token output continues to scale. The underlying asset remains vibes." }
+    ]
+  }
+]
