@@ -2149,6 +2149,7 @@ function resetGame() {
   render();
   lastUIRenderAt = performance.now();
   renderDirty = false;
+  showIntroModal();
 }
 
 function bindEvents() {
@@ -2235,6 +2236,17 @@ initializeTrendBars();
 initializePromptField();
 bindEvents();
 initNewsTicker();
+
+function showIntroModal() {
+  const introModal = document.getElementById("introModal");
+  const introButton = document.getElementById("introButton");
+  introModal.hidden = false;
+  introButton.addEventListener("click", () => { introModal.hidden = true; }, { once: true });
+}
+
+if (state.totalEarned === 0 && state.manualPrompts === 0) {
+  showIntroModal();
+}
 renderTokenTrend(true);
 render();
 lastUIRenderAt = performance.now();

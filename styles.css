@@ -1462,3 +1462,102 @@ body {
     min-height: 420px;
   }
 }
+
+/* ── Intro Modal ── */
+.intro-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 2, 14, 0.88);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.intro-modal-overlay[hidden] {
+  display: none;
+}
+
+.intro-modal {
+  background: var(--panel);
+  border: 1px solid rgba(192, 96, 255, 0.3);
+  border-radius: 16px;
+  padding: 40px 44px;
+  max-width: 560px;
+  width: 100%;
+  box-shadow: 0 0 60px rgba(160, 60, 255, 0.18), 0 24px 64px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.intro-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.intro-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.intro-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.intro-body p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.intro-body strong {
+  color: var(--text);
+}
+
+.intro-challenge {
+  color: var(--text) !important;
+  font-weight: 600;
+  font-size: 1rem !important;
+  margin-top: 4px !important;
+}
+
+.intro-subchallenge {
+  color: var(--muted-dim) !important;
+  font-style: italic;
+  font-size: 0.82rem !important;
+}
+
+.intro-button {
+  margin-top: 8px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-dark));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: opacity 0.15s, box-shadow 0.15s;
+  box-shadow: 0 0 20px var(--accent-glow-2);
+  align-self: flex-start;
+}
+
+.intro-button:hover {
+  opacity: 0.88;
+  box-shadow: 0 0 32px var(--accent-glow);
+}
+
