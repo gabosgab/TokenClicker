@@ -1,6 +1,6 @@
 const STORAGE_KEY = "token-clicker-simple-save-v2";
 const SAVE_INTERVAL_MS = 10000;
-const COST_SCALE = 1.15;
+const COST_SCALE = 1.5;
 const MAX_OFFLINE_SECONDS = 60 * 60 * 8;
 const MANUAL_YIELD = 1;
 const MANUAL_RATE_WINDOW_MS = 4000;
@@ -29,49 +29,49 @@ const entities = [
     id: "a100",
     name: "Ampere A100",
     description: "The only piece of hardware that can make your monthly power bill look like a phone number.",
-    baseCost: 1000,
+    baseCost: 4000,
     baseRate: 125,
   },
   {
     id: "h100",
     name: "Hopper H100",
     description: "A $30,000 space heater that hallucinates for a living.",
-    baseCost: 11000,
+    baseCost: 14000,
     baseRate: 275,
   },
   {
     id: "gh200",
     name: "Grace Hopper GH200",
     description: "Effectively a Falcon 9 rocket strapped to a toaster.",
-    baseCost: 120000,
+    baseCost: 35000,
     baseRate: 500,
   },
   {
     id: "b200",
     name: "Blackwell B200",
     description: "A chip so dense that it has its own gravitational pull.",
-    baseCost: 1300000,
+    baseCost: 1000000,
     baseRate: 10000,
   },
   {
     id: "nvl72",
     name: "GB200 NVL72",
     description: "A $3 million radiator that happens to be able to predict the next three words of your email with terrifying, god-like accuracy",
-    baseCost: 14000000,
+    baseCost: 130000000,
     baseRate: 1000000,
   },
   {
     id: "spiking",
     name: "Neuromorphic Spiking Core",
     description: "The Brain-on-a-Chip that successfully mimics the human brain’s most defining trait—being completely temperamental and impossible to reason with.",
-    baseCost: 200000000,
+    baseCost: 850000000,
     baseRate: 5000000,
   },
   {
     id: "dyson",
     name: "Dyson Swarm of Blackwells",
     description: "An oribtal shell of acclerators that treats the Sun as a slightly underpowered AA battery.",
-    baseCost: 3300000000,
+    baseCost: 21000000000,
     baseRate: 100000000,
   },
 ];
@@ -383,7 +383,7 @@ const powerups = [
   },
   {
     id: "jensens-jacket",
-    name: "Jensen's New Jacket",
+    name: "Jenseen's New Jacket",
     description: "It looks so good that the H100s simply run faster out of respect.",
     cost: 65000,
     effect: { type: "entity", target: "h100", multiplier: 2 },
