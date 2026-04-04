@@ -550,7 +550,7 @@ function scheduleNewsTicker() {
         elements.newsCard.classList.remove("is-fading");
         loop();
       }, 400);
-    }, 15000);
+    }, 7500);
   };
   loop();
 }
