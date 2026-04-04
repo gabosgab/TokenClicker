@@ -21,58 +21,58 @@ const entities = [
   {
     id: "v100",
     name: "Mac Studios",
-    description: "A tidy pile of Apple silicon that absolutely counts as infrastructure.",
+    description: "A tidy pile of Apple silicon that absolutely counts as infrastructure if you squint hard enough.",
     baseCost: 15,
-    baseRate: 0.3,
+    baseRate: 50,
   },
   {
     id: "a100",
     name: "Ampere A100",
-    description: "Datacenter-grade throughput wrapped in a cleaner board.",
+    description: "The only piece of hardware that can make your monthly power bill look like a phone number.",
     baseCost: 100,
-    baseRate: 1.5,
+    baseRate: 125,
   },
   {
     id: "h100",
     name: "Hopper H100",
-    description: "Transformer fever dream, now with much faster burn.",
+    description: "A $30,000 space heater that hallucinates for a living.",
     baseCost: 1100,
-    baseRate: 3.8,
+    baseRate: 275,
   },
   {
     id: "gh200",
     name: "Grace Hopper GH200",
-    description: "CPU and GPU fused into one extremely expensive opinion.",
+    description: "Effectively a Falcon 9 rocket strapped to a toaster.",
     baseCost: 12000,
-    baseRate: 5.8,
+    baseRate: 500,
   },
   {
     id: "b200",
     name: "Blackwell B200",
-    description: "The new hotness. Also the new invoice.",
+    description: "A chip so dense that it has its own gravitational pull.",
     baseCost: 130000,
-    baseRate: 11,
+    baseRate: 10000,
   },
   {
     id: "nvl72",
     name: "GB200 NVL72",
-    description: "Not one board, but a small society of them acting in concert.",
+    description: "A $3 million radiator that happens to be able to predict the next three words of your email with terrifying, god-like accuracy",
     baseCost: 1400000,
-    baseRate: 460,
+    baseRate: 1000000,
   },
   {
     id: "spiking",
     name: "Neuromorphic Spiking Core",
-    description: "The roadmap leaves GPUs and starts imitating biology badly.",
+    description: "The Brain-on-a-Chip that successfully mimics the human brain’s most defining trait—being completely temperamental and impossible to reason with.",
     baseCost: 20000000,
-    baseRate: 2600,
+    baseRate: 5000000,
   },
   {
     id: "dyson",
     name: "Dyson Swarm of Blackwells",
-    description: "An orbital shell of accelerators dedicated to pure throughput.",
+    description: "An oribtal shell of acclerators that treats the Sun as a slightly underpowered AA battery.",
     baseCost: 330000000,
-    baseRate: 20800,
+    baseRate: 100000000,
   },
 ];
 
@@ -487,7 +487,8 @@ const recentManualPrompts = [];
 const ownedPowerupView = { powerupSignature: "__init__" };
 
 let newsBuckets = [];
-let lastTweetText = null;
+const RECENT_TWEET_HISTORY = 8;
+const recentTweetTexts = [];
 let newsTickerRunning = false;
 
 function evaluateNewsBucket(bucket) {
@@ -508,23 +509,21 @@ function evaluateNewsBucket(bucket) {
   if (bucket.condition === "powerupOwned") {
     return state.purchasedPowerups.includes(bucket.powerup);
   }
-  if (bucket.condition === "always") {
-    return true;
-  }
-  return false;
+return false;
 }
 
 function pickNewsTweet() {
-  const eligible = [];
+  let eligible = [];
   for (const bucket of newsBuckets) {
     if (!evaluateNewsBucket(bucket)) continue;
-    for (const tweet of bucket.tweets) {
-      if (tweet.text !== lastTweetText) eligible.push(tweet);
-    }
+    for (const tweet of bucket.tweets) eligible.push(tweet);
   }
   if (!eligible.length) return null;
-  const tweet = eligible[Math.floor(Math.random() * eligible.length)];
-  lastTweetText = tweet.text;
+  const filtered = eligible.filter(t => !recentTweetTexts.includes(t.text));
+  const pool = filtered.length ? filtered : eligible;
+  const tweet = pool[Math.floor(Math.random() * pool.length)];
+  recentTweetTexts.push(tweet.text);
+  if (recentTweetTexts.length > RECENT_TWEET_HISTORY) recentTweetTexts.shift();
   return tweet;
 }
 
@@ -2141,8 +2140,6 @@ function logicTick() {
   if (wallClockNow - state.lastSaveAt >= SAVE_INTERVAL_MS) {
     saveGame("Autosaved.");
   }
-  const { main: tokenMain, unit: tokenUnit } = formatTokenDisplay(state.tokens);
-  document.title = tokenUnit ? `${tokenMain} ${tokenUnit} tokens — Token Clicker` : `${tokenMain} tokens — Token Clicker`;
   requestUIRender();
 }
 
@@ -2150,7 +2147,8 @@ function logicTick() {
 function tick(now) {
   renderPromptField(now);
 
-  const { main: tokenMain, unit: tokenUnit } = formatTokenDisplay(state.tokens);
+  const displayTokens = state.tokens + getTokensPerSecond() * ((now - lastLogicAt) / 1000);
+  const { main: tokenMain, unit: tokenUnit } = formatTokenDisplay(displayTokens);
   const tokenText = tokenUnit ? `${tokenMain}|${tokenUnit}` : tokenMain;
   if (headerView.tokens !== tokenText) {
     headerView.tokens = tokenText;
