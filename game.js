@@ -47,11 +47,25 @@ const entities = [
     baseRate: 500,
   },
   {
+    id: "groq",
+    name: "Groq Chip",
+    description: "No memory, no mercy, no waiting. Just tokens, delivered at a speed that makes GPUs feel personally attacked.",
+    baseCost: 70000,
+    baseRate: 800,
+  },
+  {
     id: "b200",
     name: "Blackwell B200",
     description: "A chip so dense that it has its own gravitational pull.",
     baseCost: 1000000,
     baseRate: 10000,
+  },
+  {
+    id: "asic",
+    name: "Hardwired AI ASIC",
+    description: "Designed to do exactly one thing. It does that one thing so fast it makes the laws of physics uncomfortable.",
+    baseCost: 2000000,
+    baseRate: 17000,
   },
   {
     id: "nvl72",
@@ -116,6 +130,16 @@ const ENTITY_ART = {
       <rect x="8" y="24" width="15" height="2.5" rx="1" fill="#d4ae67"/>
     </svg>
   `,
+  groq: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="5" y="9" width="22" height="14" rx="2.5" fill="#1c0a0a" stroke="#0a0404" stroke-width="1.8"/>
+      <rect x="9" y="12" width="14" height="8" rx="1.5" fill="#c01810"/>
+      <line x1="10" y1="14.5" x2="22" y2="14.5" stroke="#ff5533" stroke-width="1.2"/>
+      <line x1="10" y1="16" x2="22" y2="16" stroke="#ff7755" stroke-width="1.6"/>
+      <line x1="10" y1="17.5" x2="22" y2="17.5" stroke="#ff5533" stroke-width="1.2"/>
+      <rect x="8" y="24" width="16" height="2.5" rx="1" fill="#d4ae67"/>
+    </svg>
+  `,
   b200: `
     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <rect x="4" y="8" width="24" height="15" rx="3" fill="#232118" stroke="#0f0d08" stroke-width="2"/>
@@ -123,6 +147,23 @@ const ENTITY_ART = {
       <rect x="20" y="11" width="4" height="9" rx="1.5" fill="#88754c"/>
       <rect x="7" y="24" width="15" height="2.5" rx="1" fill="#d4ae67"/>
       <circle cx="24" cy="15" r="1.2" fill="#fff3cb"/>
+    </svg>
+  `,
+  asic: `
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="5" y="8" width="22" height="16" rx="2.5" fill="#192233" stroke="#0b131e" stroke-width="1.8"/>
+      <rect x="10" y="11" width="12" height="10" rx="1.5" fill="#2a4f6a"/>
+      <line x1="5" y1="13" x2="10" y2="13" stroke="#4adacc" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="5" y1="16" x2="10" y2="16" stroke="#4adacc" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="5" y1="19" x2="10" y2="19" stroke="#4adacc" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="22" y1="13" x2="27" y2="13" stroke="#4adacc" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="22" y1="16" x2="27" y2="16" stroke="#4adacc" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="22" y1="19" x2="27" y2="19" stroke="#4adacc" stroke-width="1.2" stroke-linecap="round"/>
+      <rect x="12" y="13" width="3.5" height="3" rx="0.6" fill="#3ec0a8"/>
+      <rect x="16.5" y="13" width="3.5" height="3" rx="0.6" fill="#2ea890"/>
+      <rect x="12" y="17" width="3.5" height="3" rx="0.6" fill="#2ea890"/>
+      <rect x="16.5" y="17" width="3.5" height="3" rx="0.6" fill="#3ec0a8"/>
+      <rect x="9" y="25" width="14" height="2.2" rx="1" fill="#d4ae67"/>
     </svg>
   `,
   nvl72: `
