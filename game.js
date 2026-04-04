@@ -1791,9 +1791,9 @@ function initializeEntities() {
     const card = document.createElement("article");
     card.className = "entity-card";
     card.tabIndex = 0;
-    card.addEventListener("mouseenter", () => setHoveredEntity(entity.id, card));
+    card.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") setHoveredEntity(entity.id, card); });
+    card.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") clearHoveredEntity(entity.id); });
     card.addEventListener("focus", () => setHoveredEntity(entity.id, card));
-    card.addEventListener("mouseleave", () => clearHoveredEntity(entity.id));
     card.addEventListener("blur", () => clearHoveredEntity(entity.id));
 
     const thumb = document.createElement("div");
@@ -1834,7 +1834,6 @@ function initializeEntities() {
     button.type = "button";
     button.textContent = "Buy";
     button.addEventListener("click", () => buyEntity(entity.id));
-    button.addEventListener("touchstart", (e) => { e.stopPropagation(); }, { passive: true });
 
     copy.append(titleRow, subline);
     card.append(thumb, copy, ownedLabel, button);
