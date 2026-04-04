@@ -1834,6 +1834,7 @@ function initializeEntities() {
     button.type = "button";
     button.textContent = "Buy";
     button.addEventListener("click", () => buyEntity(entity.id));
+    button.addEventListener("touchstart", (e) => { e.stopPropagation(); }, { passive: true });
 
     copy.append(titleRow, subline);
     card.append(thumb, copy, ownedLabel, button);
@@ -2159,6 +2160,20 @@ function bindEvents() {
   elements.promptButton.addEventListener("click", runManualPrompt);
   elements.saveButton.addEventListener("click", () => saveGame());
   elements.resetButton.addEventListener("click", resetGame);
+
+  elements.entityTooltip.addEventListener("click", () => {
+    hoveredEntityId = null;
+    hoveredEntityAnchor = null;
+    hideEntityTooltip();
+  });
+
+  document.addEventListener("touchstart", (e) => {
+    if (!e.target.closest(".entity-card") && !e.target.closest("#entityTooltip")) {
+      hoveredEntityId = null;
+      hoveredEntityAnchor = null;
+      hideEntityTooltip();
+    }
+  }, { passive: true });
 
   if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:") {
     document.querySelector("#debugActions").hidden = false;
