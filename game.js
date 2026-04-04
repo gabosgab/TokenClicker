@@ -1,6 +1,6 @@
 const STORAGE_KEY = "token-clicker-simple-save-v2";
 const SAVE_INTERVAL_MS = 10000;
-const COST_SCALE = 1.5;
+const COST_SCALE = 3;
 const MAX_OFFLINE_SECONDS = 60 * 60 * 8;
 const MANUAL_YIELD = 1;
 const MANUAL_RATE_WINDOW_MS = 4000;
