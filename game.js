@@ -1684,7 +1684,7 @@ function runManualPrompt() {
 function renderHeader() {
   const now = Date.now();
   const nextHeader = {
-    tps: `${formatFullNumber(getDisplayedTokensPerSecond(now))}/s`,
+    tps: `${formatFullNumber(getDisplayedTokensPerSecond(now))}`,
     manualYield: formatNumber(getManualYield()),
     prompts: formatNumber(state.manualPrompts),
     earned: formatNumber(state.totalEarned),
