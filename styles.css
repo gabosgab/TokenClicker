@@ -662,6 +662,10 @@ body {
   text-transform: uppercase;
 }
 
+.footer-actions[hidden] {
+  display: none;
+}
+
 .footer-actions {
   display: flex;
   gap: 12px;
