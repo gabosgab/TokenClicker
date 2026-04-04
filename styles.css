@@ -1087,9 +1087,12 @@ body {
   border-radius: 14px;
   border: 1px solid var(--line-mid);
   background: rgba(120, 60, 200, 0.18);
-  height: 80px;
-  overflow: hidden;
+  min-height: 80px;
+  overflow: visible;
   flex-shrink: 0;
+  align-items: flex-start;
+  padding-top: 16px;
+  padding-bottom: 16px;
   transition: opacity 0.4s;
 }
 
