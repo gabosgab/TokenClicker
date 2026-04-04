@@ -54,27 +54,7 @@
             <div id="ownedPowerupIcons" class="effect-icons owned-powerup-icons"></div>
           </section>
 
-          <div class="main-panel-footer">
-            <div class="simple-copy">
-              <p>Manual prompt yield: <strong id="manualYield">1</strong></p>
-              <p>Total prompts: <strong id="promptCount">0</strong></p>
-              <p>Total earned: <strong id="earnedCount">0</strong></p>
-            </div>
-
-            <div class="footer-actions">
-              <button id="saveButton" class="small-button" type="button">Save</button>
-              <button id="resetButton" class="small-button danger" type="button">
-                Reset
-              </button>
-            </div>
-            <div id="debugActions" class="footer-actions" hidden>
-              <button id="debug1M" class="small-button" type="button">+1M tokens</button>
-              <button id="debug100M" class="small-button" type="button">+100M tokens</button>
-            </div>
-            <p id="saveStatus" class="save-status">
-              Local save active. Progress is stored in this browser.
-            </p>
-          </div>
+          <div class="main-panel-footer"></div>
         </section>
 
         <section class="panel scene-panel">
@@ -99,6 +79,25 @@
 
 
           <div id="entityList" class="entity-list"></div>
+
+          <div class="shop-panel-footer">
+            <div class="simple-copy">
+              <p>Manual prompt yield: <strong id="manualYield">1</strong></p>
+              <p>Total prompts: <strong id="promptCount">0</strong></p>
+              <p>Total earned: <strong id="earnedCount">0</strong></p>
+            </div>
+            <div class="footer-actions">
+              <button id="saveButton" class="small-button" type="button">Save</button>
+              <button id="resetButton" class="small-button danger" type="button">Reset</button>
+            </div>
+            <div id="debugActions" class="footer-actions" hidden>
+              <button id="debug1M" class="small-button" type="button">+1M tokens</button>
+              <button id="debug100M" class="small-button" type="button">+100M tokens</button>
+            </div>
+            <p id="saveStatus" class="save-status">
+              Local save active. Progress is stored in this browser.
+            </p>
+          </div>
         </aside>
       </main>
     </div>

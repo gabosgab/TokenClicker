@@ -1473,6 +1473,8 @@ function buyEntity(entityId) {
   state.entities[entity.id] += 1;
   playSound(sounds.buy);
   elements.saveStatus.textContent = `Purchased ${entity.name}.`;
+  hoveredEntityId = null;
+  hoveredEntityAnchor = null;
   hideEntityTooltip();
   requestUIRender();
 }

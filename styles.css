@@ -704,6 +704,15 @@ body {
   gap: 12px;
 }
 
+.shop-panel-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .shop-header h2,
 .scene-header h2 {
   font-size: 1.8rem;
