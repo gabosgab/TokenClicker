@@ -6,14 +6,14 @@
 //   { condition: "entityOwned", entity: "id", min: N } — matches when entity count >= N (min defaults to 1)
 //   { condition: "powerupOwned", powerup: "id" } — matches when powerup is purchased
 //   { condition: "always" }                      — always eligible
-// Accounts: inferencewatch, aibro, normalperson_, guberment, dailynews, fuxnews, fakellon, vcman, nveedia, sundarish, samalt, darioish
+// Accounts: inferencewatch, aibro, normalperson_, guberment, dailynews, channel4news, fakellon, vcman, nveedia, sundarish, samalt, darioish
 const NEWS_DATA = [
   {
     condition: "tps",
     max: 0,
     tweets: [
       { account: "normalperson_", text: "I've heard about AI, is that Google?" },
-      { account: "fuxnews", text: "My grandson showed me this. I wish took a nap instead." },
+      { account: "channel4news", text: "My grandson showed me this. I wish took a nap instead." },
       { account: "sundarish", text: "We've been producing tokens at scale since 2015. Thrilling to see others join the space." },
       { account: "samalt", text: "zero tokens per second. this is the moment before the moment. most people underestimate this moment." },
       { account: "darioish", text: "Zero token output is the only provably safe initial state. We recommend reading our onboarding guide before proceeding. It's 47 pages." },
@@ -27,7 +27,7 @@ const NEWS_DATA = [
       { account: "inferencewatch", text: "Running inference on desktop silicon. Bold strategy." },
       { account: "normalperson_", text: "he bought a computer to make fake numbers go up" },
       { account: "nveedia", text: "We appreciate your business. Mac Studios were not one of our products." },
-      { account: "fuxnews", text: "Tokens: what are they? Where do they go? We sent a reporter. She hasn't come back." },
+      { account: "channel4news", text: "Tokens: what are they? Where do they go? We sent a reporter. She hasn't come back." },
       { account: "guberment", text: "We've confirmed tokens are being produced. We cannot confirm what a token is." },
       { account: "fakellon", text: "When I produced my first token, I cried. Then I acquired a satellite company." },
       { account: "guberment", text: "We're told AI is good for the economy. We're told a lot of things." },
@@ -42,8 +42,8 @@ const NEWS_DATA = [
     max: 100000,
     tweets: [
       { account: "vcman", text: "Early days. We're watching." },
-      { account: "fuxnews", text: "Apple releases new AI Siri, still somehow didn't do what you asked." },
-      { account: "fuxnews", text: "AI: harmless hobby or threat to Western civilization?" },
+      { account: "channel4news", text: "Apple releases new AI Siri, still somehow didn't do what you asked." },
+      { account: "channel4news", text: "AI: harmless hobby or threat to Western civilization?" },
       { account: "normalperson_", text: "That house at the end of the street is glowing, I heard it's a token farm?" },
       { account: "sundarish", text: "Five-figure throughput. We crossed this benchmark in 2018 during a demo. Genuinely exciting to see wider adoption." },
       { account: "samalt", text: "five figures per second. the curve is just beginning. I've seen the curve. trust it." },
@@ -58,7 +58,7 @@ const NEWS_DATA = [
       { account: "aibro", text: "6 digits LETS GO 📈" },
       { account: "dailynews", text: "Token velocity hits 6 digits. Experts are 'cautiously optimistic' and 'extremely worried.'" },
       { account: "normalperson_", text: "My electricity bill is a cry for help." },
-      { account: "fuxnews", text: "100,000 tokens per second: is your family safe? Tips at eleven." },
+      { account: "channel4news", text: "100,000 tokens per second: is your family safe? Tips at eleven." },
       { account: "dailynews", text: "Regional grid operator reports 'unexplained demand.' Source not yet identified." },
       { account: "nveedia", text: "We've noticed your throughput. We'd like to discuss your next procurement cycle." },
       { account: "dailynews", text: "Local operation described as 'a lot of computers in there.' Landlord reportedly 'uneasy.'" },
@@ -108,7 +108,7 @@ const NEWS_DATA = [
       { account: "guberment", text: "Three agencies are now involved. None of them are communicating with each other. Standard procedure." },
       { account: "vcman", text: "At nine-figure throughput, you're not raising money. Money is coming to you." },
       { account: "normalperson_", text: "compass stopped working near my house. probably fine." },
-      { account: "fuxnews", text: "Experts describe token velocity as 'unprecedented' and 'hard to look at directly.'" },
+      { account: "channel4news", text: "Experts describe token velocity as 'unprecedented' and 'hard to look at directly.'" },
       { account: "dailynews", text: "FAA issues airspace advisory over token operation. Pilots asked to adjust altitude. No reason given." },
       { account: "nveedia", text: "Jenseen would like to visit. Jenseen will be visiting. Jenseen has arrived." },
       { account: "sundarish", text: "Nine-figure throughput. This is Google infrastructure territory. Welcome. We've been here a while." },
@@ -122,7 +122,7 @@ const NEWS_DATA = [
     min: 1,
     tweets: [
       { account: "normalperson_", text: "he named each mac. he introduced me to them by name. they did not respond. he took notes." },
-      { account: "fuxnews", text: "Computers: how many is too many? Our panel of four. Only two had computers. Only one turned it on." },
+      { account: "channel4news", text: "Computers: how many is too many? Our panel of four. Only two had computers. Only one turned it on." },
       { account: "fakellon", text: "I once bought an Apple product. I returned it and started a company to replace it. That's called vision." },
       { account: "guberment", text: "We have a Mac. We use it for emails. We had no idea it could do this." },
       { account: "nveedia", text: "Mac Studio: not a GPU. Respectable though. Truly." },
@@ -179,7 +179,7 @@ const NEWS_DATA = [
     min: 1,
     tweets: [
       { account: "fakellon", text: "I ordered fourteen of these. They went to the wrong address. Meh." },
-      { account: "fuxnews", text: "New GPU costs more than a car. We drove both." },
+      { account: "channel4news", text: "New GPU costs more than a car. We drove both." },
       { account: "fakellon", text: "Blackwell. Named after a scientist. Mine is named after me. The market will decide which was correct." },
       { account: "normalperson_", text: "the previous hardware is now 'the old hardware.' it looks sad. i don't know if hardware can be sad." },
       { account: "vcman", text: "B200 TPS per dollar is actually reasonable at scale. This is what we say to feel better about the invoice." },
@@ -194,7 +194,7 @@ const NEWS_DATA = [
     min: 1,
     tweets: [
       { account: "fakellon", text: "I own fourteen NVL72s. They share a zip code with a river. The river is warmer now." },
-      { account: "fuxnews", text: "GPU rack: not a spice rack. Not a bike rack." },
+      { account: "channel4news", text: "GPU rack: not a spice rack. Not a bike rack." },
       { account: "normalperson_", text: "i asked what NVL stands for. he said something technical. i nodded. we moved on." },
       { account: "guberment", text: "We've requested a tour of this rack. We were not invited. We've requested again." },
       { account: "dailynews", text: "Structural engineer hired to assess floor load capacity." },
@@ -208,7 +208,7 @@ const NEWS_DATA = [
     entity: "spiking",
     min: 1,
     tweets: [
-      { account: "fuxnews", text: "Neuromorphic? In my day we just called it a brain." },
+      { account: "channel4news", text: "Neuromorphic? In my day we just called it a brain." },
       { account: "normalperson_", text: "it doesn't look like a normal chip. it has texture. chips should not have texture." },
       { account: "fakellon", text: "I am pivoting my entire compute stack to neuromorphic." },
       { account: "nveedia", text: "Neuromorphic: not our segment. We respect the segment." },
@@ -226,7 +226,7 @@ const NEWS_DATA = [
       { account: "normalperson_", text: "they put computers in space. around the sun. for tokens. i'm going to lie down." },
       { account: "fakellon", text: "I'd like to buy the swarm. I've sent a letter to whoever is in charge of the sun. Awaiting response." },
       { account: "guberment", text: "There are GPUs around the sun now. We've briefed the President. He asked if they were ours. We said 'sort of.'" },
-      { account: "fuxnews", text: "Computers near the sun: four seniors reacted. Two cried. One said 'is that legal.'" },
+      { account: "channel4news", text: "Computers near the sun: four seniors reacted. Two cried. One said 'is that legal.'" },
       { account: "normalperson_", text: "the sun set differently today. slightly darker. slightly warmer everywhere else. it was the tokens. i know it was the tokens." },
       { account: "sundarish", text: "Our data centers are 100% matched with renewable energy. Orbital compute raises interesting questions for our sustainability commitments. We're workshopping it." },
       { account: "samalt", text: "I wrote about stellar-scale compute in 2021. nobody took it seriously. somebody took it seriously." },
@@ -308,7 +308,7 @@ const NEWS_ACCOUNT_ART = {
     <rect x="4" y="25" width="24" height="2" rx="0 0 2.5 2.5" fill="#b91c1c"/>
   </svg>`,
 
-  fuxnews: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  channel4news: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#b45309"/>
     <rect x="3" y="5" width="26" height="18" rx="3" fill="#292524"/>
     <rect x="5" y="7" width="22" height="14" rx="1.5" fill="#1e3a5f"/>
