@@ -400,6 +400,7 @@ body {
   justify-content: center;
   gap: 10px;
   width: min(100%, 260px);
+  touch-action: manipulation;
   aspect-ratio: 1;
   margin: 0 auto;
   border-radius: 28px;

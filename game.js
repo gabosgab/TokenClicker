@@ -355,7 +355,7 @@ const powerups = [
     name: "Hotkey Daemon",
     description: "Turns manual prompting into a much more dangerous habit.",
     cost: 750,
-    effect: { type: "click", multiplier: 2 },
+    effect: { type: "click", multiplier: 4 },
     unlocks: (state) => state.manualPrompts >= 10,
   },
   {
@@ -363,7 +363,7 @@ const powerups = [
     name: "TMUX",
     description: "You discover tmux. You don't fully understand it. Output soars anyway.",
     cost: 3750,
-    effect: { type: "click", multiplier: 2 },
+    effect: { type: "click", multiplier: 4 },
     unlocks: (state) => state.purchasedPowerups.includes("hotkey") && state.totalEarned >= 1500,
   },
   {
@@ -371,7 +371,7 @@ const powerups = [
     name: "Macro Array",
     description: "One enter key becomes many, then many becomes a workflow problem.",
     cost: 18750,
-    effect: { type: "click", multiplier: 2 },
+    effect: { type: "click", multiplier: 4 },
     unlocks: (state) => state.purchasedPowerups.includes("recursive-cli") && state.totalEarned >= 15000,
   },
   {
@@ -379,7 +379,7 @@ const powerups = [
     name: "Hyperparameter Turbo",
     description: "Your model finds the perfect hyperparameters. Token production skyrockets. Nobody knows which ones. Nobody is asking.",
     cost: 93750,
-    effect: { type: "click", multiplier: 2 },
+    effect: { type: "click", multiplier: 4 },
     unlocks: (state) => state.purchasedPowerups.includes("macro-array") && state.totalEarned >= 150000,
   },
   {
@@ -387,7 +387,7 @@ const powerups = [
     name: "Jenseen's Neural Network Nunchucks",
     description: "A dynamic upgrade that slices through bottlenecks. Throughput doubles. Jenseen will not explain how the nunchucks work.",
     cost: 468750,
-    effect: { type: "click", multiplier: 2 },
+    effect: { type: "click", multiplier: 4 },
     unlocks: (state) => state.purchasedPowerups.includes("prompt-cache") && state.totalEarned >= 1500000,
   },
   {
@@ -395,7 +395,7 @@ const powerups = [
     name: "Manual Singularity",
     description: "Your fingertip now bends space, time, and prompt yield around itself.",
     cost: 2343750,
-    effect: { type: "click", multiplier: 2 },
+    effect: { type: "click", multiplier: 4 },
     unlocks: (state) => state.purchasedPowerups.includes("enter-furnace") && state.totalEarned >= 15000000,
   },
   {
@@ -1473,6 +1473,7 @@ function buyEntity(entityId) {
   state.entities[entity.id] += 1;
   playSound(sounds.buy);
   elements.saveStatus.textContent = `Purchased ${entity.name}.`;
+  hideEntityTooltip();
   requestUIRender();
 }
 
