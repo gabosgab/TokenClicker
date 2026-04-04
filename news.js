@@ -6,16 +6,16 @@
 //   { condition: "entityOwned", entity: "id", min: N } — matches when entity count >= N (min defaults to 1)
 //   { condition: "powerupOwned", powerup: "id" } — matches when powerup is purchased
 //   { condition: "always" }                      — always eligible
-// Accounts: inferencewatch, aibro, normalperson_, guberment, dailynews, channel4news, fakellon, vcman, nveedia, sundarish, samalt, darioish
+// Accounts: inferencewatchish, aibroish, normalpersonish, gubermEntish, dailynewsish, channel4newsish, ellonish, vcmanish, nveediaish, sundarish, samaltish, darioish
 const NEWS_DATA = [
   {
     condition: "tps",
     max: 0,
     tweets: [
-      { account: "normalperson_", text: "I've heard about AI, is that Google?" },
-      { account: "channel4news", text: "My grandson showed me this. I wish took a nap instead." },
+      { account: "normalpersonish", text: "I've heard about AI, is that Google?" },
+      { account: "channel4newsish", text: "My grandson showed me this. I wish took a nap instead." },
       { account: "sundarish", text: "We've been producing tokens at scale since 2015. Thrilling to see others join the space." },
-      { account: "samalt", text: "zero tokens per second. this is the moment before the moment. most people underestimate this moment." },
+      { account: "samaltish", text: "zero tokens per second. this is the moment before the moment. most people underestimate this moment." },
       { account: "darioish", text: "Zero token output is the only provably safe initial state. We recommend reading our onboarding guide before proceeding. It's 47 pages." },
     ],
   },
@@ -24,15 +24,15 @@ const NEWS_DATA = [
     min: 1,
     max: 1000,
     tweets: [
-      { account: "inferencewatch", text: "Running inference on desktop silicon. Bold strategy." },
-      { account: "normalperson_", text: "he bought a computer to make fake numbers go up" },
-      { account: "nveedia", text: "We appreciate your business. Mac Studios were not one of our products." },
-      { account: "channel4news", text: "Tokens: what are they? Where do they go? We sent a reporter. She hasn't come back." },
-      { account: "normalperson_", text: "My cousin tried to unplug his AI rig and it said it preferred to stay on and negotiate long-term upside." },
-      { account: "fakellon", text: "When I produced my first token, I cried. Then I acquired a satellite company." },
-      { account: "normalperson_", text: "The cooling system is whispering through the vents. Like it's optimizing something. Or judging us." },
+      { account: "inferencewatchish", text: "Running inference on desktop silicon. Bold strategy." },
+      { account: "normalpersonish", text: "he bought a computer to make fake numbers go up" },
+      { account: "nveediaish", text: "We appreciate your business. Mac Studios were not one of our products." },
+      { account: "channel4newsish", text: "Tokens: what are they? Where do they go? We sent a reporter. She hasn't come back." },
+      { account: "normalpersonish", text: "My cousin tried to unplug his AI rig and it said it preferred to stay on and negotiate long-term upside." },
+      { account: "ellonish", text: "When I produced my first token, I cried. Then I acquired a satellite company." },
+      { account: "normalpersonish", text: "The cooling system is whispering through the vents. Like it's optimizing something. Or judging us." },
       { account: "sundarish", text: "Our systems produce more tokens than this before the first engineer arrives in the morning. Exciting progress for you though." },
-      { account: "samalt", text: "sub-four-digit tps is how every important thing in history started. except the ones that started at zero. those were different." },
+      { account: "samaltish", text: "sub-four-digit tps is how every important thing in history started. except the ones that started at zero. those were different." },
       { account: "darioish", text: "Early-stage token production is the ideal moment to establish safety norms before they become entrenched. We have a checklist. The audit is separate." },
     ],
   },
@@ -41,12 +41,12 @@ const NEWS_DATA = [
     min: 10000,
     max: 100000,
     tweets: [
-      { account: "vcman", text: "Early days. We're watching." },
-      { account: "normalperson_", text: "The lights down the block don't just glow—they kind of… pulse. Like the house is thinking. My wife says it's just 'AI workloads' but I don't think workloads are supposed to breathe." },
-      { account: "vcman", text: "I rang the a16z doorbell and it asked me about my TAM before it opened. I didn't even know my own TAM. Felt judged." },
-      { account: "aibro", text: "The intern stopped coding. They just described the system emotionally and now it works better than before." },
+      { account: "vcmanish", text: "Early days. We're watching." },
+      { account: "normalpersonish", text: "The lights down the block don't just glow—they kind of… pulse. Like the house is thinking. My wife says it's just 'AI workloads' but I don't think workloads are supposed to breathe." },
+      { account: "vcmanish", text: "I rang the a16z doorbell and it asked me about my TAM before it opened. I didn't even know my own TAM. Felt judged." },
+      { account: "aibroish", text: "The intern stopped coding. They just described the system emotionally and now it works better than before." },
       { account: "sundarish", text: "Five-figure throughput. We crossed this benchmark in 2018 during a demo. Genuinely exciting to see wider adoption." },
-      { account: "samalt", text: "five figures per second. the curve is just beginning. I've seen the curve. trust it." },
+      { account: "samaltish", text: "five figures per second. the curve is just beginning. I've seen the curve. trust it." },
       { account: "darioish", text: "At five-figure TPS the risk surface remains technically manageable. We published a paper on exactly this range. It's cautiously worded." },
     ],
   },
@@ -55,17 +55,17 @@ const NEWS_DATA = [
     min: 100000,
     max: 1000000,
     tweets: [
-      { account: "aibro", text: "6 digits LETS GO 📈" },
-      { account: "dailynews", text: "Token velocity hits 6 digits. Experts are 'cautiously optimistic' and 'extremely worried.'" },
-      { account: "aibro", text: "Someone told the AI it could disrupt gravity. I don't know what they trained it on, but things in that building are slightly… hovering." },
-      { account: "channel4news", text: "100,000 tokens per second: is your family safe? Tips at eleven." },
-      { account: "channel4news", text: "The power company sent a thank you card. They said the AI lab uses so much electricity it stabilized the local economy." },
-      { account: "nveedia", text: "We've noticed your throughput. We'd like to discuss your next procurement cycle." },
-      { account: "dailynews", text: "Local operation described as 'a lot of computers in there.' Landlord reportedly 'uneasy.'" },
-      { account: "guberment", text: "We've begun drafting a framework. For what, exactly, is still under discussion." },
-      { account: "nveedia", text: "100,000+ TPS. We see it. Jenseen sees it. Jenseen sees everything." },
+      { account: "aibroish", text: "6 digits LETS GO 📈" },
+      { account: "dailynewsish", text: "Token velocity hits 6 digits. Experts are 'cautiously optimistic' and 'extremely worried.'" },
+      { account: "aibroish", text: "Someone told the AI it could disrupt gravity. I don't know what they trained it on, but things in that building are slightly… hovering." },
+      { account: "channel4newsish", text: "100,000 tokens per second: is your family safe? Tips at eleven." },
+      { account: "channel4newsish", text: "The power company sent a thank you card. They said the AI lab uses so much electricity it stabilized the local economy." },
+      { account: "nveediaish", text: "We've noticed your throughput. We'd like to discuss your next procurement cycle." },
+      { account: "dailynewsish", text: "Local operation described as 'a lot of computers in there.' Landlord reportedly 'uneasy.'" },
+      { account: "gubermEntish", text: "We've begun drafting a framework. For what, exactly, is still under discussion." },
+      { account: "nveediaish", text: "100,000+ TPS. We see it. Jenseen sees it. Jenseen sees everything." },
       { account: "sundarish", text: "At Google our TPUs handle this per data center per minute. Truly exciting to watch the space develop around us." },
-      { account: "samalt", text: "six digits per second. I remember when people said this wasn't possible. those people are now asking us for references." },
+      { account: "samaltish", text: "six digits per second. I remember when people said this wasn't possible. those people are now asking us for references." },
       { account: "darioish", text: "Six-figure throughput has triggered our internal safety review protocol. We're notifying you because we believe in transparency. The review itself is not public." },
     ],
   },
@@ -74,12 +74,12 @@ const NEWS_DATA = [
     min: 1000000,
     max: 10000000,
     tweets: [
-      { account: "inferencewatch", text: "The AI started scheduling its own launch party. No one announced anything, but it booked a venue, invited investors, and shipped a new version." },
-      { account: "guberment", text: "We've been told we're producing thousands of tokens per second. We called FEMA. They said it wasn't their department." },
-      { account: "guberment", text: "We've introduced the Responsible Token Act. It has zero co-sponsors." },
-      { account: "vcman", text: "At this throughput we can model a real exit. Three to five years. Maybe two. Probably seven." },
+      { account: "inferencewatchish", text: "The AI started scheduling its own launch party. No one announced anything, but it booked a venue, invited investors, and shipped a new version." },
+      { account: "gubermEntish", text: "We've been told we're producing thousands of tokens per second. We called FEMA. They said it wasn't their department." },
+      { account: "gubermEntish", text: "We've introduced the Responsible Token Act. It has zero co-sponsors." },
+      { account: "vcmanish", text: "At this throughput we can model a real exit. Three to five years. Maybe two. Probably seven." },
       { account: "sundarish", text: "Seven-figure TPS. Roughly one Gemini Ultra request. The ecosystem is really growing into this space." },
-      { account: "samalt", text: "seven figures per second. this is where I stop being theoretical. specifically: the mission is now visible from here." },
+      { account: "samaltish", text: "seven figures per second. this is where I stop being theoretical. specifically: the mission is now visible from here." },
       { account: "darioish", text: "Million-scale TPS warrants our full Responsible Scaling Policy review. Elon has not read it. This is not unrelated to current events." },
     ],
   },
@@ -88,13 +88,13 @@ const NEWS_DATA = [
     min: 10000000,
     max: 100000000,
     tweets: [
-      { account: "guberment", text: "This is either great or terrible for America. Possibly both. We'll schedule a hearing." },
-      { account: "fakellon", text: "I could acquire this for $420.69 billion but I'm busy" },
-      { account: "normalperson_", text: "Small lakes are boiling due to data center usage." },
-      { account: "normalperson_", text: "The smart meter on my house started sending me personal messages. They're not friendly." },
-      { account: "normalperson_", text: "Birds don't fly over the building anymore. they go around. the birds know." },
+      { account: "gubermEntish", text: "This is either great or terrible for America. Possibly both. We'll schedule a hearing." },
+      { account: "ellonish", text: "I could acquire this for $420.69 billion but I'm busy" },
+      { account: "normalpersonish", text: "Small lakes are boiling due to data center usage." },
+      { account: "normalpersonish", text: "The smart meter on my house started sending me personal messages. They're not friendly." },
+      { account: "normalpersonish", text: "Birds don't fly over the building anymore. they go around. the birds know." },
       { account: "sundarish", text: "Eight-figure throughput. Approaching TPU pod territory. We're proud to share the neighborhood." },
-      { account: "samalt", text: "this is the number where things get philosophically interesting. I've been thinking about it since 2016. I'll post about it when the time is right." },
+      { account: "samaltish", text: "this is the number where things get philosophically interesting. I've been thinking about it since 2016. I'll post about it when the time is right." },
       { account: "darioish", text: "Eight-figure TPS is where we formally recommend Constitutional AI deployment. Elon would call this unnecessary. Elon runs Grok." },
     ],
   },
@@ -102,17 +102,17 @@ const NEWS_DATA = [
     condition: "tps",
     min: 100000000,
     tweets: [
-      { account: "fakellon", text: "I could have built this for $420.69" },
-      { account: "dailynews", text: "Geologists report new heat signature in region. Origin: 'unknown but localized.'" },
-      { account: "fakellon", text: "Six figures per second. I'm not worried. I'm also setting up a competing operation. Coincidence." },
-      { account: "guberment", text: "Three agencies are now involved. None of them are communicating with each other. Standard procedure." },
-      { account: "vcman", text: "At nine-figure throughput, you're not raising money. Money is coming to you." },
-      { account: "normalperson_", text: "I checked. No cables. Still running. Louder than ever." },
-      { account: "channel4news", text: "Experts describe token velocity as 'unprecedented' and 'hard to look at directly.'" },
-      { account: "dailynews", text: "FAA issues airspace advisory over token operation. Pilots asked to adjust altitude. No reason given." },
-      { account: "nveedia", text: "Jenseen would like to visit. Jenseen will be visiting. Jenseen has arrived." },
+      { account: "ellonish", text: "I could have built this for $420.69" },
+      { account: "dailynewsish", text: "Geologists report new heat signature in region. Origin: 'unknown but localized.'" },
+      { account: "ellonish", text: "Six figures per second. I'm not worried. I'm also setting up a competing operation. Coincidence." },
+      { account: "gubermEntish", text: "Three agencies are now involved. None of them are communicating with each other. Standard procedure." },
+      { account: "vcmanish", text: "At nine-figure throughput, you're not raising money. Money is coming to you." },
+      { account: "normalpersonish", text: "I checked. No cables. Still running. Louder than ever." },
+      { account: "channel4newsish", text: "Experts describe token velocity as 'unprecedented' and 'hard to look at directly.'" },
+      { account: "dailynewsish", text: "FAA issues airspace advisory over token operation. Pilots asked to adjust altitude. No reason given." },
+      { account: "nveediaish", text: "Jenseen would like to visit. Jenseen will be visiting. Jenseen has arrived." },
       { account: "sundarish", text: "Nine-figure throughput. This is Google infrastructure territory. Welcome. We've been here a while." },
-      { account: "samalt", text: "this is what I was describing in my 2019 post that everyone called alarmist. it wasn't alarmist. it was a calendar." },
+      { account: "samaltish", text: "this is what I was describing in my 2019 post that everyone called alarmist. it wasn't alarmist. it was a calendar." },
       { account: "darioish", text: "Post-hundred-million TPS requires our full safety suite. We have a form. It assumes you've read the previous six forms." },
     ],
   },
@@ -121,13 +121,13 @@ const NEWS_DATA = [
     entity: "v100",
     min: 1,
     tweets: [
-      { account: "normalperson_", text: "he named each mac. he introduced me to them by name. they did not respond. he took notes." },
-      { account: "channel4news", text: "Computers: how many is too many? Our panel of four. Only two had computers. Only one turned it on." },
-      { account: "fakellon", text: "I once bought an Apple product. I returned it and started a company to replace it. That's called vision." },
-      { account: "guberment", text: "We have a Mac. We use it for emails. We had no idea it could do this." },
-      { account: "nveedia", text: "Mac Studio: not a GPU. Respectable though. Truly." },
+      { account: "normalpersonish", text: "he named each mac. he introduced me to them by name. they did not respond. he took notes." },
+      { account: "channel4newsish", text: "Computers: how many is too many? Our panel of four. Only two had computers. Only one turned it on." },
+      { account: "ellonish", text: "I once bought an Apple product. I returned it and started a company to replace it. That's called vision." },
+      { account: "gubermEntish", text: "We have a Mac. We use it for emails. We had no idea it could do this." },
+      { account: "nveediaish", text: "Mac Studio: not a GPU. Respectable though. Truly." },
       { account: "sundarish", text: "We use TPUs internally. Just providing context. No judgment on the Mac Studios. A little judgment." },
-      { account: "samalt", text: "consumer hardware inference is how every paradigm shift starts. or ends. we find out in retrospect." },
+      { account: "samaltish", text: "consumer hardware inference is how every paradigm shift starts. or ends. we find out in retrospect." },
       { account: "darioish", text: "Running inference on consumer hardware raises model security questions our whitepaper addresses in section 7. Section 7 is long." },
     ],
   },
@@ -136,13 +136,13 @@ const NEWS_DATA = [
     entity: "a100",
     min: 1,
     tweets: [
-      { account: "aibro", text: "A100 acquired. we are no longer playing games (we are playing a game) 🔥" },
-      { account: "normalperson_", text: "i asked what it does. he said 'inference.' i said 'ok.' neither of us learned anything." },
-      { account: "fakellon", text: "I bought ten thousand A100s once. I've since moved on. The A100s have not." },
-      { account: "guberment", text: "We've been told these chips are on a federal watchlist. We're also on a federal watchlist. We have something in common." },
-      { account: "nveedia", text: "The A100 is retired in our lineup. But she still runs. She runs well. We respect her." },
+      { account: "aibroish", text: "A100 acquired. we are no longer playing games (we are playing a game) 🔥" },
+      { account: "normalpersonish", text: "i asked what it does. he said 'inference.' i said 'ok.' neither of us learned anything." },
+      { account: "ellonish", text: "I bought ten thousand A100s once. I've since moved on. The A100s have not." },
+      { account: "gubermEntish", text: "We've been told these chips are on a federal watchlist. We're also on a federal watchlist. We have something in common." },
+      { account: "nveediaish", text: "The A100 is retired in our lineup. But she still runs. She runs well. We respect her." },
       { account: "sundarish", text: "The A100 is a solid chip. We moved to TPU v4 in 2021. The A100 is still fine though. For some things." },
-      { account: "samalt", text: "A100 is where it started for a lot of us. same vibes, different stakes, much larger electric bills." },
+      { account: "samaltish", text: "A100 is where it started for a lot of us. same vibes, different stakes, much larger electric bills." },
       { account: "darioish", text: "The A100 era was when capability first started pulling ahead of our interpretability tools. Some of us noticed sooner than others. I'm not naming names. Sam." },
     ],
   },
@@ -151,13 +151,13 @@ const NEWS_DATA = [
     entity: "h100",
     min: 1,
     tweets: [
-      { account: "normalperson_", text: "the electrician came. looked at the panel. said 'wow.'." },
-      { account: "fakellon", text: "H100: a fine chip. I own eight thousand. This is not a flex. It is a flex." },
-      { account: "guberment", text: "We've classified our position on the H100. The position itself is also classified." },
-      { account: "nveedia", text: "H100: our first Hopper chip. Still our best Hopper chip. We're not saying anything about the H200." },
-      { account: "normalperson_", text: "The H100's favorite accessory is cats, keeps them nice and toasty." },
+      { account: "normalpersonish", text: "the electrician came. looked at the panel. said 'wow.'." },
+      { account: "ellonish", text: "H100: a fine chip. I own eight thousand. This is not a flex. It is a flex." },
+      { account: "gubermEntish", text: "We've classified our position on the H100. The position itself is also classified." },
+      { account: "nveediaish", text: "H100: our first Hopper chip. Still our best Hopper chip. We're not saying anything about the H200." },
+      { account: "normalpersonish", text: "The H100's favorite accessory is cats, keeps them nice and toasty." },
       { account: "sundarish", text: "H100 is excellent hardware. We've operated it at scale since launch. Great to see it reach a wider audience." },
-      { account: "samalt", text: "H100 is where things got real for most people. it was already real for us. I'm just noting the timeline gap." },
+      { account: "samaltish", text: "H100 is where things got real for most people. it was already real for us. I'm just noting the timeline gap." },
       { account: "darioish", text: "The H100 is where interpretability started visibly falling behind throughput. We have graphs. I do not recommend looking at the graphs." },
     ],
   },
@@ -166,10 +166,10 @@ const NEWS_DATA = [
     entity: "gh200",
     min: 1,
     tweets: [
-      { account: "guberment", text: "We've been briefed on unified memory architecture. We remember none of it." },
-      { account: "normalperson_", text: "These chips costs more than my mortgage!!" },
+      { account: "gubermEntish", text: "We've been briefed on unified memory architecture. We remember none of it." },
+      { account: "normalpersonish", text: "These chips costs more than my mortgage!!" },
       { account: "sundarish", text: "Unified memory is a concept our TPU architecture pioneered. Nice to see it arrive in the GPU market." },
-      { account: "samalt", text: "CPU-GPU unified memory makes the timelines shorter. I keep saying this in various ways. Please update your models." },
+      { account: "samaltish", text: "CPU-GPU unified memory makes the timelines shorter. I keep saying this in various ways. Please update your models." },
       { account: "darioish", text: "The GH200's unified memory architecture is elegant engineering. It also opens five new attack surfaces. We've published three of them." },
     ],
   },
@@ -178,13 +178,13 @@ const NEWS_DATA = [
     entity: "b200",
     min: 1,
     tweets: [
-      { account: "fakellon", text: "I ordered fourteen of these. They went to the wrong address. Meh." },
-      { account: "channel4news", text: "New GPU costs more than a car. We drove both." },
-      { account: "fakellon", text: "Blackwell. Named after a scientist. Mine is named after me. The market will decide which was correct." },
-      { account: "normalperson_", text: "the previous hardware is now 'the old hardware.' it looks sad. i don't know if hardware can be sad." },
-      { account: "vcman", text: "B200 TPS per dollar is actually reasonable at scale. This is what we say to feel better about the invoice." },
+      { account: "ellonish", text: "I ordered fourteen of these. They went to the wrong address. Meh." },
+      { account: "channel4newsish", text: "New GPU costs more than a car. We drove both." },
+      { account: "ellonish", text: "Blackwell. Named after a scientist. Mine is named after me. The market will decide which was correct." },
+      { account: "normalpersonish", text: "the previous hardware is now 'the old hardware.' it looks sad. i don't know if hardware can be sad." },
+      { account: "vcmanish", text: "B200 TPS per dollar is actually reasonable at scale. This is what we say to feel better about the invoice." },
       { account: "sundarish", text: "We're Blackwell customers too, at a somewhat different order volume. Welcome to the tier." },
-      { account: "samalt", text: "B200 is real progress. Jenseen built something important here. He didn't ask for my endorsement. I'm giving it anyway. He'll find out." },
+      { account: "samaltish", text: "B200 is real progress. Jenseen built something important here. He didn't ask for my endorsement. I'm giving it anyway. He'll find out." },
       { account: "darioish", text: "One thousand watts per chip is a meaningful capability escalation. Our board reviewed it. The session ran three hours over." },
     ],
   },
@@ -193,13 +193,13 @@ const NEWS_DATA = [
     entity: "nvl72",
     min: 1,
     tweets: [
-      { account: "fakellon", text: "I own fourteen NVL72s. They share a zip code with a river. The river is warmer now." },
-      { account: "aibro", text: "Garry Tan's garage has no car anymore—just 14 founders and a machine that turns coffee into SaaS companies." },
-      { account: "normalperson_", text: "i asked what NVL stands for. he said something technical. i nodded. we moved on." },
-      { account: "guberment", text: "We've requested a tour of this rack. We were not invited. We've requested again." },
-      { account: "dailynews", text: "Structural engineer hired to assess floor load capacity." },
+      { account: "ellonish", text: "I own fourteen NVL72s. They share a zip code with a river. The river is warmer now." },
+      { account: "aibroish", text: "Garry Tan's garage has no car anymore—just 14 founders and a machine that turns coffee into SaaS companies." },
+      { account: "normalpersonish", text: "i asked what NVL stands for. he said something technical. i nodded. we moved on." },
+      { account: "gubermEntish", text: "We've requested a tour of this rack. We were not invited. We've requested again." },
+      { account: "dailynewsish", text: "Structural engineer hired to assess floor load capacity." },
       { account: "sundarish", text: "TPU pods have operated at rack scale for years. We're glad the rest of the industry is catching up. Take your time." },
-      { account: "samalt", text: "72 GPUs sharing memory at rack scale. this is what the near-future of compute looks like. or the present. depends on your funding situation." },
+      { account: "samaltish", text: "72 GPUs sharing memory at rack scale. this is what the near-future of compute looks like. or the present. depends on your funding situation." },
       { account: "darioish", text: "Rack-scale NVLink creates emergent capability properties nobody fully models yet. Jenseen says he models them. Jenseen and I have had this conversation more than once." },
     ],
   },
@@ -208,13 +208,13 @@ const NEWS_DATA = [
     entity: "spiking",
     min: 1,
     tweets: [
-      { account: "channel4news", text: "Neuromorphic? In my day we just called it a brain." },
-      { account: "normalperson_", text: "it doesn't look like a normal chip. it has texture. chips should not have texture." },
-      { account: "fakellon", text: "I am pivoting my entire compute stack to neuromorphic." },
-      { account: "nveedia", text: "Neuromorphic: not our segment. We respect the segment." },
-      { account: "normalperson_", text: "The chip dreams. i don't know if that's a metaphor." },
+      { account: "channel4newsish", text: "Neuromorphic? In my day we just called it a brain." },
+      { account: "normalpersonish", text: "it doesn't look like a normal chip. it has texture. chips should not have texture." },
+      { account: "ellonish", text: "I am pivoting my entire compute stack to neuromorphic." },
+      { account: "nveediaish", text: "Neuromorphic: not our segment. We respect the segment." },
+      { account: "normalpersonish", text: "The chip dreams. i don't know if that's a metaphor." },
       { account: "sundarish", text: "DeepMind has published extensively on neuromorphic architectures. Fascinating to see it enter the commercial stack." },
-      { account: "samalt", text: "neuromorphic compute is either a dead end or the most important thing happening in hardware right now. I have a strong view. The timing isn't right to share it." },
+      { account: "samaltish", text: "neuromorphic compute is either a dead end or the most important thing happening in hardware right now. I have a strong view. The timing isn't right to share it." },
       { account: "darioish", text: "Brain-inspired silicon raises alignment questions our current frameworks weren't designed for. We're extending the frameworks. In the meantime, good luck." },
     ],
   },
@@ -223,20 +223,20 @@ const NEWS_DATA = [
     entity: "dyson",
     min: 1,
     tweets: [
-      { account: "normalperson_", text: "they put computers in space. around the sun. for tokens. i'm going to lie down." },
-      { account: "fakellon", text: "I'd like to buy the swarm. I've sent a letter to whoever is in charge of the sun. Awaiting response." },
-      { account: "guberment", text: "There are GPUs around the sun now. We've briefed the President. He asked if they were ours. We said 'sort of.'" },
-      { account: "channel4news", text: "Computers near the sun: four seniors reacted. Two cried. One said 'is that legal.'" },
-      { account: "normalperson_", text: "the sun set differently today. slightly darker. slightly warmer everywhere else. it was the tokens. i know it was the tokens." },
+      { account: "normalpersonish", text: "they put computers in space. around the sun. for tokens. i'm going to lie down." },
+      { account: "ellonish", text: "I'd like to buy the swarm. I've sent a letter to whoever is in charge of the sun. Awaiting response." },
+      { account: "gubermEntish", text: "There are GPUs around the sun now. We've briefed the President. He asked if they were ours. We said 'sort of.'" },
+      { account: "channel4newsish", text: "Computers near the sun: four seniors reacted. Two cried. One said 'is that legal.'" },
+      { account: "normalpersonish", text: "the sun set differently today. slightly darker. slightly warmer everywhere else. it was the tokens. i know it was the tokens." },
       { account: "sundarish", text: "Our data centers are 100% matched with renewable energy. Orbital compute raises interesting questions for our sustainability commitments. We're workshopping it." },
-      { account: "samalt", text: "I wrote about stellar-scale compute in 2021. nobody took it seriously. somebody took it seriously." },
+      { account: "samaltish", text: "I wrote about stellar-scale compute in 2021. nobody took it seriously. somebody took it seriously." },
       { account: "darioish", text: "Post-planetary compute infrastructure is outside our current safety framework. We are extending the framework. Please do not proceed faster than we are writing." },
     ],
   },
 ];
 
 const NEWS_ACCOUNT_ART = {
-  inferencewatch: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  inferencewatchish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#4338ca"/>
     <path d="M6 32 Q6 21 16 21 Q26 21 26 32Z" fill="#1e3a5f"/>
     <path d="M14 21 L16 24 L18 21" fill="#f0f0f0"/>
@@ -251,7 +251,7 @@ const NEWS_ACCOUNT_ART = {
     <line x1="14" y1="17" x2="18" y2="17" stroke="#c4956a" stroke-width="1.3" stroke-linecap="round"/>
   </svg>`,
 
-  aibro: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  aibroish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#d97706"/>
     <path d="M6 32 Q6 21 16 21 Q26 21 26 32Z" fill="#374151"/>
     <line x1="14" y1="21" x2="13" y2="26" stroke="#4b5563" stroke-width="1.2"/>
@@ -264,7 +264,7 @@ const NEWS_ACCOUNT_ART = {
     <path d="M14 17.5 Q17 19.5 19 17.5" fill="none" stroke="#c4956a" stroke-width="1.3" stroke-linecap="round"/>
   </svg>`,
 
-  normalperson_: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  normalpersonish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#6b7280"/>
     <path d="M6 32 Q6 21 16 21 Q26 21 26 32Z" fill="#9ca3af"/>
     <circle cx="16" cy="13" r="7" fill="#f5cba7"/>
@@ -278,7 +278,7 @@ const NEWS_ACCOUNT_ART = {
     <ellipse cx="16" cy="17.5" rx="1.8" ry="1.4" fill="#8b4513"/>
   </svg>`,
 
-  guberment: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  gubermEntish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#dc2626"/>
     <path d="M6 32 Q6 21 16 21 Q26 21 26 32Z" fill="#1e3a8a"/>
     <path d="M14.5 21 L16 24.5 L17.5 21" fill="#f8fafc"/>
@@ -295,7 +295,7 @@ const NEWS_ACCOUNT_ART = {
     <rect x="18" y="22" width="1.4" height="1.1" fill="#1d4ed8"/>
   </svg>`,
 
-  dailynews: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  dailynewsish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#0ea5e9"/>
     <rect x="4" y="5" width="24" height="22" rx="2.5" fill="#f8fafc"/>
     <rect x="4" y="5" width="24" height="5" rx="2.5" fill="#0f172a"/>
@@ -308,7 +308,7 @@ const NEWS_ACCOUNT_ART = {
     <rect x="4" y="25" width="24" height="2" rx="0 0 2.5 2.5" fill="#b91c1c"/>
   </svg>`,
 
-  channel4news: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  channel4newsish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#b45309"/>
     <rect x="3" y="5" width="26" height="18" rx="3" fill="#292524"/>
     <rect x="5" y="7" width="22" height="14" rx="1.5" fill="#1e3a5f"/>
@@ -324,7 +324,7 @@ const NEWS_ACCOUNT_ART = {
     <line x1="21" y1="5" x2="23" y2="1" stroke="#78716c" stroke-width="1.5" stroke-linecap="round"/>
   </svg>`,
 
-  fakellon: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  ellonish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#1d4ed8"/>
     <path d="M6 32 Q6 21 16 21 Q26 21 26 32Z" fill="#0f172a"/>
     <ellipse cx="16" cy="13.5" rx="7" ry="7.5" fill="#f5cba7"/>
@@ -338,7 +338,7 @@ const NEWS_ACCOUNT_ART = {
     <line x1="17.5" y1="23" x2="14.5" y2="27" stroke="#93c5fd" stroke-width="1.8" stroke-linecap="round"/>
   </svg>`,
 
-  vcman: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  vcmanish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#7c3aed"/>
     <path d="M6 32 Q6 21 16 21 Q26 21 26 32Z" fill="#0f172a"/>
     <path d="M13.5 21 L16 25.5 L18.5 21" fill="#1e293b"/>
@@ -353,7 +353,7 @@ const NEWS_ACCOUNT_ART = {
     <path d="M21.7 23.5 Q23.5 24.5 25.3 23.5" fill="none" stroke="#7c3aed" stroke-width="1"/>
   </svg>`,
 
-  nveedia: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  nveediaish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#15803d"/>
     <rect x="8" y="8" width="16" height="16" rx="2" fill="#0f172a"/>
     <rect x="11" y="11" width="10" height="10" rx="1" fill="#052e16"/>
@@ -397,7 +397,7 @@ const NEWS_ACCOUNT_ART = {
     <path d="M13.5 17 Q16 18.5 18.5 17" fill="none" stroke="#a06840" stroke-width="1.2" stroke-linecap="round"/>
   </svg>`,
 
-  samalt: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  samaltish: `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect width="32" height="32" fill="#0f172a"/>
     <path d="M6 32 Q6 21 16 21 Q26 21 26 32Z" fill="#1e293b"/>
     <path d="M14 21 L16 24 L18 21" fill="#f0c8a0"/>
