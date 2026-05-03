@@ -92,6 +92,36 @@ const entities = [
 
 const LEGACY_ENTITY_IDS = ["templates", "agents", "racks", "labs", "councils", "cores", "seeders"];
 
+const MILESTONES = [
+  { threshold: 0,              message: "You feel like you could produce some tokens. But nobody wants your tokens." },
+  { threshold: 5,              message: "Your first batch of tokens goes unnoticed. The neighborhood raccoon isn't interested." },
+  { threshold: 50,             message: "Your family agrees to try using your tokens." },
+  { threshold: 100,            message: "Your tokens are gaining traction in the neighborhood." },
+  { threshold: 500,            message: "People are starting to talk about your tokens." },
+  { threshold: 1_000,          message: "Your tokens are talked about for miles around." },
+  { threshold: 5_000,          message: "Your tokens are renowned in the whole town!" },
+  { threshold: 10_000,         message: "Your tokens bring all the investors to the table." },
+  { threshold: 50_000,         message: "Your tokens now have their own website." },
+  { threshold: 100_000,        message: "Your tokens are worth serious money." },
+  { threshold: 500_000,        message: "Your tokens are trading in distant markets." },
+  { threshold: 1_000_000,      message: "People come from very far away to get a taste of your tokens." },
+  { threshold: 5_000_000,      message: "Kings and queens from all over the world are running on your tokens." },
+  { threshold: 10_000_000,     message: "There are now museums dedicated to your tokens." },
+  { threshold: 50_000_000,     message: "A national day has been created in honor of your tokens." },
+  { threshold: 100_000_000,    message: "Your tokens have been named one of the wonders of the world." },
+  { threshold: 500_000_000,    message: "History books now include a whole chapter about your tokens." },
+  { threshold: 1_000_000_000,  message: "Your tokens have been placed under government surveillance." },
+  { threshold: 5_000_000_000,  message: "The whole planet is running on your tokens." },
+  { threshold: 10_000_000_000, message: "Strange creatures from neighboring planets wish to use your tokens." },
+  { threshold: 50_000_000_000, message: "Elder gods from the whole cosmos have awoken to transact with your tokens." },
+  { threshold: 100_000_000_000,message: "Beings from other dimensions lapse into existence just to get a taste of your tokens." },
+  { threshold: 500_000_000_000,message: "Your tokens have achieved sentience." },
+  { threshold: 1e12,           message: "The universe has now turned into token data, to the molecular level." },
+  { threshold: 5e12,           message: "Your tokens are rewriting the fundamental laws of the universe." },
+  { threshold: 10e12,          message: "It's time to stop playing." },
+  { threshold: 100e12,         message: "A local news station runs a 10-minute segment about your tokens. Success!" },
+];
+
 const ENTITY_ART = {
   v100: `
     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -531,6 +561,7 @@ const elements = {
   saveButton: document.querySelector("#saveButton"),
   resetButton: document.querySelector("#resetButton"),
   saveStatus: document.querySelector("#saveStatus"),
+  milestoneMessage: document.querySelector("#milestoneMessage"),
   newsCard: document.querySelector("#newsCard"),
   newsAvatar: document.querySelector("#newsAvatar"),
   newsHandle: document.querySelector("#newsHandle"),
@@ -2063,6 +2094,20 @@ function renderPowerups() {
   syncPowerupTooltip();
 }
 
+const milestoneView = { text: null };
+
+function renderMilestone() {
+  let current = MILESTONES[0];
+  for (const m of MILESTONES) {
+    if (state.totalEarned >= m.threshold) current = m;
+    else break;
+  }
+  if (milestoneView.text !== current.message) {
+    milestoneView.text = current.message;
+    elements.milestoneMessage.textContent = current.message;
+  }
+}
+
 function render() {
   renderHeader();
   renderTokenTrend();
@@ -2070,6 +2115,7 @@ function render() {
   renderEntities();
   renderScenes();
   renderPowerups();
+  renderMilestone();
 }
 
 function saveGame(message = "Progress saved.") {

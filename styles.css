@@ -1078,6 +1078,19 @@ body {
     linear-gradient(180deg, #335073 0%, #28435f 28%, #1a2b43 62%, #121d32 100%);
 }
 
+/* Milestone message */
+.milestone-message {
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.5;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line-mid);
+}
+
 /* News card */
 .news-card {
   display: flex;
